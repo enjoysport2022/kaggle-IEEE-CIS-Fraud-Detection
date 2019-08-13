@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="50cf214d-7121-466e-a306-5b0b6b72589e" name="Default" comment="output">
+    <list default="true" id="50cf214d-7121-466e-a306-5b0b6b72589e" name="Default" comment="测试是否通过">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/script/lgb1.py" beforeDir="false" afterPath="$PROJECT_DIR$/script/lgb1.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -27,8 +28,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/script/lgb1.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="312">
-              <caret line="39" column="13" selection-start-line="39" selection-start-column="13" selection-end-line="39" selection-end-column="13" />
+            <state relative-caret-position="322">
+              <caret line="40" lean-forward="true" selection-start-line="40" selection-end-line="40" />
               <folding>
                 <element signature="e#50#68#0" expanded="true" />
               </folding>
@@ -178,7 +179,28 @@
       <option name="project" value="LOCAL" />
       <updated>1565710720198</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="output">
+      <created>1565711240442</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1565711240442</updated>
+    </task>
+    <task id="LOCAL-00004" summary="删除内存优化的部分">
+      <created>1565711448865</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1565711448865</updated>
+    </task>
+    <task id="LOCAL-00005" summary="测试是否通过">
+      <created>1565711858913</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1565711858913</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -195,7 +217,7 @@
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="7" visible="true" weight="0.41938776" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="7" visible="true" weight="0.3989796" />
       <window_info anchor="bottom" id="Version Control" order="8" />
       <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
       <window_info anchor="bottom" id="Python Console" order="10" />
@@ -208,7 +230,10 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="nrow=5000" />
     <MESSAGE value="engine='python'" />
-    <option name="LAST_COMMIT_MESSAGE" value="engine='python'" />
+    <MESSAGE value="output" />
+    <MESSAGE value="删除内存优化的部分" />
+    <MESSAGE value="测试是否通过" />
+    <option name="LAST_COMMIT_MESSAGE" value="测试是否通过" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$USER_HOME$/anaconda3/lib/python3.6/site-packages/lightgbm/engine.py" />
@@ -229,8 +254,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/script/lgb1.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="312">
-          <caret line="39" column="13" selection-start-line="39" selection-start-column="13" selection-end-line="39" selection-end-column="13" />
+        <state relative-caret-position="322">
+          <caret line="40" lean-forward="true" selection-start-line="40" selection-end-line="40" />
           <folding>
             <element signature="e#50#68#0" expanded="true" />
           </folding>

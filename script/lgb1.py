@@ -36,8 +36,8 @@ warnings.filterwarnings('ignore')
 # In[2]:
 
 
-# NROWS = None
-NROWS = 5000
+NROWS = None
+# NROWS = 5000
 
 train_identity = pd.read_csv('../input/train_identity.csv', nrows=NROWS, engine='python')
 train_transaction = pd.read_csv('../input/train_transaction.csv', nrows=NROWS, engine='python')
