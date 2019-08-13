@@ -39,15 +39,15 @@ warnings.filterwarnings('ignore')
 # NROWS = None
 NROWS = 5000
 
-train_identity = pd.read_csv('../input/train_identity.csv', nrows=NROWS)
-train_transaction = pd.read_csv('../input/train_transaction.csv', nrows=NROWS)
+train_identity = pd.read_csv('../input/train_identity.csv', nrows=NROWS, engine='python')
+train_transaction = pd.read_csv('../input/train_transaction.csv', nrows=NROWS, engine='python')
 train = train_transaction.merge(train_identity, how='left', on='TransactionID')
 
-test_identity = pd.read_csv('../input/test_identity.csv', nrows=NROWS)
-test_transaction = pd.read_csv('../input/test_transaction.csv', nrows=NROWS)
+test_identity = pd.read_csv('../input/test_identity.csv', nrows=NROWS, engine='python')
+test_transaction = pd.read_csv('../input/test_transaction.csv', nrows=NROWS, engine='python')
 test = test_transaction.merge(test_identity, how='left', on='TransactionID')
 
-sub = pd.read_csv('../input/sample_submission.csv', nrows=NROWS)
+sub = pd.read_csv('../input/sample_submission.csv', nrows=NROWS, engine='python')
 
 gc.enable()
 del train_identity, train_transaction
