@@ -711,14 +711,15 @@ if PREDICT:
 
 # In[ ]:
 
+# cd kaggle/kaggle-IEEE-CIS-Fraud-Detection/script/
 
-
-
+# ssh -i ~/.ssh/id_rsa 946691288@35.233.217.113:/home/946691288/kaggle/kaggle-IEEE-CIS-Fraud-Detection/script/ieee_cis_fraud_detection_v3.csv /Users/poteman/Kaggle/kaggle-IEEE-CIS-Fraud-Detection/output
 
 # # 结果记录
 
 # - file/线下mean/线下fold5/线上
 # - ieee_cis_fraud_detection_v2.csv/0.92431/0.93523/0.9416
+# 0.92483/0.937023
 # 
 
 # # 实验

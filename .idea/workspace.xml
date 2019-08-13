@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="50cf214d-7121-466e-a306-5b0b6b72589e" name="Default" comment="测试是否通过">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="50cf214d-7121-466e-a306-5b0b6b72589e" name="Default" comment="全量测试">
       <change beforePath="$PROJECT_DIR$/script/lgb1.py" beforeDir="false" afterPath="$PROJECT_DIR$/script/lgb1.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -28,8 +27,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/script/lgb1.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="322">
-              <caret line="40" lean-forward="true" selection-start-line="40" selection-end-line="40" />
+            <state relative-caret-position="169">
+              <caret line="713" selection-start-line="713" selection-end-line="722" selection-end-column="1" />
               <folding>
                 <element signature="e#50#68#0" expanded="true" />
               </folding>
@@ -38,6 +37,11 @@
         </entry>
       </file>
     </leaf>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>train.shap</find>
+    </findStrings>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -65,16 +69,6 @@
             <path>
               <item name="kaggle-IEEE-CIS-Fraud-Detection" type="b2602c69:ProjectViewProjectNode" />
               <item name="kaggle-IEEE-CIS-Fraud-Detection" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="kaggle-IEEE-CIS-Fraud-Detection" type="b2602c69:ProjectViewProjectNode" />
-              <item name="kaggle-IEEE-CIS-Fraud-Detection" type="462c0819:PsiDirectoryNode" />
-              <item name="input" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="kaggle-IEEE-CIS-Fraud-Detection" type="b2602c69:ProjectViewProjectNode" />
-              <item name="kaggle-IEEE-CIS-Fraud-Detection" type="462c0819:PsiDirectoryNode" />
-              <item name="script" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -200,14 +194,21 @@
       <option name="project" value="LOCAL" />
       <updated>1565711858913</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="全量测试">
+      <created>1565712036049</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1565712036049</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1680" height="1050" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.17399268" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.10744811" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -217,7 +218,7 @@
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="7" visible="true" weight="0.3989796" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="7" visible="true" weight="0.4408163" />
       <window_info anchor="bottom" id="Version Control" order="8" />
       <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
       <window_info anchor="bottom" id="Python Console" order="10" />
@@ -233,7 +234,8 @@
     <MESSAGE value="output" />
     <MESSAGE value="删除内存优化的部分" />
     <MESSAGE value="测试是否通过" />
-    <option name="LAST_COMMIT_MESSAGE" value="测试是否通过" />
+    <MESSAGE value="全量测试" />
+    <option name="LAST_COMMIT_MESSAGE" value="全量测试" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$USER_HOME$/anaconda3/lib/python3.6/site-packages/lightgbm/engine.py" />
@@ -254,8 +256,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/script/lgb1.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="322">
-          <caret line="40" lean-forward="true" selection-start-line="40" selection-end-line="40" />
+        <state relative-caret-position="169">
+          <caret line="713" selection-start-line="713" selection-end-line="722" selection-end-column="1" />
           <folding>
             <element signature="e#50#68#0" expanded="true" />
           </folding>
