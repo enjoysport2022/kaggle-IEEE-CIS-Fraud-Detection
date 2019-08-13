@@ -37,7 +37,7 @@ warnings.filterwarnings('ignore')
 
 
 # NROWS = None
-NROWS = 5000
+NROWS = 50000
 
 train_identity = pd.read_csv('../input/train_identity.csv', nrows=NROWS, engine='python')
 train_transaction = pd.read_csv('../input/train_transaction.csv', nrows=NROWS, engine='python')
@@ -573,13 +573,13 @@ for feature in tqdm_notebook([
 # In[28]:
 
 
-train.head(3)
+# train.head(3)
 
 
 # In[29]:
 
 
-test.head(3)
+# test.head(3)
 
 
 # In[30]:
@@ -682,18 +682,18 @@ print('-' * 30)
 # In[37]:
 
 
-feature_importances['average'] = feature_importances[['fold_{}'.format(fold + 1) for fold in range(folds.n_splits)]].mean(axis=1)
-feature_importances.to_csv('feature_importances.csv')
-
-plt.figure(figsize=(6, 6))
-sns.barplot(data=feature_importances.sort_values(by='average', ascending=False).head(20), x='average', y='feature');
-plt.title('20 TOP feature importance over {} folds average'.format(folds.n_splits));
+# feature_importances['average'] = feature_importances[['fold_{}'.format(fold + 1) for fold in range(folds.n_splits)]].mean(axis=1)
+# feature_importances.to_csv('feature_importances.csv')
+#
+# plt.figure(figsize=(6, 6))
+# sns.barplot(data=feature_importances.sort_values(by='average', ascending=False).head(20), x='average', y='feature');
+# plt.title('20 TOP feature importance over {} folds average'.format(folds.n_splits));
 
 
 # In[38]:
 
 
-PREDICT = False
+PREDICT = True
 if PREDICT:
     # clf right now is the last model, trained with 80% of data and validated with 20%
     best_iter = clf.best_iteration
