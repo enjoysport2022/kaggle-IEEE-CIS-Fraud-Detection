@@ -36,8 +36,8 @@ warnings.filterwarnings('ignore')
 # In[2]:
 
 
-# NROWS = None
-NROWS = 5000
+NROWS = None
+# NROWS = 5000
 
 train_identity = pd.read_csv('../input/train_identity.csv', nrows=NROWS, engine='python')
 train_transaction = pd.read_csv('../input/train_transaction.csv', nrows=NROWS, engine='python')
@@ -700,6 +700,7 @@ if PREDICT:
     print("best_iteration: ", best_iter)
     clf = lgb.LGBMClassifier(**params, num_boost_round=int(best_iter * 1.0))
     clf.fit(X, y)
+    print("Done")
 
     # all_data = lgb.Dataset(X, label=y)
     # all_clf  = lgb.train(params, all_data, num_boost_round = int(best_iter * 1.20), valid_sets = [all_data], verbose_eval=100)
@@ -710,9 +711,15 @@ if PREDICT:
 
 # In[ ]:
 
+# 常用命令
 # cd kaggle/kaggle-IEEE-CIS-Fraud-Detection/script/
 
+# 拷贝文件
 # ssh -i ~/.ssh/id_rsa 946691288@35.233.217.113:/home/946691288/kaggle/kaggle-IEEE-CIS-Fraud-Detection/script/ieee_cis_fraud_detection_v3.csv /Users/poteman/Kaggle/kaggle-IEEE-CIS-Fraud-Detection/output
+
+# nohup
+# nohup python -u lgb1.py > fuck.log 2>&1 &
+# tail -f fuck.log
 
 # # 结果记录
 
