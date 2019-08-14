@@ -39,6 +39,7 @@ warnings.filterwarnings('ignore')
 NROWS = None
 # NROWS = 5000
 
+print("read data.")
 train_identity = pd.read_csv('../input/train_identity.csv', nrows=NROWS, engine='python')
 train_transaction = pd.read_csv('../input/train_transaction.csv', nrows=NROWS, engine='python')
 train = train_transaction.merge(train_identity, how='left', on='TransactionID')
@@ -54,6 +55,7 @@ del train_identity, train_transaction
 del test_identity, test_transaction
 gc.collect()
 
+print("read data done.")
 print("train.shape:", train.shape)
 print("test.shape:", test.shape)
 train.head(3)
@@ -726,7 +728,8 @@ if PREDICT:
 # - file/线下mean/线下fold5/线上 --备注
 # - ieee_cis_fraud_detection_v2.csv/0.9243/0.9352/0.9416
 # - ieee_cis_fraud_detection_v2.csv/0.9248/0.9370/0.9411 --增加了预测时迭代次数为1.2倍
-# 
+# - ieee_cis_fraud_detection_v2.csv/0.9248/0.9370/0.9415 --迭代次数不增加
+#
 
 # # 实验
 
