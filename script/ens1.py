@@ -40,8 +40,8 @@ warnings.filterwarnings('ignore')
 # In[2]:
 
 
-# NROWS = None
-NROWS = 3000
+NROWS = None
+# NROWS = 3000
 
 
 # In[3]:
