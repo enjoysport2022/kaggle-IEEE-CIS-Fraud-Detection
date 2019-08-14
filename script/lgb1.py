@@ -723,9 +723,9 @@ if PREDICT:
 
 # # 结果记录
 
-# - file/线下mean/线下fold5/线上
+# - file/线下mean/线下fold5/线上 --备注
 # - ieee_cis_fraud_detection_v2.csv/0.9243/0.9352/0.9416
-# - ieee_cis_fraud_detection_v2.csv/0.9248/0.9370/0.9411
+# - ieee_cis_fraud_detection_v2.csv/0.9248/0.9370/0.9411 --增加了预测时迭代次数为1.2倍
 # 
 
 # # 实验
