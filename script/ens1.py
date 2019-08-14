@@ -110,8 +110,8 @@ test  = reduce_mem_usage(test)
 # In[6]:
 
 
-train.to_csv('../temp/train_temp' + str(NROWS) + '.csv', index=False, header=True)
-test.to_csv('../temp/test_temp'+ str(NROWS) + '.csv', index=False, header=True)
+# train.to_csv('../temp/train_temp' + str(NROWS) + '.csv', index=False, header=True)
+# test.to_csv('../temp/test_temp'+ str(NROWS) + '.csv', index=False, header=True)
 
 
 # # 特征工程
@@ -119,20 +119,20 @@ test.to_csv('../temp/test_temp'+ str(NROWS) + '.csv', index=False, header=True)
 # In[7]:
 
 
-train = pd.read_csv('../temp/train_temp' + str(NROWS) + '.csv')
-test = pd.read_csv('../temp/test_temp'+ str(NROWS) + '.csv')
+# train = pd.read_csv('../temp/train_temp' + str(NROWS) + '.csv')
+# test = pd.read_csv('../temp/test_temp'+ str(NROWS) + '.csv')
 
 
 # In[8]:
 
 
-train.head(3)
+# train.head(3)
 
 
 # In[9]:
 
 
-train.columns
+# train.columns
 
 
 # ## 特征分类: 按特征名分类

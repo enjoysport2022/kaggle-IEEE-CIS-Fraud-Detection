@@ -1,14 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="50cf214d-7121-466e-a306-5b0b6b72589e" name="Default" comment="全量测试">
-      <change beforePath="$PROJECT_DIR$/.idea/IEEE-CIS Fraud Detection.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/IEEE-CIS Fraud Detection.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/script/.ipynb_checkpoints/Feature Engineer-checkpoint.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/script/.ipynb_checkpoints/Feature Engineer-checkpoint.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/script/Feature Engineer.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/script/Feature Engineer.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/script/feature_importances.csv" beforeDir="false" afterPath="$PROJECT_DIR$/script/feature_importances.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/script/lgb1.py" beforeDir="false" afterPath="$PROJECT_DIR$/script/lgb1.py" afterDir="false" />
+    <list default="true" id="50cf214d-7121-466e-a306-5b0b6b72589e" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -31,13 +25,25 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="lgb1.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="lgb1.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/script/lgb1.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="3207">
               <caret line="194" lean-forward="true" selection-start-line="194" selection-end-line="194" />
               <folding>
                 <element signature="e#49#67#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ens1.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/script/ens1.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="156">
+              <caret line="106" column="11" selection-start-line="106" selection-end-line="106" selection-end-column="11" />
+              <folding>
+                <element signature="e#30#48#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -60,6 +66,7 @@
       <list>
         <option value="$PROJECT_DIR$/script/lgb1.py" />
         <option value="$PROJECT_DIR$/script/Feature Engineer.py" />
+        <option value="$PROJECT_DIR$/script/ens1.py" />
       </list>
     </option>
   </component>
@@ -223,14 +230,28 @@
       <option name="project" value="LOCAL" />
       <updated>1565712036049</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="ens1.py">
+      <created>1565778144887</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1565778144887</updated>
+    </task>
+    <task id="LOCAL-00008" summary="ens1.py">
+      <created>1565778270815</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1565778270815</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.19670959" />
+      <window_info content_ui="combo" id="Project" order="0" weight="0.19670959" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.36836734" />
@@ -238,7 +259,7 @@
       <window_info anchor="bottom" id="Python Console" order="10" />
       <window_info anchor="right" id="leetcode" order="3" side_tool="true" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info anchor="bottom" id="Terminal" order="7" visible="true" weight="0.2630303" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="7" visible="true" weight="0.38545454" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -260,7 +281,8 @@
     <MESSAGE value="删除内存优化的部分" />
     <MESSAGE value="测试是否通过" />
     <MESSAGE value="全量测试" />
-    <option name="LAST_COMMIT_MESSAGE" value="全量测试" />
+    <MESSAGE value="ens1.py" />
+    <option name="LAST_COMMIT_MESSAGE" value="ens1.py" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/script/Feature Engineer.py">
@@ -320,6 +342,16 @@
           <caret line="194" lean-forward="true" selection-start-line="194" selection-end-line="194" />
           <folding>
             <element signature="e#49#67#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/script/ens1.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="156">
+          <caret line="106" column="11" selection-start-line="106" selection-end-line="106" selection-end-column="11" />
+          <folding>
+            <element signature="e#30#48#0" expanded="true" />
           </folding>
         </state>
       </provider>
