@@ -104,8 +104,8 @@ def reduce_mem_usage(df):
 # In[5]:
 
 
-get_ipython().run_cell_magic('time', '', 'train = reduce_mem_usage(train)\ntest  = reduce_mem_usage(test)')
-
+train = reduce_mem_usage(train)
+test  = reduce_mem_usage(test)
 
 # In[6]:
 
