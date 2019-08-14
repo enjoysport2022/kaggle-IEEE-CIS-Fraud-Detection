@@ -36,8 +36,8 @@ warnings.filterwarnings('ignore')
 # In[2]:
 
 
-NROWS = None
-# NROWS = 5000
+# NROWS = None
+NROWS = 5000
 
 train_identity = pd.read_csv('../input/train_identity.csv', nrows=NROWS, engine='python')
 train_transaction = pd.read_csv('../input/train_transaction.csv', nrows=NROWS, engine='python')
@@ -698,16 +698,15 @@ if PREDICT:
     # clf right now is the last model, trained with 80% of data and validated with 20%
     best_iter = clf.best_iteration
     print("best_iteration: ", best_iter)
-    # clf = lgb.LGBMClassifier(**params, num_boost_round=int(best_iter * 1.1))
-    # clf.fit(X, y)
+    clf = lgb.LGBMClassifier(**params, num_boost_round=int(best_iter * 1.0))
+    clf.fit(X, y)
 
-    all_data = lgb.Dataset(X, label=y)
-    all_clf  = lgb.train(params, all_data, num_boost_round = int(best_iter * 1.20), valid_sets = [all_data], verbose_eval=100) 
+    # all_data = lgb.Dataset(X, label=y)
+    # all_clf  = lgb.train(params, all_data, num_boost_round = int(best_iter * 1.20), valid_sets = [all_data], verbose_eval=100)
 
-    # sub['isFraud'] = clf.predict_proba(test_X)[:, 1]
-    sub['isFraud'] = all_clf.predict(test_X)
-    sub.to_csv('ieee_cis_fraud_detection_v3.csv', index=False)
-
+    sub['isFraud'] = clf.predict_proba(test_X)[:, 1]
+    # sub['isFraud'] = all_clf.predict(test_X)
+    sub.to_csv('ieee_cis_fraud_detection_v5.csv', index=False)
 
 # In[ ]:
 
@@ -718,8 +717,8 @@ if PREDICT:
 # # 结果记录
 
 # - file/线下mean/线下fold5/线上
-# - ieee_cis_fraud_detection_v2.csv/0.92431/0.93523/0.9416
-# 0.92483/0.937023
+# - ieee_cis_fraud_detection_v2.csv/0.9243/0.9352/0.9416
+# - ieee_cis_fraud_detection_v2.csv/0.9248/0.9370/0.9411
 # 
 
 # # 实验
