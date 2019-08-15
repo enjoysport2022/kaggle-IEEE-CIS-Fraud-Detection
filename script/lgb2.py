@@ -38,8 +38,8 @@ warnings.filterwarnings('ignore')
 # In[2]:
 
 
-# NROWS = None
-NROWS = 5000
+NROWS = None
+# NROWS = 5000
 
 
 # In[3]:
@@ -1196,60 +1196,4 @@ if PREDICT:
 # - 原始带"card2", "card5"target encoder:   0.9177, 0.9306
 # - 增加后带"card2", "card5"target encoder:  0.9172, 0.9313
 # - 不带"card2", "card5"target encoder:     0.9019, 0.9287
-
-# In[55]:
-
-
-# prob特征
-## msno context features
-dummy_feat = ['source_system_tab', 'source_screen_name', 'source_type']
-concat = train.drop('target', axis=1).append(test.drop('id', axis=1))
-
-for feat in dummy_feat:
-    feat_dummies = pd.get_dummies(concat[feat])
-    feat_dummies.columns = ['msno_%s_'%feat + '%s'%col for col in feat_dummies.columns]
-    feat_dummies['msno'] = concat['msno'].values
-    feat_dummies = feat_dummies.groupby('msno').mean()
-    feat_dummies['msno'] = feat_dummies.index
-    member = member.merge(feat_dummies, on='msno', how='left')
-
-train_temp = train.merge(member, on='msno', how='left')
-test_temp = test.merge(member, on='msno', how='left')
-
-train['msno_source_system_tab_prob'] = train_temp[[col for col in train_temp.columns if 'source_system_tab' in col]].apply(lambda x:         x['msno_source_system_tab_%d'%x['source_system_tab']], axis=1)
-test['msno_source_system_tab_prob'] = test_temp[[col for col in test_temp.columns if 'source_system_tab' in col]].apply(lambda x:         x['msno_source_system_tab_%d'%x['source_system_tab']], axis=1)
-
-
-
-# prob特征
-dummy_feat = ['card2']
-concat = train.drop(target, axis=1).append(test)
-
-for feat in dummy_feat:
-    feat_dummies = pd.get_dummies(concat[feat])
-    feat_dummies.columns = ['card5_%s_'%feat + '%s'%col for col in feat_dummies.columns]
-    feat_dummies['card5'] = concat['card5'].values
-    feat_dummies = feat_dummies.groupby('card5').mean()
-    feat_dummies['card5'] = feat_dummies.index
-    member = member.merge(feat_dummies, on='card5', how='left')
-
-train_temp = train.merge(member, on='card5', how='left')
-test_temp = test.merge(member, on='card5', how='left')
-
-train['prob_card5|card2'] = train_temp[[col for col in train_temp.columns if 'card2' in col]].apply(lambda x:         x['card5_card2_%d'%x['card2']], axis=1)
-test['prob_card5|card2'] = test_temp[[col for col in test_temp.columns if 'card2' in col]].apply(lambda x:         x['card5_card2_%d'%x['card2']], axis=1)
-
-
-# In[ ]:
-
-
-# _count_full_feature
-# category_features=["ProductCD","P_emaildomain",
-#                    "R_emaildomain","M1","M2","M3","M4","M5","M6","M7","M8","M9","DeviceType","DeviceInfo","id_12",
-#                    "id_13","id_14","id_15","id_16","id_17","id_18","id_19","id_20","id_21","id_22","id_23","id_24",
-#                    "id_25","id_26","id_27","id_28","id_29","id_30","id_32","id_34", 'id_36'
-#                    "id_37","id_38"]
-# for c in category_features:
-#     train[feature + '_count_full'] = train[feature].map(pd.concat([train[feature], test[feature]], ignore_index=True).value_counts(dropna=False))
-#     test[feature + '_count_full'] = test[feature].map(pd.concat([train[feature], test[feature]], ignore_index=True).value_counts(dropna=False))
 
