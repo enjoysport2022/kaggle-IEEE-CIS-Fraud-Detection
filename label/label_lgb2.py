@@ -38,11 +38,12 @@ warnings.filterwarnings('ignore')
 # In[2]:
 
 
-NROWS = None
-# NROWS = 5000
+# NROWS = None
+NROWS = 5000
 
 
-train = pd.read_csv('../temp/train_label.csv', nrows=NROWS)
+train = pd.read_csv('../temp/train_label_50.csv', nrows=NROWS)
+# train = pd.read_csv('../temp/train_label.csv', nrows=NROWS)
 test = pd.read_csv('../temp/test_label.csv', nrows=NROWS)
 test = test.drop('isFraud',axis=1)
 sub = pd.read_csv('../temp/sample_submission_label.csv', nrows=NROWS)
@@ -1085,7 +1086,7 @@ if PREDICT:
 
 # # 结果记录
 
-# - file/线下mean/线下fold5/线上
-# - ieee_cis_fraud_detection_v2.csv/0.92431/0.93523/0.9416
-# 
+# - file/线下mean/线下fold5/线上test1/线上test2
+# - ieee_lgb_label.csv/0.9276/0.9378/0.9032/0.9057
+#
 
