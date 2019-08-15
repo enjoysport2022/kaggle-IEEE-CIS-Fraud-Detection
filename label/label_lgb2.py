@@ -1078,7 +1078,7 @@ if PREDICT:
 
     sub['isFraud'] = clf.predict_proba(test_X)[:, 1]
     # sub['isFraud'] = all_clf.predict(test_X)
-    sub.to_csv('../temp/ieee_lgb_label.csv', index=False)
+    sub.to_csv('../label/ieee_lgb_label.csv', index=False)
     print("done!")
 
 
