@@ -38,8 +38,8 @@ warnings.filterwarnings('ignore')
 # In[2]:
 
 
-# NROWS = None
-NROWS = 5000
+NROWS = None
+# NROWS = 5000
 
 
 train = pd.read_csv('../temp/train_label.csv', nrows=NROWS)
