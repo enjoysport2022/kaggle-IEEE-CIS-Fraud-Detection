@@ -1072,7 +1072,10 @@ if PREDICT:
     # clf right now is the last model, trained with 80% of data and validated with 20%
     best_iter = clf.best_iteration
     print("best_iteration: ", best_iter)
-    clf = lgb.LGBMClassifier(**params, num_boost_round=int(best_iter * 1.0))
+
+    # 带label的数据需要增加迭代次数！！！
+
+    clf = lgb.LGBMClassifier(**params, num_boost_round=int(best_iter * 1.2))
     clf.fit(X, y)
 
     # all_data = lgb.Dataset(X, label=y)
@@ -1086,7 +1089,9 @@ if PREDICT:
 
 # # 结果记录
 
-# - file/线下mean/线下fold5/线上test1/线上test2
-# - ieee_lgb_label.csv/0.9276/0.9378/0.9032/0.9057
+# - file/                 线下mean/线下fold5/线上test1/线上test2
+# - ieee_lgb_label.csv/   0.9276/0.9378/0.9032/0.9057
+# - ieee_lgb_label_50.csv/0.9281/0.9393/0.9027/0.9056   -迭代次数1.0倍
+# - ieee_lgb_label_50.csv/0.9281/0.9393/                -迭代次数1.2倍
 #
 
