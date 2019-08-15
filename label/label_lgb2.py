@@ -42,8 +42,12 @@ NROWS = None
 # NROWS = 5000
 
 
-train = pd.read_csv('../temp/train_label_50.csv', nrows=NROWS)
-# train = pd.read_csv('../temp/train_label.csv', nrows=NROWS)
+# 使用原始数据
+train = pd.read_csv('../temp/train_label.csv', nrows=NROWS)
+
+# 使用增加样本后的数据
+# train = pd.read_csv('../temp/train_label_50.csv', nrows=NROWS)
+
 test = pd.read_csv('../temp/test_label.csv', nrows=NROWS)
 test = test.drop('isFraud',axis=1)
 sub = pd.read_csv('../temp/sample_submission_label.csv', nrows=NROWS)
@@ -1020,7 +1024,7 @@ params = {'num_leaves': 491,
 # In[50]:
 
 
-folds = TimeSeriesSplit(n_splits=5)
+folds = TimeSeriesSplit(n_splits=2)
 
 aucs = list()
 feature_importances = pd.DataFrame()
@@ -1084,11 +1088,22 @@ if PREDICT:
     # all_data = lgb.Dataset(X, label=y)
     # all_clf  = lgb.train(params, all_data, num_boost_round = int(best_iter * 1.20), valid_sets = [all_data], verbose_eval=100)
 
+    subname = '../label/ieee_lgb_label_50_all.csv'
     sub['isFraud'] = clf.predict_proba(test_X)[:, 1]
     # sub['isFraud'] = all_clf.predict(test_X)
-    sub.to_csv('../label/ieee_lgb_label_50_all.csv', index=False)
+    sub.to_csv(subname, index=False)
     print("done!")
 
+# 真实效果
+test1 = pd.read_csv('../temp/test1_label.csv', usecols=["TransactionID", "isFraud"])
+test2 = pd.read_csv('../temp/test2_label.csv', usecols=["TransactionID", "isFraud"])
+pre = pd.read_csv(subname)
+
+df1 = test1.merge(pre, on="TransactionID", how="left")
+print("test1 auc: ", roc_auc_score(df1["isFraud_x"], df1["isFraud_y"]))
+
+df = test2.merge(pre, on="TransactionID", how="left")
+print("test2 auc:", roc_auc_score(df["isFraud_x"], df["isFraud_y"]))
 
 # # 结果记录
 
@@ -1097,5 +1112,7 @@ if PREDICT:
 # - ieee_lgb_label_50.csv/0.9281/0.9394/0.9027/0.9056   -迭代次数1.0倍,增加50条样本
 # - ieee_lgb_label_50.csv/0.9281/0.9394/0.9034/0.9058   -迭代次数1.2倍,增加50条样本
 # - ieee_lgb_label_50.csv/0.9278/0.9403/0.8981/0.9049   -增加12000条样本
+# - ieee_lgb_label_50.csv/0.9278/0.9403/0.8987/0.9050   -增加12000条样本,1.0倍
 #
 
+# nohup python -u label_lgb2.py > label_50_all_1.0.log 2>&1 &
