@@ -1,30 +1,8 @@
-import numpy as np
 import pandas as pd
 pd.set_option("display.max_columns", 500)
-import matplotlib.pyplot as plt
-import seaborn as sns
-import datetime
 import plotly.offline as py
 py.init_notebook_mode(connected=True)
-import plotly.graph_objs as go
-import plotly.tools as tls
 
-from sklearn.preprocessing import LabelEncoder
-import xgboost as xgb
-from xgboost import XGBClassifier
-from sklearn.model_selection import TimeSeriesSplit, cross_val_score
-from sklearn.metrics import roc_auc_score
-from hyperopt import fmin, hp, tpe, space_eval
-
-from sklearn.model_selection import KFold, TimeSeriesSplit
-import lightgbm as lgb
-from time import time
-from tqdm import tqdm_notebook
-
-from xgboost import XGBClassifier
-import os
-
-import gc
 import warnings
 warnings.filterwarnings('ignore')
 
@@ -80,10 +58,19 @@ templist = [3328834,
  3341187]
 
 train = pd.read_csv('../temp/train_label.csv')
+print("train.shape", train.shape)
+
+# test = pd.read_csv('../temp/test_label.csv')
+# print("test.shape", test.shape)
+
 test1 = pd.read_csv('../temp/test1_label.csv')
 
-append_test = test1.loc[test1.TransactionID.isin(templist)]
+append_test = test1.loc[test1.TransactionID >= templist[0]]
+append_test["isFraud"] = 0.0
+append_test.loc[append_test.TransactionID.isin(templist), "isFraud"] = 1.0
+print("append_test.shape", append_test.shape)
 
 train = train.append(append_test)
+print("train.shape after append", train.shape)
 
 train.to_csv('../temp/train_label_50.csv', index=False)

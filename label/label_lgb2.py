@@ -1091,7 +1091,7 @@ if PREDICT:
 
 # - file/                 线下mean/线下fold5/线上test1/线上test2
 # - ieee_lgb_label.csv/   0.9276/0.9378/0.9032/0.9057
-# - ieee_lgb_label_50.csv/0.9281/0.9393/0.9027/0.9056   -迭代次数1.0倍
-# - ieee_lgb_label_50.csv/0.9281/0.9393/                -迭代次数1.2倍
+# - ieee_lgb_label_50.csv/0.9281/0.9394/0.9027/0.9056   -迭代次数1.0倍
+# - ieee_lgb_label_50.csv/0.9281/0.9394/0.9034/0.9058   -迭代次数1.2倍
 #
 
