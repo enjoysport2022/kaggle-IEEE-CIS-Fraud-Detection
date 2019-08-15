@@ -936,7 +936,10 @@ y = train.sort_values('TransactionDT')['isFraud']
 test_X = test.sort_values('TransactionDT').drop(['TransactionDT', 'TransactionID'], axis=1)
 
 
-# In[44]:
+# X.to_csv("../temp/feature_X.csv", index = False)
+# y.to_csv("../temp/feature_y.csv", index = False)
+# test_X.to_csv("../temp/feature_test_X.csv", index = False)
+
 
 
 # del train
@@ -1073,9 +1076,9 @@ if PREDICT:
     best_iter = clf.best_iteration
     print("best_iteration: ", best_iter)
 
-    # 带label的数据需要增加迭代次数！！！
+    # 带label的数据需要增加迭代次数?
 
-    clf = lgb.LGBMClassifier(**params, num_boost_round=int(best_iter * 1.2))
+    clf = lgb.LGBMClassifier(**params, num_boost_round=int(best_iter * 1.0))
     clf.fit(X, y)
 
     # all_data = lgb.Dataset(X, label=y)
@@ -1083,7 +1086,7 @@ if PREDICT:
 
     sub['isFraud'] = clf.predict_proba(test_X)[:, 1]
     # sub['isFraud'] = all_clf.predict(test_X)
-    sub.to_csv('../label/ieee_lgb_label_50.csv', index=False)
+    sub.to_csv('../label/ieee_lgb_label_50_all.csv', index=False)
     print("done!")
 
 
@@ -1091,7 +1094,8 @@ if PREDICT:
 
 # - file/                 线下mean/线下fold5/线上test1/线上test2
 # - ieee_lgb_label.csv/   0.9276/0.9378/0.9032/0.9057
-# - ieee_lgb_label_50.csv/0.9281/0.9394/0.9027/0.9056   -迭代次数1.0倍
-# - ieee_lgb_label_50.csv/0.9281/0.9394/0.9034/0.9058   -迭代次数1.2倍
+# - ieee_lgb_label_50.csv/0.9281/0.9394/0.9027/0.9056   -迭代次数1.0倍,增加50条样本
+# - ieee_lgb_label_50.csv/0.9281/0.9394/0.9034/0.9058   -迭代次数1.2倍,增加50条样本
+# - ieee_lgb_label_50.csv/0.9278/0.9403/0.8981/0.9049   -增加12000条样本
 #
 
