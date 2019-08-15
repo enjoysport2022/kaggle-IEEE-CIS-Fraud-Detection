@@ -44,6 +44,7 @@ NROWS = 5000
 
 train = pd.read_csv('../temp/train_label.csv', nrows=NROWS)
 test = pd.read_csv('../temp/test_label.csv', nrows=NROWS)
+test = test.drop('isFraud',axis=1)
 sub = pd.read_csv('../temp/sample_submission_label.csv', nrows=NROWS)
 
 print("train.shape:", train.shape)
