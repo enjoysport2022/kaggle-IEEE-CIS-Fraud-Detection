@@ -42,15 +42,16 @@ import argparse
 ap = argparse.ArgumentParser(description='label_lgb2.py')
 ap.add_argument('nround_times', nargs='*', action="store", default=1.0, type = float)
 pa = ap.parse_args()
-nround_times = pa.nround_times[0]
+nround_times = 1.1
+# nround_times = pa.nround_times[0]
 
 # # 导入数据
 
 # In[2]:
 
 
-NROWS = None
-# NROWS = 5000
+# NROWS = None
+NROWS = 5000
 
 
 # 使用原始数据
@@ -903,17 +904,6 @@ test  = transform_number(test)
 
 
 # ### 交叉特征
-
-# The logic of our labeling is define reported chargeback on the card as fraud transaction (isFraud=1) 
-# and transactions posterior to it with either user account, email address or billing address 
-# directly linked to these attributes as fraud too. 
-# If none of above is reported and found beyond 120 days, then we define as legit transaction (isFraud=0).
-
-# ### 原交叉特征
-
-# In[38]:
-
-
 for feature in tqdm_notebook(['id_02__id_20', 'id_02__D8', 'D11__DeviceInfo', 'DeviceInfo__P_emaildomain', 
                               'P_emaildomain__C2', 
                               'P_emaildomain__card1', 'P_emaildomain__card2',
@@ -931,37 +921,8 @@ for feature in tqdm_notebook(['id_02__id_20', 'id_02__D8', 'D11__DeviceInfo', 'D
     test[feature] = le.transform(list(test[feature].astype(str).values))
 
 
-# ### 增加后的交叉特征
-
-# In[39]:
-
-
-# for feature in tqdm_notebook(['P_emaildomain__card1', 'P_emaildomain__card2', 'P_emaildomain__card3', 'P_emaildomain__card4', 'P_emaildomain__card5', 'P_emaildomain__card6',
-#                 'R_emaildomain__card1', 'R_emaildomain__card2', 'R_emaildomain__card3', 'R_emaildomain__card4', 'R_emaildomain__card5', 'R_emaildomain__card6',
-#                 'addr1__card2', 'addr1__card3', 'addr1__card4', 'addr1__card5', 'addr1__card6',
-#                 'addr2__card3', 'addr2__card4', 'addr2__card5', 'addr2__card6',
-#                 'card3__card4', 'card3__card5', 'card3__card6',
-#                 'card4__card5', 'card4__card6',
-#                 'card5__card6',
-#                 'id_02__id_20', 'id_02__D8', 
-#                 'card2__dist1', 'card2__id_20',
-#                 'P_emaildomain__DeviceInfo', 'P_emaildomain__C2',
-#                 'D11__DeviceInfo']):
-
-#     f1, f2 = feature.split('__')
-#     train[feature] = train[f1].astype(str) + '_' + train[f2].astype(str)
-#     test[feature] = test[f1].astype(str) + '_' + test[f2].astype(str)
-
-#     le = LabelEncoder()
-#     le.fit(list(train[feature].astype(str).values) + list(test[feature].astype(str).values))
-#     train[feature] = le.transform(list(train[feature].astype(str).values))
-#     test[feature] = le.transform(list(test[feature].astype(str).values))
-
 
 # ### 高阶交叉特征
-
-# In[40]:
-
 
 for feature in tqdm_notebook([
                               'P_emaildomain__card1__card2', 'addr1__card1__card2'
@@ -977,18 +938,6 @@ for feature in tqdm_notebook([
     test[feature] = le.transform(list(test[feature].astype(str).values))
 
 
-# # 缺失值填充
-
-# # 线下验证
-
-# ### 按照时间划分数据集
-
-# In[41]:
-
-
-
-
-# In[43]:
 
 
 X = train.sort_values('TransactionDT').drop(['isFraud', 'TransactionDT', 'TransactionID'], axis=1)
@@ -1001,19 +950,7 @@ test_X = test.sort_values('TransactionDT').drop(['TransactionDT', 'TransactionID
 # test_X.to_csv("../temp/feature_test_X.csv", index = False)
 
 
-
-# del train
-# gc.collect()
-
-
-# In[45]:
-
-
-
 # ### lightgbm参数
-
-# In[46]:
-
 
 print("lgb model")
 params = {'num_leaves': 491,
@@ -1033,125 +970,43 @@ params = {'num_leaves': 491,
           'random_state': 47
          }
 
+sub = pd.read_csv('../input/sample_submission.csv', nrows=NROWS)
 
-# ### 删除不重要的特征
+n_fold = 5
+folds = KFold(n_splits=n_fold, shuffle=True)
 
-# In[47]:
-
-
-# feature_keep = 505
-
-# all_data = lgb.Dataset(X, label=y)
-# feature_clf  = lgb.train(params, all_data, num_boost_round = 800, valid_sets = [all_data], verbose_eval=100) 
-# feature_importances = pd.DataFrame()
-# feature_importances['feature'] = X.columns
-# feature_importances['score'] = feature_clf.feature_importance()
-# feature_importances = feature_importances.sort_values(by="score", ascending=False)
-# feature_used = list(feature_importances.head(feature_keep)['feature'])
-
-# X = X[feature_used]
-# test_X = test_X[feature_used]
-
-
-# In[48]:
-
-
-# drop_features = ["id_31"]
-# # drop_features = ["id_31", "D15", "D10"]
-# X = X.drop(drop_features, axis=1)
-# test_X = test_X.drop(drop_features, axis=1)
-
-
-# In[49]:
-
-
-# cols_to_drop=['V300','V309','V111','C3','V124','V106','V125','V315','V134','V102','V123','V316','V113',
-#               'V136','V305','V110','V299','V289','V286','V318','V103','V304','V116','V29','V284','V293',
-#               'V137','V295','V301','V104','V311','V115','V109','V119','V321','V114','V133','V122','V319',
-#               'V105','V112','V118','V117','V121','V108','V135','V320','V303','V297','V120']
-
-
-# print('{} features are going to be dropped for being useless'.format(len(cols_to_drop)))
-
-# X = X.drop(cols_to_drop, axis=1)
-# test_X = test_X.drop(cols_to_drop, axis=1)    
-
-
-
-# n_fold = 5
-# folds = KFold(n_splits=n_fold, shuffle=False)
-
-# 按时间划分
-folds = TimeSeriesSplit(n_splits=2)
-
-aucs = list()
-feature_importances = pd.DataFrame()
-feature_importances['feature'] = X.columns
-
+os.environ['KMP_DUPLICATE_LIB_OK'] = 'True'
+lgb_sub = sub.copy()
+lgb_sub['isFraud'] = 0
+aucs = []
 training_start_time = time()
-for fold, (trn_idx, test_idx) in enumerate(folds.split(X, y)):
+for fold_n, (train_index, valid_index) in enumerate(folds.split(X)):
+
     start_time = time()
-    print('Training on fold {}'.format(fold + 1))
-    
-    trn_data = lgb.Dataset(X.iloc[trn_idx], label=y.iloc[trn_idx])
-    val_data = lgb.Dataset(X.iloc[test_idx], label=y.iloc[test_idx])
-#     clf = lgb.train(params, trn_data, num_boost_round = 10000, valid_sets = [trn_data, val_data], verbose_eval=100, early_stopping_rounds=500)
-    clf = lgb.train(params, trn_data, num_boost_round = 10000, valid_sets = [val_data], verbose_eval=100, early_stopping_rounds=500)
-    
-    feature_importances['fold_{}'.format(fold + 1)] = clf.feature_importance()
-    aucs.append(clf.best_score['valid_0']['auc'])
-    
-    print('Fold {} finished in {}'.format(fold + 1, str(datetime.timedelta(seconds=time() - start_time))))
+    print('Training on fold {}'.format(fold_n + 1))
+
+    trn_data = lgb.Dataset(X.iloc[train_index], label=y.iloc[train_index])
+    val_data = lgb.Dataset(X.iloc[valid_index], label=y.iloc[valid_index])
+    clf = lgb.train(params, trn_data, num_boost_round=10000, valid_sets=[val_data], verbose_eval=100,
+                    early_stopping_rounds=500)
+
+    pred = clf.predict(test_X)
+    val = clf.predict(X.iloc[valid_index])
+    print('ROC accuracy: {}'.format(roc_auc_score(y.iloc[valid_index], val)))
+    aucs.append(roc_auc_score(y.iloc[valid_index], val))
+    lgb_sub['isFraud'] = lgb_sub['isFraud'] + pred / n_fold
+
+    print('Fold {} finished in {}'.format(fold_n + 1, str(datetime.timedelta(seconds=time() - start_time))))
+
+
+subname = '../label/ieee_lgb_kflod.csv'
+lgb_sub.to_csv(subname, index=False)
 print('-' * 30)
 print('Training has finished.')
 print('Total training time is {}'.format(str(datetime.timedelta(seconds=time() - training_start_time))))
 print('Mean AUC:', np.mean(aucs))
 print('-' * 30)
 
-
-# In[51]:
-
-
-# train.shape[0]
-
-
-# In[52]:
-
-
-
-feature_importances['average'] = feature_importances[['fold_{}'.format(fold + 1) for fold in range(folds.n_splits)]].mean(axis=1)
-feature_importances.to_csv('feature_importances.csv')
-
-plt.figure(figsize=(7, 7))
-sns.barplot(data=feature_importances.sort_values(by='average', ascending=False).head(30), x='average', y='feature');
-plt.title('20 TOP feature importance over {} folds average'.format(folds.n_splits));
-
-
-# ## 模型预测
-
-# In[53]:
-
-
-PREDICT = True
-if PREDICT:
-    # clf right now is the last model, trained with 80% of data and validated with 20%
-    best_iter = clf.best_iteration
-    print("best_iteration: ", best_iter)
-
-    # 带label的数据需要增加迭代次数?
-
-    print("nround_times:", nround_times)
-    clf = lgb.LGBMClassifier(**params, num_boost_round=int(best_iter * nround_times))
-    clf.fit(X, y)
-
-    # all_data = lgb.Dataset(X, label=y)
-    # all_clf  = lgb.train(params, all_data, num_boost_round = int(best_iter * 1.20), valid_sets = [all_data], verbose_eval=100)
-
-    subname = '../label/ieee_lgb_kflod.csv'
-    sub['isFraud'] = clf.predict_proba(test_X)[:, 1]
-    # sub['isFraud'] = all_clf.predict(test_X)
-    sub.to_csv(subname, index=False)
-    print("done!")
 
 # 真实效果
 test1 = pd.read_csv('../temp/test1_label.csv', usecols=["TransactionID", "isFraud"])
