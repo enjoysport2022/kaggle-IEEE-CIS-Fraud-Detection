@@ -28,6 +28,8 @@ from tqdm import tqdm_notebook
 from xgboost import XGBClassifier
 import os
 
+from sklearn.model_selection import KFold
+
 import gc
 import warnings
 warnings.filterwarnings('ignore')
@@ -47,8 +49,8 @@ nround_times = pa.nround_times[0]
 # In[2]:
 
 
-NROWS = None
-# NROWS = 5000
+# NROWS = None
+NROWS = 5000
 
 
 # 使用原始数据
@@ -1075,10 +1077,12 @@ params = {'num_leaves': 491,
 # test_X = test_X.drop(cols_to_drop, axis=1)    
 
 
-# In[50]:
 
+n_fold = 5
+folds = KFold(n_splits=n_fold, shuffle=False)
 
-folds = TimeSeriesSplit(n_splits=2)
+# 按时间划分
+# folds = TimeSeriesSplit(n_splits=2)
 
 aucs = list()
 feature_importances = pd.DataFrame()
@@ -1143,7 +1147,7 @@ if PREDICT:
     # all_data = lgb.Dataset(X, label=y)
     # all_clf  = lgb.train(params, all_data, num_boost_round = int(best_iter * 1.20), valid_sets = [all_data], verbose_eval=100)
 
-    subname = '../label/ieee_lgb_label_50_all.csv'
+    subname = '../label/ieee_lgb_kflod.csv'
     sub['isFraud'] = clf.predict_proba(test_X)[:, 1]
     # sub['isFraud'] = all_clf.predict(test_X)
     sub.to_csv(subname, index=False)
@@ -1176,6 +1180,7 @@ print("test2 auc:", roc_auc_score(df["isFraud_x"], df["isFraud_y"]))
 # valid_0's auc: 0.9061, valid_0's auc: 0.9260, Mean:0.9160, test1:0.9013, test2:0.9054  -不带label数据, 1.0倍
 # valid_0's auc: 0.9061, valid_0's auc: 0.9260, Mean:0.9160, test1:0.9022, test2:0.9057  -不带label数据, 1.1倍
 # valid_0's auc: 0.9061, valid_0's auc: 0.9260, Mean:0.9160, test1:0.9028, test2:0.9059  -不带label数据, 1.2倍
+# valid_0's auc: 0.9085, valid_0's auc: 0.9262, Mean:0.9174, test1:0.9028, test2:0.9052  -不带label数据, 1.2倍参数优化
 # valid_0's auc: 0.9061, valid_0's auc: 0.9260, Mean:0.9160, test1:0.9031, test2:0.9058  -不带label数据, 1.3倍
 # valid_0's auc: 0.9061, valid_0's auc: 0.9260, Mean:0.9160, test1:0.9032, test2:0.9057  -不带label数据, 1.4倍
 # valid_0's auc: 0.9071, valid_0's auc: 0.9264, Mean:0.9168, test1:0.9015, test2:0.9046  -不带label数据, shift特征, 1.0倍
@@ -1183,7 +1188,7 @@ print("test2 auc:", roc_auc_score(df["isFraud_x"], df["isFraud_y"]))
 # valid_0's auc: 0.9071, valid_0's auc: 0.9264, Mean:0.9168, test1:0.9026, test2:0.9049  -不带label数据, shift特征, 1.2倍
 # valid_0's auc: 0.9071, valid_0's auc: 0.9264, Mean:0.9168, test1:0.9030, test2:0.9050  -不带label数据, shift特征, 1.3倍
 # valid_0's auc: 0.9071, valid_0's auc: 0.9264, Mean:0.9168, test1:0.9033, test2:0.9051  -不带label数据, shift特征, 1.4倍
-# valid_0's auc: 0.9071, valid_0's auc: 0.9264, Mean:0.9168, test1:, test2:  -不带label数据, shift特征, 1.5倍
+# valid_0's auc: 0.9071, valid_0's auc: 0.9264, Mean:0.9168, test1:0.9035, test2:0.9051  -不带label数据, shift特征, 1.5倍
 # valid_0's auc: 0.9042, valid_0's auc: 0.9303, Mean:0.9172, test1:0.8986, test2:0.9048  -带label数据
 
 # 比例
@@ -1194,7 +1199,7 @@ print("test2 auc:", roc_auc_score(df["isFraud_x"], df["isFraud_y"]))
 # nohup python -u label_lgb2.py > split_2_label.log 2>&1 &
 # nohup python -u label_lgb2.py > split_2_shift.log 2>&1 &
 # nohup python -u label_lgb2.py > split_2_shift_1.1.log 2>&1 &
-# nohup python -u label_lgb2.py 1.4 > split_2_shift_1.4.log 2>&1 &
-# nohup python -u label_lgb2_unfeature.py 1.1 > split_2_shift_1.1_unfeature.log 2>&1 &
+# nohup python -u label_lgb2.py 1.5 > split_2_shift_1.5.log 2>&1 &
+# nohup python -u label_lgb2_unfeature.py 1.2 > unfeature_para.log 2>&1 &
 # nohup python -u label_lgb2_unfeature.py 1.4 > split_2_shift_1.4_unfeature.log 2>&1 &
 
