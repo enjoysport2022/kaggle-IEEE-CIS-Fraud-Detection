@@ -43,10 +43,10 @@ NROWS = None
 
 
 # 使用原始数据
-train = pd.read_csv('../temp/train_label.csv', nrows=NROWS)
+# train = pd.read_csv('../temp/train_label.csv', nrows=NROWS)
 
 # 使用增加样本后的数据
-# train = pd.read_csv('../temp/train_label_50.csv', nrows=NROWS)
+train = pd.read_csv('../temp/train_label_50.csv', nrows=NROWS)
 
 test = pd.read_csv('../temp/test_label.csv', nrows=NROWS)
 test = test.drop('isFraud',axis=1)
@@ -1115,4 +1115,8 @@ print("test2 auc:", roc_auc_score(df["isFraud_x"], df["isFraud_y"]))
 # - ieee_lgb_label_50.csv/0.9278/0.9403/0.8987/0.9050   -增加12000条样本,1.0倍
 #
 
-# nohup python -u label_lgb2.py > label_50_all_1.0.log 2>&1 &
+# split=2 线下验证集
+# valid_0's auc: 0.9260, Mean:0.9160, test1:0.9013, test2:0.9054 - 不带label数据
+
+
+# nohup python -u label_lgb2.py > split_2.log 2>&1 &
