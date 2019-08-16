@@ -43,10 +43,10 @@ NROWS = None
 
 
 # 使用原始数据
-# train = pd.read_csv('../temp/train_label.csv', nrows=NROWS)
+train = pd.read_csv('../temp/train_label.csv', nrows=NROWS)
 
 # 使用增加样本后的数据
-train = pd.read_csv('../temp/train_label_50.csv', nrows=NROWS)
+# train = pd.read_csv('../temp/train_label_50.csv', nrows=NROWS)
 
 test = pd.read_csv('../temp/test_label.csv', nrows=NROWS)
 test = test.drop('isFraud',axis=1)
@@ -107,6 +107,49 @@ print("feature engineer")
 # ### 缺失值的数量
 
 # In[5]:
+train['card_addr1_P_emaildomain'] = train["card1"].apply(lambda x: str(x)) + "_" + train["card2"].apply(
+    lambda x: str(x)) + \
+                                    "_" + train["card3"].apply(lambda x: str(x)) + "_" + train["card4"].apply(
+    lambda x: str(x)) + \
+                                    "_" + train["card5"].apply(lambda x: str(x)) + "_" + train["card6"].apply(
+    lambda x: str(x)) + \
+                                    "_" + train["addr1"].apply(lambda x: str(x)) + "_" + train["P_emaildomain"].apply(
+    lambda x: str(x))
+
+test['card_addr1_P_emaildomain'] = test["card1"].apply(lambda x: str(x)) + "_" + test["card2"].apply(lambda x: str(x)) + \
+                                   "_" + test["card3"].apply(lambda x: str(x)) + "_" + test["card4"].apply(
+    lambda x: str(x)) + \
+                                   "_" + test["card5"].apply(lambda x: str(x)) + "_" + test["card6"].apply(
+    lambda x: str(x)) + \
+                                   "_" + test["addr1"].apply(lambda x: str(x)) + "_" + test["P_emaildomain"].apply(
+    lambda x: str(x))
+
+shift_feature = []
+for i in range(1, 51):
+    train["card_addr1_P_emaildomain_" + str(i) + "before"] = train["card_addr1_P_emaildomain"].shift(i)
+    test["card_addr1_P_emaildomain_" + str(i) + "before"] = test["card_addr1_P_emaildomain"].shift(i)
+    shift_feature.append("card_addr1_P_emaildomain_" + str(i) + "before")
+
+for i in range(-1, -51, -1):
+    train["card_addr1_P_emaildomain_" + str(-i) + "after"] = train["card_addr1_P_emaildomain"].shift(i)
+    test["card_addr1_P_emaildomain_" + str(-i) + "after"] = test["card_addr1_P_emaildomain"].shift(i)
+    shift_feature.append("card_addr1_P_emaildomain_" + str(-i) + "after")
+
+def cur_in_window(x):
+    cur = x[0]
+    window = x[1:]
+    cnt = 0
+    for item in window:
+        if cur == item:
+            cnt += 1
+    return cnt
+
+train["shift_100_cnt"] = train[["card_addr1_P_emaildomain"] + shift_feature].apply(lambda x: cur_in_window(x), axis=1)
+test["shift_100_cnt"] = test[["card_addr1_P_emaildomain"] + shift_feature].apply(lambda x: cur_in_window(x), axis=1)
+
+train = train.drop(["card_addr1_P_emaildomain"] + shift_feature, axis=1)
+test = test.drop(["card_addr1_P_emaildomain"] + shift_feature, axis=1)
+
 
 train['null'] = train.isna().sum(axis=1)
 test['null'] = test.isna().sum(axis=1)
@@ -1108,15 +1151,18 @@ print("test2 auc:", roc_auc_score(df["isFraud_x"], df["isFraud_y"]))
 # # 结果记录
 
 # - file/                 线下mean/线下fold5/线上test1/线上test2
-# - ieee_lgb_label.csv/   0.9276/0.9378/0.9032/0.9057
+# - ieee_lgb_label.csv/   0.9276/0.9378/0.9032/0.9057   -不带label数据
 # - ieee_lgb_label_50.csv/0.9281/0.9394/0.9027/0.9056   -迭代次数1.0倍,增加50条样本
-# - ieee_lgb_label_50.csv/0.9281/0.9394/0.9034/0.9058   -迭代次数1.2倍,增加50条样本
+# - ieee_lgb_label_50.csv/0.9281/0.9394/0.9034/0.9058   -迭代次数1.2倍,增加50条样本(有效!)
 # - ieee_lgb_label_50.csv/0.9278/0.9403/0.8981/0.9049   -增加12000条样本
 # - ieee_lgb_label_50.csv/0.9278/0.9403/0.8987/0.9050   -增加12000条样本,1.0倍
 #
 
 # split=2 线下验证集
-# valid_0's auc: 0.9260, Mean:0.9160, test1:0.9013, test2:0.9054 - 不带label数据
+# (第一折是有效的?)
+# valid_0's auc: 0.9061, valid_0's auc: 0.9260, Mean:0.9160, test1:0.9013, test2:0.9054  -不带label数据
+# valid_0's auc: 0.9042, valid_0's auc: 0.9303, Mean:0.9172, test1:0.8986, test2:0.9048  -带label数据
 
 
 # nohup python -u label_lgb2.py > split_2.log 2>&1 &
+# nohup python -u label_lgb2.py > split_2_label.log 2>&1 &
