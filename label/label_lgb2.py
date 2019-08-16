@@ -34,15 +34,13 @@ warnings.filterwarnings('ignore')
 
 
 # 迭代次数传参
-# python train.py 1.2
+# python label_lgb2.py 1.2
 
 import argparse
 ap = argparse.ArgumentParser(description='label_lgb2.py')
-ap.add_argument('nround_times', nargs='*', action="store", default=1.0)
+ap.add_argument('nround_times', nargs='*', action="store", default=1.0, type = float)
 pa = ap.parse_args()
-nround_times = pa.nround_times
-
-
+nround_times = pa.nround_times[0]
 
 # # 导入数据
 
@@ -117,7 +115,7 @@ print("feature engineer")
 
 # ### 缺失值的数量
 
-# In[5]:
+# shift特征
 train['card_addr1_P_emaildomain'] = train["card1"].apply(lambda x: str(x)) + "_" + train["card2"].apply(
     lambda x: str(x)) + \
                                     "_" + train["card3"].apply(lambda x: str(x)) + "_" + train["card4"].apply(
@@ -160,6 +158,8 @@ test["shift_100_cnt"] = test[["card_addr1_P_emaildomain"] + shift_feature].apply
 
 train = train.drop(["card_addr1_P_emaildomain"] + shift_feature, axis=1)
 test = test.drop(["card_addr1_P_emaildomain"] + shift_feature, axis=1)
+# shift特征end
+
 
 
 train['null'] = train.isna().sum(axis=1)
@@ -1188,4 +1188,5 @@ print("test2 auc:", roc_auc_score(df["isFraud_x"], df["isFraud_y"]))
 # nohup python -u label_lgb2.py > split_2_label.log 2>&1 &
 # nohup python -u label_lgb2.py > split_2_shift.log 2>&1 &
 # nohup python -u label_lgb2.py > split_2_shift_1.1.log 2>&1 &
-
+# nohup python -u label_lgb2.py 1.2 > split_2_shift_1.2.log 2>&1 &
+# nohup python -u label_lgb2_unfeature.py 1.1 > split_2_shift_1.1_unfeature.log 2>&1 &
