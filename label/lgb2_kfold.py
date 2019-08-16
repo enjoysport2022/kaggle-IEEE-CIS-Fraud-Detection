@@ -977,7 +977,7 @@ params = {'num_leaves': 491,
 
 
 n_fold = 5
-folds = KFold(n_splits=n_fold, shuffle=True)
+folds = KFold(n_splits=n_fold, shuffle=False)
 
 os.environ['KMP_DUPLICATE_LIB_OK'] = 'True'
 lgb_sub = sub.copy()
@@ -1052,7 +1052,8 @@ print("test2 auc:", roc_auc_score(df["isFraud_x"], df["isFraud_y"]))
 
 # kfold
 # Mean AUC/线上test1/线上test2
-#   0.9714, 0.9043, 0.9063
+#   0.9714, 0.9043, 0.9063   - 原始
+#   0.9802, 0.8687, 0.8620   - target encoding
 
 
 # 比例

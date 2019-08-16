@@ -984,14 +984,14 @@ if PREDICT:
     # clf right now is the last model, trained with 80% of data and validated with 20%
     best_iter = clf.best_iteration
     print("best_iteration: ", best_iter)
-    # clf = lgb.LGBMClassifier(**params, num_boost_round=int(best_iter * 1.1))
-    # clf.fit(X, y)
+    clf = lgb.LGBMClassifier(**params, num_boost_round=int(best_iter * 1.1))
+    clf.fit(X, y)
 
-    all_data = lgb.Dataset(X, label=y)
-    all_clf  = lgb.train(params, all_data, num_boost_round = int(best_iter * 1.20), valid_sets = [all_data], verbose_eval=100) 
+    # all_data = lgb.Dataset(X, label=y)
+    # all_clf  = lgb.train(params, all_data, num_boost_round = int(best_iter * 1.20), valid_sets = [all_data], verbose_eval=100)
 
-    # sub['isFraud'] = clf.predict_proba(test_X)[:, 1]
-    sub['isFraud'] = all_clf.predict(test_X)
+    sub['isFraud'] = clf.predict_proba(test_X)[:, 1]
+    # sub['isFraud'] = all_clf.predict(test_X)
     sub.to_csv('ieee_cis_fraud_detection_v6.csv', index=False)
 
 
@@ -1001,6 +1001,7 @@ if PREDICT:
 
 
 if PREDICT:
+    print("xgb model")
     sub = pd.read_csv('../input/sample_submission.csv', nrows=NROWS)
 
     n_fold = 6
@@ -1138,3 +1139,5 @@ if PREDICT:
 # - 对card特征 Label Encoding
 # - 增加前: 0.9022, 0.9285
 # - 增加后: 0.9014, 0.9267
+
+# nohup python -u ens1.py > ens1.log 2>&1 &
