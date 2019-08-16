@@ -969,7 +969,6 @@ params = {'num_leaves': 491,
           'random_state': 47
          }
 
-sub = pd.read_csv('../input/sample_submission.csv', nrows=NROWS)
 
 n_fold = 5
 folds = KFold(n_splits=n_fold, shuffle=True)
@@ -1049,7 +1048,7 @@ print("test2 auc:", roc_auc_score(df["isFraud_x"], df["isFraud_y"]))
 # 第一折:test1:test2
 # 19:27:6
 
-# nohup python -u label_lgb2.py > split_2.log 2>&1 &
+# nohup python -u lgb2_kfold.py 1.1 > kfold.log 2>&1 &
 # nohup python -u label_lgb2.py > split_2_label.log 2>&1 &
 # nohup python -u label_lgb2.py > split_2_shift.log 2>&1 &
 # nohup python -u label_lgb2.py > split_2_shift_1.1.log 2>&1 &
