@@ -1070,22 +1070,35 @@ test_X = test.sort_values('TransactionDT').drop(['TransactionDT', 'TransactionID
 
 
 print("lgb model")
-params = {'num_leaves': 491,
-          'min_child_weight': 0.03454472573214212,
-          'feature_fraction': 0.3797454081646243,
-          'bagging_fraction': 0.4181193142567742,
-          'min_data_in_leaf': 106,
-          'objective': 'binary',
-          'max_depth': -1,
-          'learning_rate': 0.006883242363721497,
-          "boosting_type": "gbdt",
-          "bagging_seed": 11,
-          "metric": 'auc',
-          "verbosity": -1,
-          'reg_alpha': 0.3899927210061127,
-          'reg_lambda': 0.6485237330340494,
-          'random_state': 47
-          }
+# params = {'num_leaves': 491,
+#           'min_child_weight': 0.03454472573214212,
+#           'feature_fraction': 0.3797454081646243,
+#           'bagging_fraction': 0.4181193142567742,
+#           'min_data_in_leaf': 106,
+#           'objective': 'binary',
+#           'max_depth': -1,
+#           'learning_rate': 0.006883242363721497,
+#           "boosting_type": "gbdt",
+#           "bagging_seed": 11,
+#           "metric": 'auc',
+#           "verbosity": -1,
+#           'reg_alpha': 0.3899927210061127,
+#           'reg_lambda': 0.6485237330340494,
+#           'random_state': 47
+#           }
+
+params = {
+    'num_leaves': 255,
+    'subsample':0.5,
+    'colsample_bytree':0.5,
+    'objective': 'binary',
+    'learning_rate': 0.01,
+    "boosting_type": "gbdt",
+    "metric": 'auc',
+    "verbosity": -1,
+    'random_state': 42,
+    'nthreads':32,
+}
 
 # ### 删除不重要的特征
 
