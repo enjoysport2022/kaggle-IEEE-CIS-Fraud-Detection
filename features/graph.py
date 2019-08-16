@@ -30,8 +30,8 @@ import time
 # In[2]:
 
 
-# NROWS = None
-NROWS = 50000
+NROWS = None
+# NROWS = 50000
 
 PATH = '../input'
 train_identity = pd.read_csv(os.path.join(PATH,'train_identity.csv'), nrows=NROWS)
