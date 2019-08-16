@@ -42,16 +42,15 @@ import argparse
 ap = argparse.ArgumentParser(description='label_lgb2.py')
 ap.add_argument('nround_times', nargs='*', action="store", default=1.0, type = float)
 pa = ap.parse_args()
-nround_times = 1.1
-# nround_times = pa.nround_times[0]
+nround_times = pa.nround_times[0]
 
 # # 导入数据
 
 # In[2]:
 
 
-# NROWS = None
-NROWS = 5000
+NROWS = None
+# NROWS = 5000
 
 
 # 使用原始数据
