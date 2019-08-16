@@ -67,6 +67,7 @@ print("train.shape:", train.shape)
 print("test.shape:", test.shape)
 # train.head(3)
 
+target = "isFraud"
 
 # ## 内存优化
 
@@ -321,19 +322,24 @@ test['TransactionAmt_mod_100'] = test['TransactionAmt'].apply(lambda x: mod_m(x,
 
 # ### card特征提取
 
-# In[11]:
+def get_sub(x, idx):
+    try:
+        return str(x)[idx]
+    except:
+        return "-1"
+
+for idx in [-1, -2, -3, -4, -5]:
+    train["card1" + "_sub_" + str(idx)] = train["card1"].apply(lambda x: get_sub(x, idx))
+    test["card1" + "_sub_" + str(idx)]  = test["card1"].apply(lambda x: get_sub(x, idx))
 
 
-# # 对card特征 Label Encoding
-# card = ['card1', 'card2', 'card3', 'card4', 'card5', 'card6']
-
-# for f in tqdm_notebook(card):
-#     lbl = LabelEncoder()
-#     temp = pd.DataFrame(train[f].astype(str).append(test[f].astype(str)))
-#     lbl.fit(temp[f])
-#     train[f + '_endoce'] = lbl.transform(list(train[f].astype(str)))
-#     test[f + '_endoce'] = lbl.transform(list(test[f].astype(str))) 
-
+feature = 'card1'
+temp = train.groupby([feature])[target].sum().reset_index()
+temp.index = temp[feature]
+temp = temp.drop(feature, axis=1)
+faeture_map = temp.to_dict()[target]
+train[feature + "_target_cnt"] = train[feature].map(faeture_map)
+test[feature + "_target_cnt"] = test[feature].map(faeture_map)
 
 # In[12]:
 
@@ -1043,6 +1049,11 @@ print("test2 auc:", roc_auc_score(df["isFraud_x"], df["isFraud_y"]))
 # valid_0's auc: 0.9071, valid_0's auc: 0.9264, Mean:0.9168, test1:0.9033, test2:0.9051  -不带label数据, shift特征, 1.4倍
 # valid_0's auc: 0.9071, valid_0's auc: 0.9264, Mean:0.9168, test1:0.9035, test2:0.9051  -不带label数据, shift特征, 1.5倍
 # valid_0's auc: 0.9042, valid_0's auc: 0.9303, Mean:0.9172, test1:0.8986, test2:0.9048  -带label数据
+
+# kfold
+# Mean AUC/线上test1/线上test2
+#   0.9714, 0.9043, 0.9063
+
 
 # 比例
 # 第一折:test1:test2
