@@ -1174,10 +1174,16 @@ print("test2 auc:", roc_auc_score(df["isFraud_x"], df["isFraud_y"]))
 # (第一折是有效的?,在test1上有效,test2上失效...)
 # 第一折/第二折/mean/线上test1/线上test2
 # valid_0's auc: 0.9061, valid_0's auc: 0.9260, Mean:0.9160, test1:0.9013, test2:0.9054  -不带label数据, 1.0倍
-# valid_0's auc: 0.9061, valid_0's auc: 0.9260, Mean:0.9160, test1:, test2:  -不带label数据, 1.1倍
+# valid_0's auc: 0.9061, valid_0's auc: 0.9260, Mean:0.9160, test1:0.9022, test2:0.9057  -不带label数据, 1.1倍
+# valid_0's auc: 0.9061, valid_0's auc: 0.9260, Mean:0.9160, test1:0.9028, test2:0.9059  -不带label数据, 1.2倍
+# valid_0's auc: 0.9061, valid_0's auc: 0.9260, Mean:0.9160, test1:0.9031, test2:0.9058  -不带label数据, 1.3倍
+# valid_0's auc: 0.9061, valid_0's auc: 0.9260, Mean:0.9160, test1:0.9032, test2:0.9057  -不带label数据, 1.4倍
 # valid_0's auc: 0.9071, valid_0's auc: 0.9264, Mean:0.9168, test1:0.9015, test2:0.9046  -不带label数据, shift特征, 1.0倍
 # valid_0's auc: 0.9071, valid_0's auc: 0.9264, Mean:0.9168, test1:0.9020, test2:0.9048  -不带label数据, shift特征, 1.1倍
-# valid_0's auc: 0.9071, valid_0's auc: 0.9264, Mean:0.9168, test1:, test2:  -不带label数据, shift特征, 1.2倍
+# valid_0's auc: 0.9071, valid_0's auc: 0.9264, Mean:0.9168, test1:0.9026, test2:0.9049  -不带label数据, shift特征, 1.2倍
+# valid_0's auc: 0.9071, valid_0's auc: 0.9264, Mean:0.9168, test1:0.9030, test2:0.9050  -不带label数据, shift特征, 1.3倍
+# valid_0's auc: 0.9071, valid_0's auc: 0.9264, Mean:0.9168, test1:0.9033, test2:0.9051  -不带label数据, shift特征, 1.4倍
+# valid_0's auc: 0.9071, valid_0's auc: 0.9264, Mean:0.9168, test1:, test2:  -不带label数据, shift特征, 1.5倍
 # valid_0's auc: 0.9042, valid_0's auc: 0.9303, Mean:0.9172, test1:0.8986, test2:0.9048  -带label数据
 
 # 比例
@@ -1188,5 +1194,7 @@ print("test2 auc:", roc_auc_score(df["isFraud_x"], df["isFraud_y"]))
 # nohup python -u label_lgb2.py > split_2_label.log 2>&1 &
 # nohup python -u label_lgb2.py > split_2_shift.log 2>&1 &
 # nohup python -u label_lgb2.py > split_2_shift_1.1.log 2>&1 &
-# nohup python -u label_lgb2.py 1.2 > split_2_shift_1.2.log 2>&1 &
+# nohup python -u label_lgb2.py 1.4 > split_2_shift_1.4.log 2>&1 &
 # nohup python -u label_lgb2_unfeature.py 1.1 > split_2_shift_1.1_unfeature.log 2>&1 &
+# nohup python -u label_lgb2_unfeature.py 1.4 > split_2_shift_1.4_unfeature.log 2>&1 &
+
