@@ -843,7 +843,7 @@ for fold_n, (train_index, valid_index) in enumerate(folds.split(X)):
     print('Fold {} finished in {}'.format(fold_n + 1, str(datetime.timedelta(seconds=time() - start_time))))
 
 
-subname = '../label/ieee_lgb_kflod_remove_5th_submit.csv'
+subname = '../output/ieee_lgb_kflod_remove_5th_submit.csv'
 lgb_sub.to_csv(subname, index=False)
 print('-' * 30)
 print('Training has finished.')
