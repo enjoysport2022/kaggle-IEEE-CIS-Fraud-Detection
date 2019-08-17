@@ -1099,6 +1099,7 @@ for idx in range(1, 9):
 
     # 第一次训练
     if train_first:
+        print("train first")
         trn_data = lgb.Dataset(X.iloc[local_train_idx], label=y.iloc[local_train_idx])
         val_data = lgb.Dataset(X.iloc[local_valid_idx], label=y.iloc[local_valid_idx])
         clf = lgb.train(params, trn_data, num_boost_round=10000, valid_sets=[val_data], verbose_eval=100,
@@ -1121,7 +1122,8 @@ for idx in range(1, 9):
     aucs.append(cur_auc)
 
     if train_second:
-        print("used_iteration")
+        print("train second")
+        print("used_iteration:", best_iter)
         # 使用滑窗数据训练
         rolling_data = lgb.Dataset(X.iloc[train_idx], label=y.iloc[train_idx])
         rolling_clf  = lgb.train(params, rolling_data, num_boost_round = best_iter, valid_sets = [rolling_data], verbose_eval=100)
@@ -1141,6 +1143,7 @@ print('Training has finished.')
 print('Total training time is {}'.format(str(datetime.timedelta(seconds=time() - training_start_time))))
 print('AUCs:', aucs)
 print('best_iters:', best_iters)
+aucs = aucs.remove(None)
 print('Mean AUC:', np.mean(aucs))
 print('-' * 30)
 
