@@ -1153,7 +1153,8 @@ print('Training has finished.')
 print('Total training time is {}'.format(str(datetime.timedelta(seconds=time() - training_start_time))))
 print('AUCs:', aucs)
 print('best_iters:', best_iters)
-aucs.remove(None)
+if None in aucs:
+    aucs.remove(None)
 print('Mean AUC:', np.mean(aucs))
 print('-' * 30)
 
