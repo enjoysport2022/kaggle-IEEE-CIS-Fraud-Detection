@@ -55,12 +55,9 @@ else:
 print("NROWS: ", NROWS)
 
 
-# 使用原始数据
+# 读取数据
+print("read data.")
 train = pd.read_csv('../temp/train_label.csv', nrows=NROWS)
-
-# 使用增加样本后的数据
-# train = pd.read_csv('../temp/train_label_50.csv', nrows=NROWS)
-
 test = pd.read_csv('../temp/test_label.csv', nrows=NROWS)
 test = test.drop('isFraud',axis=1)
 sub = pd.read_csv('../temp/sample_submission_label.csv', nrows=NROWS)
@@ -72,10 +69,7 @@ print("test.shape:", test.shape)
 target = "isFraud"
 
 # ## 内存优化
-
-# In[4]:
-
-
+print("modify memory.")
 def reduce_mem_usage(df):
     start_mem = df.memory_usage().sum() / 1024**2
     for col in df.columns:
@@ -103,10 +97,6 @@ def reduce_mem_usage(df):
     print('Memory usage after optimization is: {:.2f} MB, {:.1f}% reduction'.          format(end_mem, 100 * (start_mem - end_mem) / start_mem))
     
     return df
-
-
-# In[5]:
-
 
 train = reduce_mem_usage(train)
 test  = reduce_mem_usage(test)
@@ -166,97 +156,11 @@ test = test.drop(["card_addr1_P_emaildomain"] + shift_feature, axis=1)
 # shift特征end
 
 
-
 train['null'] = train.isna().sum(axis=1)
 test['null'] = test.isna().sum(axis=1)
 
 
-# # ### target_encoder
-#
-# print("target_encoder")
-# np.random.seed(13)
-#
-# def impact_coding(data, feature, target='y'):
-#     '''
-#     In this implementation we get the values and the dictionary as two different steps.
-#     This is just because initially we were ignoring the dictionary as a result variable.
-#
-#     In this implementation the KFolds use shuffling. If you want reproducibility the cv
-#     could be moved to a parameter.
-#     '''
-#     n_folds = 5 #20
-#     n_inner_folds = 5 #10
-#     impact_coded = pd.Series()
-#
-#     oof_default_mean = data[target].mean() # Gobal mean to use by default (you could further tune this)
-#     kf = KFold(n_splits=n_folds, shuffle=True)
-#     oof_mean_cv = pd.DataFrame()
-#     split = 0
-#     for infold, oof in kf.split(data[feature]):
-#             impact_coded_cv = pd.Series()
-#             kf_inner = KFold(n_splits=n_inner_folds, shuffle=True)
-#             inner_split = 0
-#             inner_oof_mean_cv = pd.DataFrame()
-#             oof_default_inner_mean = data.iloc[infold][target].mean()
-#             for infold_inner, oof_inner in kf_inner.split(data.iloc[infold]):
-#                 # The mean to apply to the inner oof split (a 1/n_folds % based on the rest)
-#                 oof_mean = data.iloc[infold_inner].groupby(by=feature)[target].mean()
-#                 impact_coded_cv = impact_coded_cv.append(data.iloc[infold].apply(
-#                             lambda x: oof_mean[x[feature]]
-#                                if x[feature] in oof_mean.index else oof_default_inner_mean, axis=1))
-#
-#                 # Also populate mapping (this has all group -> mean for all inner CV folds)
-#                 inner_oof_mean_cv = inner_oof_mean_cv.join(pd.DataFrame(oof_mean), rsuffix=inner_split, how='outer')
-#                 inner_oof_mean_cv.fillna(value=oof_default_inner_mean, inplace=True)
-#                 inner_split += 1
-#
-#             # Also populate mapping
-#             oof_mean_cv = oof_mean_cv.join(pd.DataFrame(inner_oof_mean_cv), rsuffix=split, how='outer')
-#             oof_mean_cv.fillna(value=oof_default_mean, inplace=True)
-#             split += 1
-#
-#             impact_coded = impact_coded.append(data.iloc[oof].apply(
-#                             lambda x: inner_oof_mean_cv.loc[x[feature]].mean()
-#                                if x[feature] in inner_oof_mean_cv.index else oof_default_mean, axis=1))
-#
-#     return impact_coded, oof_mean_cv.mean(axis=1), oof_default_mean
-#
-#
-# # In[8]:
-#
-#
-# # train.card5.nunique()
-#
-#
-# # In[9]:
-#
-#
-# target = "isFraud"
-#
-#
-# # In[10]:
-# # Apply the encoding to training and test data, and preserve the mapping
-# categorical_features = ["card2", "card5"]
-# impact_coding_map = {}
-# for f in categorical_features:
-#     print("Impact coding for {}".format(f))
-#     train["impact_encoded_{}".format(f)], impact_coding_mapping, default_coding = impact_coding(train, f, target)
-#     impact_coding_map[f] = (impact_coding_mapping, default_coding)
-#     mapping, default_mean = impact_coding_map[f]
-#     test["impact_encoded_{}".format(f)] = test.apply(lambda x: mapping[x[f]]
-#                                                     if x[f] in mapping else default_mean, axis=1)
-#
-# # ### target_encoder end
-
-# ### targetEncoder保存中间变量
-
-
-# ### 从targetEncoder运行
-
 # ### 时间相关特征(TransactionDT)
-
-# In[6]:
-
 def transform_TransactionDT(df):
     START_DATE = '2017-12-01'
     start_date = datetime.datetime.strptime(START_DATE, '%Y-%m-%d')
@@ -274,19 +178,11 @@ def transform_TransactionDT(df):
     
     return df
 
-
-# In[7]:
-
-
 train = transform_TransactionDT(train)
 test = transform_TransactionDT(test)
 
 
 # ### 金额(TransactionAmt)
-
-# In[8]:
-
-
 train['TransactionAmt'] = train['TransactionAmt'].astype(float)
 train['TransAmtLog'] = np.log(train['TransactionAmt'])
 train['TransAmtDemical'] = train['TransactionAmt'].astype('str').str.split('.', expand=True)[1].str.len()
@@ -297,10 +193,6 @@ test['TransAmtDemical'] = test['TransactionAmt'].astype('str').str.split('.', ex
 
 
 # ### 金额(TransactionAmt)是否整除的特征
-
-# In[9]:
-
-
 def mod_m(x, m):
     if x%m == 0:
         return 1
@@ -323,7 +215,6 @@ test['TransactionAmt_mod_100'] = test['TransactionAmt'].apply(lambda x: mod_m(x,
 
 
 # ### card特征提取
-
 def get_sub(x, idx):
     try:
         return str(x)[idx]
@@ -333,17 +224,6 @@ def get_sub(x, idx):
 for idx in [-1, -2, -3, -4, -5]:
     train["card1" + "_sub_" + str(idx)] = train["card1"].apply(lambda x: get_sub(x, idx))
     test["card1" + "_sub_" + str(idx)]  = test["card1"].apply(lambda x: get_sub(x, idx))
-
-# target encoding会导致过拟合
-# feature = 'card1'
-# temp = train.groupby([feature])[target].sum().reset_index()
-# temp.index = temp[feature]
-# temp = temp.drop(feature, axis=1)
-# faeture_map = temp.to_dict()[target]
-# train[feature + "_target_cnt"] = train[feature].map(faeture_map)
-# test[feature + "_target_cnt"] = test[feature].map(faeture_map)
-
-# In[12]:
 
 
 # card1是类别型特征,对card1的字段进行提取
@@ -366,7 +246,6 @@ test["card1_first"]  = test["card1"].apply(lambda x: str(x)[0])
 
 
 # In[13]:
-
 
 # 是否缺失的标记
 train["card1_na"] = 0
@@ -405,17 +284,14 @@ test.loc[test["card5"].isna(), "card5_na"] = 1
 
 # card字段拼接的统计
 
-train['card_str'] = train["card1"].apply(lambda x: str(x)) + "_" + train["card2"].apply(lambda x: str(x)) +                "_" + train["card3"].apply(lambda x: str(x)) + "_" + train["card4"].apply(lambda x: str(x)) +                "_" + train["card5"].apply(lambda x: str(x)) + "_" + train["card6"].apply(lambda x: str(x))
-
-test['card_str'] = test["card1"].apply(lambda x: str(x)) + "_" + test["card2"].apply(lambda x: str(x)) +                "_" + test["card3"].apply(lambda x: str(x)) + "_" + test["card4"].apply(lambda x: str(x)) +                "_" + test["card5"].apply(lambda x: str(x)) + "_" + test["card6"].apply(lambda x: str(x))
+train['card_str'] = train["card1"].apply(lambda x: str(x)) + "_" + train["card2"].apply(lambda x: str(x)) + "_" + train["card3"].apply(lambda x: str(x)) + "_" + train["card4"].apply(lambda x: str(x)) + "_" + train["card5"].apply(lambda x: str(x)) + "_" + train["card6"].apply(lambda x: str(x))
+test['card_str'] = test["card1"].apply(lambda x: str(x)) + "_" + test["card2"].apply(lambda x: str(x)) + "_" + test["card3"].apply(lambda x: str(x)) + "_" + test["card4"].apply(lambda x: str(x)) + "_" + test["card5"].apply(lambda x: str(x)) + "_" + test["card6"].apply(lambda x: str(x))
 
 train['card_count_full'] = train['card_str'].map(pd.concat([train['card_str'], test['card_str']], ignore_index=True).value_counts(dropna=False))
 test['card_count_full'] = test['card_str'].map(pd.concat([test['card_str'], test['card_str']], ignore_index=True).value_counts(dropna=False))
 
 
 # In[15]:
-
-
 train['TransactionAmt_to_std_card_str'] = train['TransactionAmt'] / train.groupby(['card_str'])['TransactionAmt'].transform('std')
 test['TransactionAmt_to_std_card_str'] = test['TransactionAmt'] / test.groupby(['card_str'])['TransactionAmt'].transform('std')
 
@@ -427,8 +303,6 @@ test['TransactionAmt_to_sum_card_str'] = test['TransactionAmt'] / test.groupby([
 
 
 # In[16]:
-
-
 train['card1_count_full'] = train['card1'].map(pd.concat([train['card1'], test['card1']], ignore_index=True).value_counts(dropna=False))
 test['card1_count_full'] = test['card1'].map(pd.concat([train['card1'], test['card1']], ignore_index=True).value_counts(dropna=False))
 
@@ -449,8 +323,6 @@ test['card6_count_full'] = test['card6'].map(pd.concat([train['card6'], test['ca
 
 
 # In[17]:
-
-
 train['TransactionAmt_to_mean_card1'] = train['TransactionAmt'] / train.groupby(['card1'])['TransactionAmt'].transform('mean')
 train['TransactionAmt_to_mean_card2'] = train['TransactionAmt'] / train.groupby(['card2'])['TransactionAmt'].transform('mean')
 test['TransactionAmt_to_mean_card1'] = test['TransactionAmt'] / test.groupby(['card1'])['TransactionAmt'].transform('mean')
@@ -468,8 +340,6 @@ test['TransactionAmt_to_mean_card6'] = test['TransactionAmt'] / test.groupby(['c
 
 
 # In[18]:
-
-
 train['TransactionAmt_to_std_card1'] = train['TransactionAmt'] / train.groupby(['card1'])['TransactionAmt'].transform('std')
 train['TransactionAmt_to_std_card2'] = train['TransactionAmt'] / train.groupby(['card2'])['TransactionAmt'].transform('std')
 test['TransactionAmt_to_std_card1'] = test['TransactionAmt'] / test.groupby(['card1'])['TransactionAmt'].transform('std')
@@ -487,8 +357,6 @@ test['TransactionAmt_to_std_card6'] = test['TransactionAmt'] / test.groupby(['ca
 
 
 # In[19]:
-
-
 train['TransactionAmt_to_sum_card1'] = train['TransactionAmt'] / train.groupby(['card1'])['TransactionAmt'].transform('sum')
 train['TransactionAmt_to_sum_card2'] = train['TransactionAmt'] / train.groupby(['card2'])['TransactionAmt'].transform('sum')
 test['TransactionAmt_to_sum_card1'] = test['TransactionAmt'] / test.groupby(['card1'])['TransactionAmt'].transform('sum')
@@ -506,8 +374,6 @@ test['TransactionAmt_to_sum_card6'] = test['TransactionAmt'] / test.groupby(['ca
 
 
 # In[20]:
-
-
 train['id_02_to_mean_card1'] = train['id_02'] / train.groupby(['card1'])['id_02'].transform('mean')
 train['id_02_to_mean_card4'] = train['id_02'] / train.groupby(['card4'])['id_02'].transform('mean')
 train['id_02_to_std_card1'] = train['id_02'] / train.groupby(['card1'])['id_02'].transform('std')
@@ -520,8 +386,6 @@ test['id_02_to_std_card4'] = test['id_02'] / test.groupby(['card4'])['id_02'].tr
 
 
 # In[21]:
-
-
 train['D15_to_mean_card1'] = train['D15'] / train.groupby(['card1'])['D15'].transform('mean')
 train['D15_to_mean_card4'] = train['D15'] / train.groupby(['card4'])['D15'].transform('mean')
 train['D15_to_std_card1'] = train['D15'] / train.groupby(['card1'])['D15'].transform('std')
@@ -542,8 +406,6 @@ test['D15_to_std_card4'] = test['D15'] / test.groupby(['card4'])['D15'].transfor
 # ### card svd特征
 
 # In[22]:
-
-
 from sklearn.decomposition import PCA, FastICA
 from sklearn.decomposition import TruncatedSVD
 from sklearn.random_projection import GaussianRandomProjection
@@ -616,9 +478,6 @@ print(train.shape, test.shape)
 # ### address
 # both are for purchaser, addr1 as billing region, addr2 as billing country
 
-# In[23]:
-
-
 train['addr1_count_full'] = train['addr1'].map(pd.concat([train['addr1'], test['addr1']], ignore_index=True).value_counts(dropna=False))
 test['addr1_count_full'] = test['addr1'].map(pd.concat([train['addr1'], test['addr1']], ignore_index=True).value_counts(dropna=False))
 
@@ -633,10 +492,6 @@ test['D15_to_std_addr1'] = test['D15'] / test.groupby(['addr1'])['D15'].transfor
 
 
 # ### distance
-
-# In[24]:
-
-
 train["dist1_plus_dist2"]  = train["dist1"] + train["dist2"]
 train["dist1_minus_dist2"] = train["dist1"] - train["dist2"]
 train["dist1_times_dist2"]  = train["dist1"] * train["dist2"]
@@ -649,9 +504,6 @@ test["dist1_divides_dist2"] = test["dist1"] / test["dist2"]
 
 
 # ### 邮箱
-
-# In[25]:
-
 
 def transform_email(df):
     for col in ['P_emaildomain', 'R_emaildomain']:
@@ -673,10 +525,6 @@ def transform_email(df):
         df.loc[df[col2].isin(df[col2].value_counts()[df[col2].value_counts() <= 1000].index), col2] = 'Others'
     
     return df
-
-
-# In[26]:
-
 
 train = transform_email(train)
 test = transform_email(test)
@@ -702,7 +550,6 @@ test = transform_email(test)
 # ### M1-M9
 # match, such as names on card and address, etc.
 
-# In[28]:
 
 
 MFeatures = ["M1","M2","M3","M4","M5","M6","M7","M8","M9"]
@@ -811,10 +658,6 @@ def transform_id_cols(df):
            
     return df
 
-
-# In[31]:
-
-
 train = transform_id_cols(train)
 test  = transform_id_cols(test)
 
@@ -825,10 +668,6 @@ test  = transform_id_cols(test)
 
 
 # ### DeviceInfo
-
-# In[33]:
-
-
 def transform_DeviceInfo(df):
     df['DeviceCorp'] = df['DeviceInfo']
     df.loc[df['DeviceInfo'].str.contains('HUAWEI|HONOR', case=False, na=False, regex=True), 'DeviceCorp'] = 'HUAWEI'
@@ -860,20 +699,12 @@ def transform_DeviceInfo(df):
     
     return df
 
-
-# In[34]:
-
-
 train = transform_DeviceInfo(train)
 test  = transform_DeviceInfo(test)
 
 
 # ### 类别型变量labelEncoder
 
-# In[35]:
-
-
-target = "isFraud"
 # Label Encoding
 for f in tqdm_notebook([feature for feature in train.columns if feature != target]):
     if train[f].dtype=='object' or test[f].dtype=='object': 
@@ -884,11 +715,7 @@ for f in tqdm_notebook([feature for feature in train.columns if feature != targe
         test[f] = lbl.transform(list(test[f].astype(str))) 
 
 
-# ### 构造特征
-
-# In[36]:
-
-
+# ### 构造性特征
 def transform_number(df):
     df['id_02_log'] = np.log10(df['id_02'])
     
@@ -901,10 +728,6 @@ def transform_number(df):
     df['TransAmt_per_TransDT'] = df['TransactionAmt'] * 24 * 60 * 60 / df['TransactionDT']
     
     return df
-
-
-# In[37]:
-
 
 train = transform_number(train)
 test  = transform_number(test)
@@ -943,8 +766,6 @@ for feature in tqdm_notebook([
     le.fit(list(train[feature].astype(str).values) + list(test[feature].astype(str).values))
     train[feature] = le.transform(list(train[feature].astype(str).values))
     test[feature] = le.transform(list(test[feature].astype(str).values))
-
-
 
 
 X = train.sort_values('TransactionDT').drop(['isFraud', 'TransactionDT', 'TransactionID'], axis=1)
@@ -1033,49 +854,4 @@ print("test1 auc: ", roc_auc_score(df1["isFraud_x"], df1["isFraud_y"]))
 
 df = test2.merge(pre, on="TransactionID", how="left")
 print("test2 auc:", roc_auc_score(df["isFraud_x"], df["isFraud_y"]))
-
-# # 结果记录
-
-# - file/                 线下mean/线下fold5/线上test1/线上test2
-# - ieee_lgb_label.csv/   0.9276/0.9378/0.9032/0.9057   -不带label数据
-# - ieee_lgb_label_50.csv/0.9281/0.9394/0.9027/0.9056   -迭代次数1.0倍,增加50条样本
-# - ieee_lgb_label_50.csv/0.9281/0.9394/0.9034/0.9058   -迭代次数1.2倍,增加50条样本(有效!)
-# - ieee_lgb_label_50.csv/0.9278/0.9403/0.8981/0.9049   -增加12000条样本
-# - ieee_lgb_label_50.csv/0.9278/0.9403/0.8987/0.9050   -增加12000条样本,1.0倍
-#
-
-# split=2 线下验证集
-# (第一折是有效的?,在test1上有效,test2上失效...)
-# 第一折/第二折/mean/线上test1/线上test2
-# valid_0's auc: 0.9061, valid_0's auc: 0.9260, Mean:0.9160, test1:0.9013, test2:0.9054  -不带label数据, 1.0倍
-# valid_0's auc: 0.9061, valid_0's auc: 0.9260, Mean:0.9160, test1:0.9022, test2:0.9057  -不带label数据, 1.1倍
-# valid_0's auc: 0.9061, valid_0's auc: 0.9260, Mean:0.9160, test1:0.9028, test2:0.9059  -不带label数据, 1.2倍
-# valid_0's auc: 0.9085, valid_0's auc: 0.9262, Mean:0.9174, test1:0.9028, test2:0.9052  -不带label数据, 1.2倍参数优化
-# valid_0's auc: 0.9061, valid_0's auc: 0.9260, Mean:0.9160, test1:0.9031, test2:0.9058  -不带label数据, 1.3倍
-# valid_0's auc: 0.9061, valid_0's auc: 0.9260, Mean:0.9160, test1:0.9032, test2:0.9057  -不带label数据, 1.4倍
-# valid_0's auc: 0.9071, valid_0's auc: 0.9264, Mean:0.9168, test1:0.9015, test2:0.9046  -不带label数据, shift特征, 1.0倍
-# valid_0's auc: 0.9071, valid_0's auc: 0.9264, Mean:0.9168, test1:0.9020, test2:0.9048  -不带label数据, shift特征, 1.1倍
-# valid_0's auc: 0.9071, valid_0's auc: 0.9264, Mean:0.9168, test1:0.9026, test2:0.9049  -不带label数据, shift特征, 1.2倍
-# valid_0's auc: 0.9071, valid_0's auc: 0.9264, Mean:0.9168, test1:0.9030, test2:0.9050  -不带label数据, shift特征, 1.3倍
-# valid_0's auc: 0.9071, valid_0's auc: 0.9264, Mean:0.9168, test1:0.9033, test2:0.9051  -不带label数据, shift特征, 1.4倍
-# valid_0's auc: 0.9071, valid_0's auc: 0.9264, Mean:0.9168, test1:0.9035, test2:0.9051  -不带label数据, shift特征, 1.5倍
-# valid_0's auc: 0.9042, valid_0's auc: 0.9303, Mean:0.9172, test1:0.8986, test2:0.9048  -带label数据
-
-# kfold
-# Mean AUC/线上test1/线上test2
-#   0.9714, 0.9043, 0.9063   - 原始
-#   0.9802, 0.8687, 0.8620   - target encoding
-
-
-# 比例
-# 第一折:test1:test2
-# 19:27:6
-
-# nohup python -u lgb2_kfold.py 1.1 > kfold.log 2>&1 &
-# nohup python -u label_lgb2.py > split_2_label.log 2>&1 &
-# nohup python -u label_lgb2.py > split_2_shift.log 2>&1 &
-# nohup python -u label_lgb2.py > split_2_shift_1.1.log 2>&1 &
-# nohup python -u label_lgb2.py 1.5 > split_2_shift_1.5.log 2>&1 &
-# nohup python -u label_lgb2_custom_kfold.py 1.2 > unfeature_para.log 2>&1 &
-# nohup python -u label_lgb2_custom_kfold.py 1.4 > split_2_shift_1.4_unfeature.log 2>&1 &
 
