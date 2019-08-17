@@ -63,6 +63,7 @@ test = pd.read_csv('../temp/test_label.csv', nrows=NROWS)
 # 对train增加test的80条样本
 target_df = test.head(80)
 train = train.append(target_df)
+train.index = range(len(train))
 
 
 test = test.drop('isFraud', axis=1)
