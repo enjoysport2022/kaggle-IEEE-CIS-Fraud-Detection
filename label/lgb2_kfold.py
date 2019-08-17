@@ -39,18 +39,20 @@ warnings.filterwarnings('ignore')
 # python label_lgb2.py 1.2
 
 import argparse
+
 ap = argparse.ArgumentParser(description='label_lgb2.py')
-ap.add_argument('nround_times', nargs='*', action="store", default=1.0, type = float)
+ap.add_argument('size', nargs='*', action="store", default=-1, type=int)
 pa = ap.parse_args()
-nround_times = pa.nround_times[0]
+size = pa.size[0]
 
 # # 导入数据
 
-# In[2]:
-
-
-NROWS = None
-# NROWS = 5000
+# 如果设置为-1,使用全量数据,否则使用size大小的数据
+if size == -1:
+    NROWS = None
+else:
+    NROWS = size
+print("NROWS: ", NROWS)
 
 
 # 使用原始数据
@@ -333,13 +335,13 @@ for idx in [-1, -2, -3, -4, -5]:
     test["card1" + "_sub_" + str(idx)]  = test["card1"].apply(lambda x: get_sub(x, idx))
 
 # target encoding会导致过拟合
-# feature = 'card1'
-# temp = train.groupby([feature])[target].sum().reset_index()
-# temp.index = temp[feature]
-# temp = temp.drop(feature, axis=1)
-# faeture_map = temp.to_dict()[target]
-# train[feature + "_target_cnt"] = train[feature].map(faeture_map)
-# test[feature + "_target_cnt"] = test[feature].map(faeture_map)
+feature = 'card1'
+temp = train.groupby([feature])[target].sum().reset_index()
+temp.index = temp[feature]
+temp = temp.drop(feature, axis=1)
+faeture_map = temp.to_dict()[target]
+train[feature + "_target_cnt"] = train[feature].map(faeture_map)
+test[feature + "_target_cnt"] = test[feature].map(faeture_map)
 
 # In[12]:
 
