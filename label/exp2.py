@@ -1043,8 +1043,8 @@ aucs = []
 training_start_time = time()
 for fold_n, (train_index, valid_index) in enumerate(folds.split(X)):
 
-    # if fold_n == 4:
-    #     break
+    if fold_n == 3:
+        break
 
     start_time = time()
     print('Training on fold {}'.format(fold_n + 1))
@@ -1059,11 +1059,11 @@ for fold_n, (train_index, valid_index) in enumerate(folds.split(X)):
     print('ROC accuracy: {}'.format(roc_auc_score(y.iloc[valid_index], val)))
     aucs.append(roc_auc_score(y.iloc[valid_index], val))
 
-    # 不使用最后一折
-    # lgb_sub['isFraud'] = lgb_sub['isFraud'] + pred / (n_fold - 1)
+    # 不使用最后两折
+    lgb_sub['isFraud'] = lgb_sub['isFraud'] + pred / (n_fold - 2)
 
     # 使用全部的fold
-    lgb_sub['isFraud'] = lgb_sub['isFraud'] + pred / n_fold
+    # lgb_sub['isFraud'] = lgb_sub['isFraud'] + pred / n_fold
 
     print('Fold {} finished in {}'.format(fold_n + 1, str(datetime.timedelta(seconds=time() - start_time))))
 
@@ -1086,49 +1086,4 @@ print("test1 auc: ", roc_auc_score(df1["isFraud_x"], df1["isFraud_y"]))
 
 df = test2.merge(pre, on="TransactionID", how="left")
 print("test2 auc:", roc_auc_score(df["isFraud_x"], df["isFraud_y"]))
-
-# # 结果记录
-
-# - file/                 线下mean/线下fold5/线上test1/线上test2
-# - ieee_lgb_label.csv/   0.9276/0.9378/0.9032/0.9057   -不带label数据
-# - ieee_lgb_label_50.csv/0.9281/0.9394/0.9027/0.9056   -迭代次数1.0倍,增加50条样本
-# - ieee_lgb_label_50.csv/0.9281/0.9394/0.9034/0.9058   -迭代次数1.2倍,增加50条样本(有效!)
-# - ieee_lgb_label_50.csv/0.9278/0.9403/0.8981/0.9049   -增加12000条样本
-# - ieee_lgb_label_50.csv/0.9278/0.9403/0.8987/0.9050   -增加12000条样本,1.0倍
-#
-
-# split=2 线下验证集
-# (第一折是有效的?,在test1上有效,test2上失效...)
-# 第一折/第二折/mean/线上test1/线上test2
-# valid_0's auc: 0.9061, valid_0's auc: 0.9260, Mean:0.9160, test1:0.9013, test2:0.9054  -不带label数据, 1.0倍
-# valid_0's auc: 0.9061, valid_0's auc: 0.9260, Mean:0.9160, test1:0.9022, test2:0.9057  -不带label数据, 1.1倍
-# valid_0's auc: 0.9061, valid_0's auc: 0.9260, Mean:0.9160, test1:0.9028, test2:0.9059  -不带label数据, 1.2倍
-# valid_0's auc: 0.9085, valid_0's auc: 0.9262, Mean:0.9174, test1:0.9028, test2:0.9052  -不带label数据, 1.2倍参数优化
-# valid_0's auc: 0.9061, valid_0's auc: 0.9260, Mean:0.9160, test1:0.9031, test2:0.9058  -不带label数据, 1.3倍
-# valid_0's auc: 0.9061, valid_0's auc: 0.9260, Mean:0.9160, test1:0.9032, test2:0.9057  -不带label数据, 1.4倍
-# valid_0's auc: 0.9071, valid_0's auc: 0.9264, Mean:0.9168, test1:0.9015, test2:0.9046  -不带label数据, shift特征, 1.0倍
-# valid_0's auc: 0.9071, valid_0's auc: 0.9264, Mean:0.9168, test1:0.9020, test2:0.9048  -不带label数据, shift特征, 1.1倍
-# valid_0's auc: 0.9071, valid_0's auc: 0.9264, Mean:0.9168, test1:0.9026, test2:0.9049  -不带label数据, shift特征, 1.2倍
-# valid_0's auc: 0.9071, valid_0's auc: 0.9264, Mean:0.9168, test1:0.9030, test2:0.9050  -不带label数据, shift特征, 1.3倍
-# valid_0's auc: 0.9071, valid_0's auc: 0.9264, Mean:0.9168, test1:0.9033, test2:0.9051  -不带label数据, shift特征, 1.4倍
-# valid_0's auc: 0.9071, valid_0's auc: 0.9264, Mean:0.9168, test1:0.9035, test2:0.9051  -不带label数据, shift特征, 1.5倍
-# valid_0's auc: 0.9042, valid_0's auc: 0.9303, Mean:0.9172, test1:0.8986, test2:0.9048  -带label数据
-
-# kfold
-# Mean AUC/线上test1/线上test2
-#   0.9714, 0.9043, 0.9063   - 原始
-#   0.9802, 0.8687, 0.8620   - target encoding
-
-
-# 比例
-# 第一折:test1:test2
-# 19:27:6
-
-# nohup python -u lgb2_kfold.py 1.1 > kfold.log 2>&1 &
-# nohup python -u label_lgb2.py > split_2_label.log 2>&1 &
-# nohup python -u label_lgb2.py > split_2_shift.log 2>&1 &
-# nohup python -u label_lgb2.py > split_2_shift_1.1.log 2>&1 &
-# nohup python -u label_lgb2.py 1.5 > split_2_shift_1.5.log 2>&1 &
-# nohup python -u label_lgb2_custom_kfold.py 1.2 > unfeature_para.log 2>&1 &
-# nohup python -u label_lgb2_custom_kfold.py 1.4 > split_2_shift_1.4_unfeature.log 2>&1 &
 
