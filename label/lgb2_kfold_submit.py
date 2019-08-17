@@ -818,8 +818,8 @@ aucs = []
 training_start_time = time()
 for fold_n, (train_index, valid_index) in enumerate(folds.split(X)):
 
-    if fold_n == 4:
-        break
+    # if fold_n == 4:
+    #     break
 
     start_time = time()
     print('Training on fold {}'.format(fold_n + 1))
@@ -835,15 +835,15 @@ for fold_n, (train_index, valid_index) in enumerate(folds.split(X)):
     aucs.append(roc_auc_score(y.iloc[valid_index], val))
 
     # 不使用最后一折
-    lgb_sub['isFraud'] = lgb_sub['isFraud'] + pred / (n_fold - 1)
+    # lgb_sub['isFraud'] = lgb_sub['isFraud'] + pred / (n_fold - 1)
 
     # 使用全部的fold
-    # lgb_sub['isFraud'] = lgb_sub['isFraud'] + pred / n_fold
+    lgb_sub['isFraud'] = lgb_sub['isFraud'] + pred / n_fold
 
     print('Fold {} finished in {}'.format(fold_n + 1, str(datetime.timedelta(seconds=time() - start_time))))
 
 
-subname = '../output/ieee_lgb_kflod_remove_5th_submit.csv'
+subname = '../output/ieee_lgb_kflod_allFolds.csv'
 lgb_sub.to_csv(subname, index=False)
 print('-' * 30)
 print('Training has finished.')
