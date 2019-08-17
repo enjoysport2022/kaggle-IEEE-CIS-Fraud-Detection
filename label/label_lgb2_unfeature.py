@@ -1170,6 +1170,7 @@ for fold, (trn_idx, test_idx) in enumerate(folds.split(X, y)):
 print('-' * 30)
 print('Training has finished.')
 print('Total training time is {}'.format(str(datetime.timedelta(seconds=time() - training_start_time))))
+print('AUCs:', aucs)
 print('Mean AUC:', np.mean(aucs))
 print('-' * 30)
 

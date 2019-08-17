@@ -986,6 +986,9 @@ aucs = []
 training_start_time = time()
 for fold_n, (train_index, valid_index) in enumerate(folds.split(X)):
 
+    if fold_n == 4:
+        break
+
     start_time = time()
     print('Training on fold {}'.format(fold_n + 1))
 
@@ -998,7 +1001,12 @@ for fold_n, (train_index, valid_index) in enumerate(folds.split(X)):
     val = clf.predict(X.iloc[valid_index])
     print('ROC accuracy: {}'.format(roc_auc_score(y.iloc[valid_index], val)))
     aucs.append(roc_auc_score(y.iloc[valid_index], val))
-    lgb_sub['isFraud'] = lgb_sub['isFraud'] + pred / n_fold
+
+    # 不使用最后一折
+    lgb_sub['isFraud'] = lgb_sub['isFraud'] + pred / (n_fold - 1)
+
+    # 使用全部的fold
+    # lgb_sub['isFraud'] = lgb_sub['isFraud'] + pred / n_fold
 
     print('Fold {} finished in {}'.format(fold_n + 1, str(datetime.timedelta(seconds=time() - start_time))))
 
@@ -1008,6 +1016,7 @@ lgb_sub.to_csv(subname, index=False)
 print('-' * 30)
 print('Training has finished.')
 print('Total training time is {}'.format(str(datetime.timedelta(seconds=time() - training_start_time))))
+print('AUCs:', aucs)
 print('Mean AUC:', np.mean(aucs))
 print('-' * 30)
 
