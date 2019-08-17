@@ -335,13 +335,13 @@ for idx in [-1, -2, -3, -4, -5]:
     test["card1" + "_sub_" + str(idx)]  = test["card1"].apply(lambda x: get_sub(x, idx))
 
 # target encoding会导致过拟合
-feature = 'card1'
-temp = train.groupby([feature])[target].sum().reset_index()
-temp.index = temp[feature]
-temp = temp.drop(feature, axis=1)
-faeture_map = temp.to_dict()[target]
-train[feature + "_target_cnt"] = train[feature].map(faeture_map)
-test[feature + "_target_cnt"] = test[feature].map(faeture_map)
+# feature = 'card1'
+# temp = train.groupby([feature])[target].sum().reset_index()
+# temp.index = temp[feature]
+# temp = temp.drop(feature, axis=1)
+# faeture_map = temp.to_dict()[target]
+# train[feature + "_target_cnt"] = train[feature].map(faeture_map)
+# test[feature + "_target_cnt"] = test[feature].map(faeture_map)
 
 # In[12]:
 
