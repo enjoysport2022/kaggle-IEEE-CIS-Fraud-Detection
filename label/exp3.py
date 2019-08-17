@@ -1023,25 +1023,64 @@ params = {'num_leaves': 491,
           }
 
 
-# 4->5获得5的迭代次数,34->5获得45的迭代次数,234->5获得345的迭代次数,1234->5获得2345的迭代次数
+
 def time_kfold(length, idx, kfold=5):
     idxs = {}
     for i in range(1, kfold + 1):
         idxs["idx" + str(i)] = list(range(int(length * ((i - 1) / kfold)), int(length * ((i) / kfold))))
 
-    local_valid_idx = idxs["idx5"]
+    nround = False
     if idx == 1:
-        local_train_idx, train_idx = idxs["idx4"], idxs["idx5"]
+        local_train_idx = idxs["idx4"]
+        local_valid_idx = idxs["idx5"]
+        train_idx = idxs["idx5"]
+        train_first = True
+        train_second = True
     if idx == 2:
-        local_train_idx, train_idx = idxs["idx3"] + idxs["idx4"], idxs["idx4"] + idxs["idx5"]
+        local_train_idx = idxs["idx3"] + idxs["idx4"]
+        local_valid_idx = idxs["idx5"]
+        train_idx = idxs["idx4"] + idxs["idx5"]
+        train_first = True
+        train_second = True
     if idx == 3:
-        local_train_idx, train_idx = idxs["idx2"] + idxs["idx3"] + idxs["idx4"], idxs["idx3"] + idxs["idx4"] + idxs[
-            "idx5"]
+        local_train_idx = idxs["idx2"] + idxs["idx3"] + idxs["idx4"]
+        local_valid_idx = idxs["idx5"]
+        train_idx = idxs["idx3"] + idxs["idx4"] + idxs["idx5"]
+        train_first = True
+        train_second = True
     if idx == 4:
-        local_train_idx, train_idx = idxs["idx1"] + idxs["idx2"] + idxs["idx3"] + idxs["idx4"], idxs["idx2"] + idxs[
-            "idx3"] + idxs["idx4"] + idxs["idx5"]
+        local_train_idx = idxs["idx1"] + idxs["idx2"] + idxs["idx3"] + idxs["idx4"]
+        local_valid_idx = idxs["idx5"]
+        train_idx = idxs["idx2"] + idxs["idx3"] + idxs["idx4"] + idxs["idx5"]
+        train_first = True
+        train_second = True
+    if idx == 5:
+        local_train_idx = None
+        local_valid_idx = None
+        train_idx = idxs["idx1"] + idxs["idx2"] + idxs["idx3"] + idxs["idx4"] + idxs["idx5"]
+        train_first = False
+        train_second = True
+        nround = True
+    if idx == 6:
+        local_train_idx = idxs["idx1"] + idxs["idx3"] + idxs["idx4"] + idxs["idx5"]
+        local_valid_idx = idxs["idx2"]
+        train_idx = idxs["idx1"] + idxs["idx3"] + idxs["idx4"] + idxs["idx5"]
+        train_first = True
+        train_second = False
+    if idx == 7:
+        local_train_idx = idxs["idx1"] + idxs["idx2"] + idxs["idx4"] + idxs["idx5"]
+        local_valid_idx = idxs["idx3"]
+        train_idx = idxs["idx1"] + idxs["idx2"] + idxs["idx4"] + idxs["idx5"]
+        train_first = True
+        train_second = False
+    if idx == 8:
+        local_train_idx = idxs["idx1"] + idxs["idx2"] + idxs["idx3"] + idxs["idx5"]
+        local_valid_idx = idxs["idx4"]
+        train_idx = idxs["idx1"] + idxs["idx2"] + idxs["idx3"] + idxs["idx5"]
+        train_first = True
+        train_second = False
 
-    return local_train_idx, local_valid_idx, train_idx
+    return local_train_idx, local_valid_idx, train_idx, train_first, train_second, nround
 
 
 lgb_sub = sub.copy()
@@ -1049,31 +1088,45 @@ lgb_sub['isFraud'] = 0
 aucs = []
 best_iters = []
 
-n_fold = 4
+n_fold = 8
 training_start_time = time()
 length = len(X)
-for idx in range(1, 5):
+for idx in range(1, 9):
     start_time = time()
     print('Training on fold {}'.format(idx))
 
-    local_train_idx, local_valid_idx, train_idx = time_kfold(length, idx)
+    local_train_idx, local_valid_idx, train_idx, train_first, train_second, nround = time_kfold(length, idx)
 
+    # 第一次训练
+    if train_first:
+        trn_data = lgb.Dataset(X.iloc[local_train_idx], label=y.iloc[local_train_idx])
+        val_data = lgb.Dataset(X.iloc[local_valid_idx], label=y.iloc[local_valid_idx])
+        clf = lgb.train(params, trn_data, num_boost_round=10000, valid_sets=[val_data], verbose_eval=100,
+                        early_stopping_rounds=500)
     # 获得线下最优迭代次数
-    trn_data = lgb.Dataset(X.iloc[local_train_idx], label=y.iloc[local_train_idx])
-    val_data = lgb.Dataset(X.iloc[local_valid_idx], label=y.iloc[local_valid_idx])
-    clf = lgb.train(params, trn_data, num_boost_round=10000, valid_sets=[val_data], verbose_eval=100,
-                    early_stopping_rounds=500)
-    best_iter = clf.best_iteration
+    if not nround:
+        best_iter = clf.best_iteration
+        print("best_iteration: ", best_iter)
+    else:
+        best_iter = int(best_iters[-1] * 1.05)
+        print("best_iteration: None")
     best_iters.append(best_iter)
-    print("best_iteration: ", best_iter)
 
-    val = clf.predict(X.iloc[local_valid_idx])
-    print('ROC accuracy: {}'.format(roc_auc_score(y.iloc[local_valid_idx], val)))
-    aucs.append(roc_auc_score(y.iloc[local_valid_idx], val))
+    if train_first:
+        val = clf.predict(X.iloc[local_valid_idx])
+        cur_auc = roc_auc_score(y.iloc[local_valid_idx], val)
+    else:
+        cur_auc = None
+    print('ROC accuracy: ', cur_auc)
+    aucs.append(cur_auc)
 
-    # 使用滑窗数据训练
-    rolling_data = lgb.Dataset(X.iloc[train_idx], label=y.iloc[train_idx])
-    rolling_clf  = lgb.train(params, rolling_data, num_boost_round = best_iter, valid_sets = [rolling_data], verbose_eval=100)
+    if train_second:
+        print("used_iteration")
+        # 使用滑窗数据训练
+        rolling_data = lgb.Dataset(X.iloc[train_idx], label=y.iloc[train_idx])
+        rolling_clf  = lgb.train(params, rolling_data, num_boost_round = best_iter, valid_sets = [rolling_data], verbose_eval=100)
+    else:
+        rolling_clf = clf
 
     # 对测试集进行预测
     pred = rolling_clf.predict(test_X)
