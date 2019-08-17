@@ -1065,6 +1065,6 @@ print("test2 auc:", roc_auc_score(df["isFraud_x"], df["isFraud_y"]))
 # nohup python -u label_lgb2.py > split_2_shift.log 2>&1 &
 # nohup python -u label_lgb2.py > split_2_shift_1.1.log 2>&1 &
 # nohup python -u label_lgb2.py 1.5 > split_2_shift_1.5.log 2>&1 &
-# nohup python -u label_lgb2_unfeature.py 1.2 > unfeature_para.log 2>&1 &
-# nohup python -u label_lgb2_unfeature.py 1.4 > split_2_shift_1.4_unfeature.log 2>&1 &
+# nohup python -u label_lgb2_custom_kfold.py 1.2 > unfeature_para.log 2>&1 &
+# nohup python -u label_lgb2_custom_kfold.py 1.4 > split_2_shift_1.4_unfeature.log 2>&1 &
 

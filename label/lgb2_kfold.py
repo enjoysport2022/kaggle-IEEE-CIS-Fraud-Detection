@@ -49,8 +49,8 @@ nround_times = pa.nround_times[0]
 # In[2]:
 
 
-NROWS = None
-# NROWS = 5000
+# NROWS = None
+NROWS = 5000
 
 
 # 使用原始数据
@@ -332,14 +332,14 @@ for idx in [-1, -2, -3, -4, -5]:
     train["card1" + "_sub_" + str(idx)] = train["card1"].apply(lambda x: get_sub(x, idx))
     test["card1" + "_sub_" + str(idx)]  = test["card1"].apply(lambda x: get_sub(x, idx))
 
-
-feature = 'card1'
-temp = train.groupby([feature])[target].sum().reset_index()
-temp.index = temp[feature]
-temp = temp.drop(feature, axis=1)
-faeture_map = temp.to_dict()[target]
-train[feature + "_target_cnt"] = train[feature].map(faeture_map)
-test[feature + "_target_cnt"] = test[feature].map(faeture_map)
+# target encoding会导致过拟合
+# feature = 'card1'
+# temp = train.groupby([feature])[target].sum().reset_index()
+# temp.index = temp[feature]
+# temp = temp.drop(feature, axis=1)
+# faeture_map = temp.to_dict()[target]
+# train[feature + "_target_cnt"] = train[feature].map(faeture_map)
+# test[feature + "_target_cnt"] = test[feature].map(faeture_map)
 
 # In[12]:
 
@@ -1074,6 +1074,6 @@ print("test2 auc:", roc_auc_score(df["isFraud_x"], df["isFraud_y"]))
 # nohup python -u label_lgb2.py > split_2_shift.log 2>&1 &
 # nohup python -u label_lgb2.py > split_2_shift_1.1.log 2>&1 &
 # nohup python -u label_lgb2.py 1.5 > split_2_shift_1.5.log 2>&1 &
-# nohup python -u label_lgb2_unfeature.py 1.2 > unfeature_para.log 2>&1 &
-# nohup python -u label_lgb2_unfeature.py 1.4 > split_2_shift_1.4_unfeature.log 2>&1 &
+# nohup python -u label_lgb2_custom_kfold.py 1.2 > unfeature_para.log 2>&1 &
+# nohup python -u label_lgb2_custom_kfold.py 1.4 > split_2_shift_1.4_unfeature.log 2>&1 &
 

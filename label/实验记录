@@ -1,0 +1,44 @@
+shuffle=False情况下，对比是否带target encoding的结果
+不带:
+Mean AUC: 0.9387870357004451
+------------------------------
+test1 auc:  0.9043504004698633
+test2 auc: 0.9061880282854176
+
+不带targetEncoding的时候,第一折比较低?
+用后面的数据预测前面的数据是很难的,用前面的数据预测后面相对准一些
+
+带:
+Mean AUC: 0.9584667644816542
+------------------------------
+test1 auc:  0.8755618264804256
+test2 auc: 0.8718226240558324
+带targetEncoding的时候过拟合了.
+
+检查是加了什么时间前后相关的特征(有可能是原始特征)
+
+
+
+1.增加离test最近的100条样本
+
+
+2.kfold去掉第一折/第5折做bagging
+
+
+3.4->5获得5的迭代次数,34->5获得45的迭代次数,234->5获得345的迭代次数,1234->5获得2345的迭代次数,融合
+写一个kfold,获得index
+def time_kfold(length, idx, kfold=5):
+    if idx == 1:
+        return
+    if idx == 1:
+        return
+
+4.计算每步特征工程的耗时
+
+
+nohup python -u lgb2_kfold.py > remove_5th_fold.log 2>&1 &
+
+cpu机器1
+ssh -i id_rsa caihengxing@35.233.158.158
+cpu机器2
+ssh -i id_rsa caihengxing@35.238.158.50
