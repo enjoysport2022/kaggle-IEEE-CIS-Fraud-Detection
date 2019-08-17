@@ -49,8 +49,8 @@ nround_times = pa.nround_times[0]
 # In[2]:
 
 
-# NROWS = None
-NROWS = 5000
+NROWS = None
+# NROWS = 5000
 
 
 # 使用原始数据
