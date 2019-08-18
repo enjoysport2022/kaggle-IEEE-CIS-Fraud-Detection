@@ -938,8 +938,17 @@ else:
 
 # 删除特征
 drop_features = []
-for i in range(1, 16):
-    f = "D" + str(i)
+
+# 删除D1-D15
+# for i in range(1, 16):
+#     f = "D" + str(i)
+#     drop_features.append(f)
+
+
+# 删除"M*_count_full"
+MFeatures = ["M1", "M2", "M3", "M4", "M5", "M6", "M7", "M8", "M9"]
+for feature in MFeatures:
+    f = feature + '_count_full'
     drop_features.append(f)
 
 X = X.drop(drop_features, axis=1)
