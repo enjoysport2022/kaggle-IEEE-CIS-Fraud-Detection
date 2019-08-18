@@ -37,18 +37,21 @@ import warnings
 
 warnings.filterwarnings('ignore')
 
-# 迭代次数传参
-# python label_lgb2.py 1.2
+# python del_feature.py 3000 --feature 1
 
 import argparse
 
 ap = argparse.ArgumentParser(description='label_lgb2.py')
-ap.add_argument('size', nargs='*', action="store", default=-1, type=int)
-ap.add_argument('feature', default=True, nargs='*', action="store",  type=bool)
+ap.add_argument('size', nargs=1, action="store", default=-1, type=int)
+ap.add_argument('--feature', default=1, nargs=1, action="store",  type=int)
 
 pa = ap.parse_args()
 size = pa.size[0]
-feature_engineer = pa.feature[0]
+feature_engineer = pa.feature
+if feature_engineer == 1:
+    feature_engineer = True
+else:
+    feature_engineer = False
 
 # # 导入数据
 
