@@ -322,36 +322,36 @@ if feature_engineer:
 
     # card字段拼接的统计
 
-    train['card_str'] = train["card1"].apply(lambda x: str(x)) + "_" + train["card2"].apply(lambda x: str(x)) + "_" + train[
-        "card3"].apply(lambda x: str(x)) + "_" + train["card4"].apply(lambda x: str(x)) + "_" + train["card5"].apply(
-        lambda x: str(x)) + "_" + train["card6"].apply(lambda x: str(x))
-
-    test['card_str'] = test["card1"].apply(lambda x: str(x)) + "_" + test["card2"].apply(lambda x: str(x)) + "_" + test[
-        "card3"].apply(lambda x: str(x)) + "_" + test["card4"].apply(lambda x: str(x)) + "_" + test["card5"].apply(
-        lambda x: str(x)) + "_" + test["card6"].apply(lambda x: str(x))
-
-    train['card_count_full'] = train['card_str'].map(
-        pd.concat([train['card_str'], test['card_str']], ignore_index=True).value_counts(dropna=False))
-    test['card_count_full'] = test['card_str'].map(
-        pd.concat([test['card_str'], test['card_str']], ignore_index=True).value_counts(dropna=False))
+    # train['card_str'] = train["card1"].apply(lambda x: str(x)) + "_" + train["card2"].apply(lambda x: str(x)) + "_" + train[
+    #     "card3"].apply(lambda x: str(x)) + "_" + train["card4"].apply(lambda x: str(x)) + "_" + train["card5"].apply(
+    #     lambda x: str(x)) + "_" + train["card6"].apply(lambda x: str(x))
+    #
+    # test['card_str'] = test["card1"].apply(lambda x: str(x)) + "_" + test["card2"].apply(lambda x: str(x)) + "_" + test[
+    #     "card3"].apply(lambda x: str(x)) + "_" + test["card4"].apply(lambda x: str(x)) + "_" + test["card5"].apply(
+    #     lambda x: str(x)) + "_" + test["card6"].apply(lambda x: str(x))
+    #
+    # train['card_count_full'] = train['card_str'].map(
+    #     pd.concat([train['card_str'], test['card_str']], ignore_index=True).value_counts(dropna=False))
+    # test['card_count_full'] = test['card_str'].map(
+    #     pd.concat([test['card_str'], test['card_str']], ignore_index=True).value_counts(dropna=False))
 
     # In[15]:
 
 
-    train['TransactionAmt_to_std_card_str'] = train['TransactionAmt'] / train.groupby(['card_str'])[
-        'TransactionAmt'].transform('std')
-    test['TransactionAmt_to_std_card_str'] = test['TransactionAmt'] / test.groupby(['card_str'])[
-        'TransactionAmt'].transform('std')
-
-    train['TransactionAmt_to_mean_card_str'] = train['TransactionAmt'] / train.groupby(['card_str'])[
-        'TransactionAmt'].transform('mean')
-    test['TransactionAmt_to_mean_card_str'] = test['TransactionAmt'] / test.groupby(['card_str'])[
-        'TransactionAmt'].transform('mean')
-
-    train['TransactionAmt_to_sum_card_str'] = train['TransactionAmt'] / train.groupby(['card_str'])[
-        'TransactionAmt'].transform('sum')
-    test['TransactionAmt_to_sum_card_str'] = test['TransactionAmt'] / test.groupby(['card_str'])[
-        'TransactionAmt'].transform('sum')
+    # train['TransactionAmt_to_std_card_str'] = train['TransactionAmt'] / train.groupby(['card_str'])[
+    #     'TransactionAmt'].transform('std')
+    # test['TransactionAmt_to_std_card_str'] = test['TransactionAmt'] / test.groupby(['card_str'])[
+    #     'TransactionAmt'].transform('std')
+    #
+    # train['TransactionAmt_to_mean_card_str'] = train['TransactionAmt'] / train.groupby(['card_str'])[
+    #     'TransactionAmt'].transform('mean')
+    # test['TransactionAmt_to_mean_card_str'] = test['TransactionAmt'] / test.groupby(['card_str'])[
+    #     'TransactionAmt'].transform('mean')
+    #
+    # train['TransactionAmt_to_sum_card_str'] = train['TransactionAmt'] / train.groupby(['card_str'])[
+    #     'TransactionAmt'].transform('sum')
+    # test['TransactionAmt_to_sum_card_str'] = test['TransactionAmt'] / test.groupby(['card_str'])[
+    #     'TransactionAmt'].transform('sum')
 
     # In[16]:
 
@@ -953,10 +953,11 @@ drop_features = []
 
 
 # 删除和card_str相关的特征
-for f in [x for x in X.columns if "card_str" in x]:
-    drop_features.append(f)
+# for f in [x for x in X.columns if "card_str" in x]:
+#     drop_features.append(f)
 
-# shift_100_cnt
+# 删除shift_100_cnt
+drop_features.append("shift_100_cnt")
 
 
 X = X.drop(drop_features, axis=1)
