@@ -794,7 +794,7 @@ params = {
         'drop_seed': 1337,
         'data_random_seed': 1337,
         'boosting_type': 'gbdt',
-        'verbose': 1,
+        'verbose': -1,
         'is_unbalance': False,
         'boost_from_average': True,
         'metric': 'auc'}
