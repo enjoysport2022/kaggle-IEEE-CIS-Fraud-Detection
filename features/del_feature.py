@@ -938,10 +938,18 @@ else:
 
 # 删除特征
 drop_features = []
+for i in range(1, 16):
+    f = "D" + str(i)
+    drop_features.append(f)
+
 X = X.drop(drop_features, axis=1)
 test_X = test_X.drop(drop_features, axis=1)
 
-
+print('-' * 30)
+print("feature drop: ", drop_features)
+print("X.shape: ", X.shape)
+print("y.shape: ", y.shape)
+print("test_X.shape: ", test_X.shape)
 
 
 # ### lightgbm参数
