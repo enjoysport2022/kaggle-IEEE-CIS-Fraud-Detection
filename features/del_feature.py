@@ -946,10 +946,18 @@ drop_features = []
 
 
 # 删除"M*_count_full"
-MFeatures = ["M1", "M2", "M3", "M4", "M5", "M6", "M7", "M8", "M9"]
-for feature in MFeatures:
-    f = feature + '_count_full'
+# MFeatures = ["M1", "M2", "M3", "M4", "M5", "M6", "M7", "M8", "M9"]
+# for feature in MFeatures:
+#     f = feature + '_count_full'
+#     drop_features.append(f)
+
+
+# 删除和card_str相关的特征
+for f in [x for x in X.columns if "card_str" in x]:
     drop_features.append(f)
+
+# shift_100_cnt
+
 
 X = X.drop(drop_features, axis=1)
 test_X = test_X.drop(drop_features, axis=1)
