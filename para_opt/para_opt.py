@@ -1089,7 +1089,7 @@ def LGB_bayesian(
 
         trn_data = lgb.Dataset(X.iloc[train_index], label=y.iloc[train_index])
         val_data = lgb.Dataset(X.iloc[valid_index], label=y.iloc[valid_index])
-        clf = lgb.train(params, trn_data, num_boost_round=10000, valid_sets=[val_data], verbose_eval=100,
+        clf = lgb.train(params, trn_data, num_boost_round=10000, valid_sets=[val_data], verbose_eval=-1,
                         early_stopping_rounds=500)
 
         pred = clf.predict(test_X)
@@ -1127,7 +1127,6 @@ print('-' * 130)
 
 with warnings.catch_warnings():
     warnings.filterwarnings('ignore')
-    warnings.filterwarnings('[LightGBM] [Warning]')
     LGB_BO.maximize(init_points=init_points, n_iter=n_iter, acq='ucb', xi=0.0, alpha=1e-6)
 
 print(LGB_BO.max['target'])
