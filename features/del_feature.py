@@ -44,11 +44,11 @@ import argparse
 
 ap = argparse.ArgumentParser(description='label_lgb2.py')
 ap.add_argument('size', nargs='*', action="store", default=-1, type=int)
-ap.add_argument('--feature', default=True, dest="feature", action="store",  type=bool)
+ap.add_argument('feature', default=True, nargs='*', action="store",  type=bool)
 
 pa = ap.parse_args()
 size = pa.size[0]
-feature_engineer = pa.feature
+feature_engineer = pa.feature[0]
 
 # # 导入数据
 
