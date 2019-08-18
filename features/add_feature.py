@@ -986,6 +986,21 @@ else:
     X['D15_delta'] = (X['TransactionDT'] // (24 * 60 * 60)) + 480 - X['D15']
     test_X['D15_delta'] = (test_X['TransactionDT'] // (24 * 60 * 60)) + 480 - test_X['D15']
 
+
+
+
+    # 删除特征部分
+    drop_features = []
+    drop_features.append("TransactionDT")
+    X = X.drop(drop_features, axis=1)
+    test_X = test_X.drop(drop_features, axis=1)
+
+
+
+
+
+
+
     print("X.shape: ", X.shape)
     print("y.shape: ", y.shape)
     print("test_X.shape: ", test_X.shape)
