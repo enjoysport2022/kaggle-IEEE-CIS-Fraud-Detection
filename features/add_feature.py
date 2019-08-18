@@ -213,6 +213,19 @@ if feature_engineer:
     # test['Hour_count_full'] = test['Hour'].map(
     #     pd.concat([train['Hour'], test['Hour']], ignore_index=True).value_counts(dropna=False))
 
+    # 增加和拟合直线相关的特征
+    train['D1_slop'] = (train['D1'] - 480) / (train['TransactionDT'] // (24 * 60 * 60))
+    test['D1_slop']  = (test['D1'] - 480) / (test['TransactionDT'] // (24 * 60 * 60))
+    train['D2_slop'] = (train['D2'] - 480) / (train['TransactionDT'] // (24 * 60 * 60))
+    test['D2_slop'] = (test['D2'] - 480) / (test['TransactionDT'] // (24 * 60 * 60))
+    train['D3_slop'] = (train['D3'] - 480) / (train['TransactionDT'] // (24 * 60 * 60))
+    test['D3_slop'] = (test['D3'] - 480) / (test['TransactionDT'] // (24 * 60 * 60))
+    train['D4_slop'] = (train['D4'] - 480) / (train['TransactionDT'] // (24 * 60 * 60))
+    test['D4_slop'] = (test['D4'] - 480) / (test['TransactionDT'] // (24 * 60 * 60))
+    train['D5_slop'] = (train['D5'] - 480) / (train['TransactionDT'] // (24 * 60 * 60))
+    test['D5_slop'] = (test['D5'] - 480) / (test['TransactionDT'] // (24 * 60 * 60))
+
+
     # 增加D10和TransactionDT关系的特征
     s = ((train['D10'] - 480) / (train['TransactionDT'] // (24 * 60 * 60)))
     train['MAGIC'] = s
@@ -914,9 +927,9 @@ if feature_engineer:
     print("test.shape: ", test.shape)
 
 
-    X = train.sort_values('TransactionDT').drop(['isFraud', 'TransactionID'], axis=1)
+    X = train.sort_values('TransactionDT').drop(['isFraud', 'TransactionDT', 'TransactionID'], axis=1)
     y = train.sort_values('TransactionDT')['isFraud']
-    test_X = test.sort_values('TransactionDT').drop(['TransactionID'], axis=1)
+    test_X = test.sort_values('TransactionDT').drop(['TransactionDT', 'TransactionID'], axis=1)
 
     # 特征部分结束
     X.to_csv("../temp/feature_X.csv", index = False)
