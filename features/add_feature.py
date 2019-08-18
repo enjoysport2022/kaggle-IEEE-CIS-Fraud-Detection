@@ -208,10 +208,16 @@ if feature_engineer:
     test = transform_TransactionDT(test)
 
     # 时间的统计特征
-    train['Hour_count_full'] = train['Hour'].map(
-        pd.concat([train['Hour'], test['Hour']], ignore_index=True).value_counts(dropna=False))
-    test['Hour_count_full'] = test['Hour'].map(
-        pd.concat([train['Hour'], test['Hour']], ignore_index=True).value_counts(dropna=False))
+    # train['Hour_count_full'] = train['Hour'].map(
+    #     pd.concat([train['Hour'], test['Hour']], ignore_index=True).value_counts(dropna=False))
+    # test['Hour_count_full'] = test['Hour'].map(
+    #     pd.concat([train['Hour'], test['Hour']], ignore_index=True).value_counts(dropna=False))
+
+    # 增加D10和TransactionDT关系的特征
+    s = ((train['D10'] - 480) / (train['TransactionDT'] // (24 * 60 * 60)))
+    train['MAGIC'] = s
+    s = ((test['D10'] - 480) / (test['TransactionDT'] // (24 * 60 * 60)))
+    test['MAGIC'] = s
 
 
     # ### 金额(TransactionAmt)
