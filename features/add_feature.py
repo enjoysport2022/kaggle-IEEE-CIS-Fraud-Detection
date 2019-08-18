@@ -214,8 +214,9 @@ if feature_engineer:
     #     pd.concat([train['Hour'], test['Hour']], ignore_index=True).value_counts(dropna=False))
 
     # 增加和拟合直线相关的特征
+    # 斜率特征
     train['D1_slop'] = (train['D1'] - 480) / (train['TransactionDT'] // (24 * 60 * 60))
-    test['D1_slop']  = (test['D1'] - 480) / (test['TransactionDT'] // (24 * 60 * 60))
+    test['D1_slop'] = (test['D1'] - 480) / (test['TransactionDT'] // (24 * 60 * 60))
     train['D2_slop'] = (train['D2'] - 480) / (train['TransactionDT'] // (24 * 60 * 60))
     test['D2_slop'] = (test['D2'] - 480) / (test['TransactionDT'] // (24 * 60 * 60))
     train['D3_slop'] = (train['D3'] - 480) / (train['TransactionDT'] // (24 * 60 * 60))
@@ -224,18 +225,28 @@ if feature_engineer:
     test['D4_slop'] = (test['D4'] - 480) / (test['TransactionDT'] // (24 * 60 * 60))
     train['D5_slop'] = (train['D5'] - 480) / (train['TransactionDT'] // (24 * 60 * 60))
     test['D5_slop'] = (test['D5'] - 480) / (test['TransactionDT'] // (24 * 60 * 60))
+    train['D10_slop'] = (train['D10'] - 480) / (train['TransactionDT'] // (24 * 60 * 60))
+    test['D10_slop'] = (test['D10'] - 480) / (test['TransactionDT'] // (24 * 60 * 60))
 
-
-    # 增加D10和TransactionDT关系的特征
-    s = ((train['D10'] - 480) / (train['TransactionDT'] // (24 * 60 * 60)))
-    train['MAGIC'] = s
-    s = ((test['D10'] - 480) / (test['TransactionDT'] // (24 * 60 * 60)))
-    test['MAGIC'] = s
-
-    delta = (train['TransactionDT'] // (24 * 60 * 60)) + 480 - train['D10']
-    train['D10_delta'] = delta
-    delta = (test['TransactionDT'] // (24 * 60 * 60)) + 480 - test['D10']
-    test['D10_delta'] = delta
+    # 距离特征
+    train['D1_delta'] = (train['TransactionDT'] // (24 * 60 * 60)) + 480 - train['D1']
+    test['D1_delta'] = (test['TransactionDT'] // (24 * 60 * 60)) + 480 - test['D1']
+    train['D2_delta'] = (train['TransactionDT'] // (24 * 60 * 60)) + 480 - train['D2']
+    test['D2_delta'] = (test['TransactionDT'] // (24 * 60 * 60)) + 480 - test['D2']
+    train['D3_delta'] = (train['TransactionDT'] // (24 * 60 * 60)) + 480 - train['D3']
+    test['D3_delta'] = (test['TransactionDT'] // (24 * 60 * 60)) + 480 - test['D3']
+    train['D4_delta'] = (train['TransactionDT'] // (24 * 60 * 60)) + 480 - train['D4']
+    test['D4_delta'] = (test['TransactionDT'] // (24 * 60 * 60)) + 480 - test['D4']
+    train['D5_delta'] = (train['TransactionDT'] // (24 * 60 * 60)) + 480 - train['D5']
+    test['D5_delta'] = (test['TransactionDT'] // (24 * 60 * 60)) + 480 - test['D5']
+    train['D6_delta'] = (train['TransactionDT'] // (24 * 60 * 60)) + 480 - train['D6']
+    test['D6_delta'] = (test['TransactionDT'] // (24 * 60 * 60)) + 480 - test['D6']
+    train['D7_delta'] = (train['TransactionDT'] // (24 * 60 * 60)) + 480 - train['D7']
+    test['D7_delta'] = (test['TransactionDT'] // (24 * 60 * 60)) + 480 - test['D7']
+    train['D8_delta'] = (train['TransactionDT'] // (24 * 60 * 60)) + 480 - train['D8']
+    test['D8_delta'] = (test['TransactionDT'] // (24 * 60 * 60)) + 480 - test['D8']
+    train['D10_delta'] = (train['TransactionDT'] // (24 * 60 * 60)) + 480 - train['D10']
+    test['D10_delta'] = (test['TransactionDT'] // (24 * 60 * 60)) + 480 - test['D10']
 
     # ### 金额(TransactionAmt)
 
@@ -943,23 +954,8 @@ else:
     test_X = pd.read_csv("../temp/feature_test_X.csv", nrows=NROWS)
 
 
-    print("add feature.")
-    X['D1_delta'] = (X['TransactionDT'] // (24 * 60 * 60)) + 480 - X['D1']
-    test_X['D1_delta'] = (test_X['TransactionDT'] // (24 * 60 * 60)) + 480 - test_X['D1']
-    X['D2_delta'] = (X['TransactionDT'] // (24 * 60 * 60)) + 480 - X['D2']
-    test_X['D2_delta'] = (test_X['TransactionDT'] // (24 * 60 * 60)) + 480 - test_X['D2']
-    X['D3_delta'] = (X['TransactionDT'] // (24 * 60 * 60)) + 480 - X['D3']
-    test_X['D3_delta'] = (test_X['TransactionDT'] // (24 * 60 * 60)) + 480 - test_X['D3']
-    X['D4_delta'] = (X['TransactionDT'] // (24 * 60 * 60)) + 480 - X['D4']
-    test_X['D4_delta'] = (test_X['TransactionDT'] // (24 * 60 * 60)) + 480 - test_X['D4']
-    X['D5_delta'] = (X['TransactionDT'] // (24 * 60 * 60)) + 480 - X['D5']
-    test_X['D5_delta'] = (test_X['TransactionDT'] // (24 * 60 * 60)) + 480 - test_X['D5']
-    X['D6_delta'] = (X['TransactionDT'] // (24 * 60 * 60)) + 480 - X['D6']
-    test_X['D6_delta'] = (test_X['TransactionDT'] // (24 * 60 * 60)) + 480 - test_X['D6']
-    X['D7_delta'] = (X['TransactionDT'] // (24 * 60 * 60)) + 480 - X['D7']
-    test_X['D7_delta'] = (test_X['TransactionDT'] // (24 * 60 * 60)) + 480 - test_X['D7']
-    X['D8_delta'] = (X['TransactionDT'] // (24 * 60 * 60)) + 480 - X['D8']
-    test_X['D8_delta'] = (test_X['TransactionDT'] // (24 * 60 * 60)) + 480 - test_X['D8']
+    # print("add feature.")
+
 
     print("X.shape: ", X.shape)
     print("y.shape: ", y.shape)
