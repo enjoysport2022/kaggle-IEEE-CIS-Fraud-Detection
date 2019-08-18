@@ -37,17 +37,17 @@ import warnings
 
 warnings.filterwarnings('ignore')
 
-# python del_feature.py 3000 --feature 1
+# python del_feature.py 3000 1
 
 import argparse
 
 ap = argparse.ArgumentParser(description='label_lgb2.py')
 ap.add_argument('size', nargs=1, action="store", default=-1, type=int)
-ap.add_argument('--feature', default=1, nargs=1, action="store",  type=int)
+ap.add_argument('feature', default=1, nargs=1, action="store",  type=int)
 
 pa = ap.parse_args()
 size = pa.size[0]
-feature_engineer = pa.feature
+feature_engineer = pa.feature[0]
 if feature_engineer == 1:
     feature_engineer = True
 else:
@@ -66,13 +66,14 @@ print("NROWS: ", NROWS)
 # feature_engineer = True
 print("feature_engineer: ", feature_engineer)
 
+sub = pd.read_csv('../temp/sample_submission_label.csv', nrows=NROWS)
+
 if feature_engineer:
 
     # 读取数据
     train = pd.read_csv('../temp/train_label.csv', nrows=NROWS)
     test = pd.read_csv('../temp/test_label.csv', nrows=NROWS)
     test = test.drop('isFraud', axis=1)
-    sub = pd.read_csv('../temp/sample_submission_label.csv', nrows=NROWS)
 
     print("train.shape:", train.shape)
     print("test.shape:", test.shape)
@@ -924,19 +925,23 @@ if feature_engineer:
 
     # 特征部分结束
     X.to_csv("../temp/feature_X.csv", index = False)
-    y.to_csv("../temp/feature_y.csv", index = False)
+    y.to_csv("../temp/feature_y.csv", index = False,header=True)
     test_X.to_csv("../temp/feature_test_X.csv", index = False)
 
 else:
     X = pd.read_csv("../temp/feature_X.csv", nrows=NROWS)
     y = pd.read_csv("../temp/feature_y.csv", nrows=NROWS)
     test_X = pd.read_csv("../temp/feature_test_X.csv", nrows=NROWS)
-
+    print("X.shape: ", X.shape)
+    print("y.shape: ", y.shape)
+    print("test_X.shape: ", test_X.shape)
 
 # 删除特征
 drop_features = []
 X = X.drop(drop_features, axis=1)
 test_X = test_X.drop(drop_features, axis=1)
+
+
 
 
 # ### lightgbm参数
