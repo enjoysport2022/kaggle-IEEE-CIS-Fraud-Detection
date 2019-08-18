@@ -203,16 +203,20 @@ if feature_engineer:
         return df
 
 
-    # In[7]:
-
 
     train = transform_TransactionDT(train)
     test = transform_TransactionDT(test)
 
+    # 时间的统计特征
+    train['Hour_count_full'] = train['Hour'].map(
+        pd.concat([train['Hour'], test['Hour']], ignore_index=True).value_counts(dropna=False))
+    test['Hour_count_full'] = test['Hour'].map(
+        pd.concat([train['Hour'], test['Hour']], ignore_index=True).value_counts(dropna=False))
+
+
     # ### 金额(TransactionAmt)
 
     # In[8]:
-
 
     train['TransactionAmt'] = train['TransactionAmt'].astype(float)
     train['TransAmtLog'] = np.log(train['TransactionAmt'])
