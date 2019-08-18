@@ -219,6 +219,10 @@ if feature_engineer:
     s = ((test['D10'] - 480) / (test['TransactionDT'] // (24 * 60 * 60)))
     test['MAGIC'] = s
 
+    delta = (train['TransactionDT'] // (24 * 60 * 60)) + 480 - train['D10']
+    train['D10_delta'] = delta
+    delta = (test['TransactionDT'] // (24 * 60 * 60)) + 480 - test['D10']
+    test['D10_delta'] = delta
 
     # ### 金额(TransactionAmt)
 
