@@ -44,6 +44,8 @@ warnings.filterwarnings('ignore')
 
 import argparse
 
+training_start_time = time()
+
 ap = argparse.ArgumentParser(description='label_lgb2.py')
 ap.add_argument('size', nargs='*', action="store", default=-1, type=int)
 pa = ap.parse_args()
@@ -1121,7 +1123,7 @@ LGB_BO = BayesianOptimization(LGB_bayesian, bounds_LGB, random_state=42)
 
 print(LGB_BO.space.keys)
 init_points = 10
-n_iter = 5
+n_iter = 15
 
 print('-' * 130)
 
@@ -1129,5 +1131,6 @@ with warnings.catch_warnings():
     warnings.filterwarnings('ignore')
     LGB_BO.maximize(init_points=init_points, n_iter=n_iter, acq='ucb', xi=0.0, alpha=1e-6)
 
+print('Total training time is {}'.format(str(datetime.timedelta(seconds=time() - training_start_time))))
 print(LGB_BO.max['target'])
 print(LGB_BO.max['params'])
