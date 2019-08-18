@@ -1084,6 +1084,8 @@ def LGB_bayesian(
 
         if fold_n == 4:
             break
+        start_time = time()
+        print('Training on fold {}'.format(fold_n + 1))
 
         trn_data = lgb.Dataset(X.iloc[train_index], label=y.iloc[train_index])
         val_data = lgb.Dataset(X.iloc[valid_index], label=y.iloc[valid_index])
@@ -1094,6 +1096,7 @@ def LGB_bayesian(
 
         # 不使用最后一折
         lgb_sub['isFraud'] = lgb_sub['isFraud'] + pred / (n_fold - 1)
+        print('Fold {} finished in {}'.format(fold_n + 1, str(datetime.timedelta(seconds=time() - start_time))))
 
     # 真实效果
     test = pd.read_csv('../temp/test_label.csv', usecols=["TransactionID", "isFraud"], nrows=NROWS)
@@ -1124,6 +1127,7 @@ print('-' * 130)
 
 with warnings.catch_warnings():
     warnings.filterwarnings('ignore')
+    warnings.filterwarnings('[LightGBM] [Warning]')
     LGB_BO.maximize(init_points=init_points, n_iter=n_iter, acq='ucb', xi=0.0, alpha=1e-6)
 
 print(LGB_BO.max['target'])
