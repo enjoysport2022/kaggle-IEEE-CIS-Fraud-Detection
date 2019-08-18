@@ -63,7 +63,7 @@ else:
 print("NROWS: ", NROWS)
 
 
-feature_engineer = True
+# feature_engineer = True
 print("feature_engineer: ", feature_engineer)
 
 sub = pd.read_csv('../temp/sample_submission_label.csv', nrows=NROWS)
@@ -919,9 +919,9 @@ if feature_engineer:
     test_X = test.sort_values('TransactionDT').drop(['TransactionID'], axis=1)
 
     # 特征部分结束
-    # X.to_csv("../temp/feature_X.csv", index = False)
-    # y.to_csv("../temp/feature_y.csv", index = False,header=True)
-    # test_X.to_csv("../temp/feature_test_X.csv", index = False)
+    X.to_csv("../temp/feature_X.csv", index = False)
+    y.to_csv("../temp/feature_y.csv", index = False,header=True)
+    test_X.to_csv("../temp/feature_test_X.csv", index = False)
 
 else:
     X = pd.read_csv("../temp/feature_X.csv", nrows=NROWS)
