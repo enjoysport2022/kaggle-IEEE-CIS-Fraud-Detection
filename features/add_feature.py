@@ -940,6 +940,26 @@ else:
     X = pd.read_csv("../temp/feature_X.csv", nrows=NROWS)
     y = pd.read_csv("../temp/feature_y.csv", nrows=NROWS)
     test_X = pd.read_csv("../temp/feature_test_X.csv", nrows=NROWS)
+
+
+    print("add feature.")
+    X['D1_delta'] = (X['TransactionDT'] // (24 * 60 * 60)) + 480 - X['D1']
+    test_X['D1_delta'] = (test_X['TransactionDT'] // (24 * 60 * 60)) + 480 - test_X['D1']
+    X['D2_delta'] = (X['TransactionDT'] // (24 * 60 * 60)) + 480 - X['D2']
+    test_X['D2_delta'] = (test_X['TransactionDT'] // (24 * 60 * 60)) + 480 - test_X['D2']
+    X['D3_delta'] = (X['TransactionDT'] // (24 * 60 * 60)) + 480 - X['D3']
+    test_X['D3_delta'] = (test_X['TransactionDT'] // (24 * 60 * 60)) + 480 - test_X['D3']
+    X['D4_delta'] = (X['TransactionDT'] // (24 * 60 * 60)) + 480 - X['D4']
+    test_X['D4_delta'] = (test_X['TransactionDT'] // (24 * 60 * 60)) + 480 - test_X['D4']
+    X['D5_delta'] = (X['TransactionDT'] // (24 * 60 * 60)) + 480 - X['D5']
+    test_X['D5_delta'] = (test_X['TransactionDT'] // (24 * 60 * 60)) + 480 - test_X['D5']
+    X['D6_delta'] = (X['TransactionDT'] // (24 * 60 * 60)) + 480 - X['D6']
+    test_X['D6_delta'] = (test_X['TransactionDT'] // (24 * 60 * 60)) + 480 - test_X['D6']
+    X['D7_delta'] = (X['TransactionDT'] // (24 * 60 * 60)) + 480 - X['D7']
+    test_X['D7_delta'] = (test_X['TransactionDT'] // (24 * 60 * 60)) + 480 - test_X['D7']
+    X['D8_delta'] = (X['TransactionDT'] // (24 * 60 * 60)) + 480 - X['D8']
+    test_X['D8_delta'] = (test_X['TransactionDT'] // (24 * 60 * 60)) + 480 - test_X['D8']
+
     print("X.shape: ", X.shape)
     print("y.shape: ", y.shape)
     print("test_X.shape: ", test_X.shape)
