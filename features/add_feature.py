@@ -910,10 +910,9 @@ if feature_engineer:
     print("test.shape: ", test.shape)
 
 
-
-    X = train.sort_values('TransactionDT').drop(['isFraud', 'TransactionDT', 'TransactionID'], axis=1)
+    X = train.sort_values('TransactionDT').drop(['isFraud', 'TransactionID'], axis=1)
     y = train.sort_values('TransactionDT')['isFraud']
-    test_X = test.sort_values('TransactionDT').drop(['TransactionDT', 'TransactionID'], axis=1)
+    test_X = test.sort_values('TransactionDT').drop(['TransactionID'], axis=1)
 
     # 特征部分结束
     # X.to_csv("../temp/feature_X.csv", index = False)
