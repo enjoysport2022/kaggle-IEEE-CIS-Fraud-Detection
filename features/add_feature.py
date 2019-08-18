@@ -844,17 +844,18 @@ if feature_engineer:
 
     # In[35]:
 
-
+    label_encoding_features = []
     target = "isFraud"
     # Label Encoding
     for f in tqdm_notebook([feature for feature in train.columns if feature != target]):
         if train[f].dtype == 'object' or test[f].dtype == 'object':
+            label_encoding_features.append(f)
             lbl = LabelEncoder()
             temp = pd.DataFrame(train[f].astype(str).append(test[f].astype(str)))
             lbl.fit(temp[f])
             train[f] = lbl.transform(list(train[f].astype(str)))
             test[f] = lbl.transform(list(test[f].astype(str)))
-
+    print("label_encoding_features: ", label_encoding_features)
         # ### 构造特征
 
 
@@ -927,9 +928,9 @@ if feature_engineer:
     print("test.shape: ", test.shape)
 
 
-    X = train.sort_values('TransactionDT').drop(['isFraud', 'TransactionDT', 'TransactionID'], axis=1)
+    X = train.sort_values('TransactionDT').drop(['isFraud', 'TransactionID'], axis=1)
     y = train.sort_values('TransactionDT')['isFraud']
-    test_X = test.sort_values('TransactionDT').drop(['TransactionDT', 'TransactionID'], axis=1)
+    test_X = test.sort_values('TransactionDT').drop(['TransactionID'], axis=1)
 
     # 特征部分结束
     X.to_csv("../temp/feature_X.csv", index = False)
