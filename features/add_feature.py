@@ -954,44 +954,46 @@ else:
     test_X = pd.read_csv("../temp/feature_test_X.csv", nrows=NROWS)
 
 
+
     # print("add feature.")
 
     # 斜率特征
-    X['D6_slop'] = (X['D6'] - 400) / (X['TransactionDT'] // (24 * 60 * 60))
-    test_X['D6_slop'] = (test_X['D6'] - 400) / (test_X['TransactionDT'] // (24 * 60 * 60))
-    X['D7_slop'] = (X['D7'] - 480) / (X['TransactionDT'] // (24 * 60 * 60))
-    test_X['D7_slop'] = (test_X['D7'] - 480) / (test_X['TransactionDT'] // (24 * 60 * 60))
-    X['D8_slop'] = (X['D8'] - 480) / (X['TransactionDT'] // (24 * 60 * 60))
-    test_X['D8_slop'] = (test_X['D8'] - 480) / (test_X['TransactionDT'] // (24 * 60 * 60))
-    X['D11_slop'] = (X['D11'] - 480) / (X['TransactionDT'] // (24 * 60 * 60))
-    test_X['D11_slop'] = (test_X['D11'] - 480) / (test_X['TransactionDT'] // (24 * 60 * 60))
-    X['D12_slop'] = (X['D12'] - 480) / (X['TransactionDT'] // (24 * 60 * 60))
-    test_X['D12_slop'] = (test_X['D12'] - 480) / (test_X['TransactionDT'] // (24 * 60 * 60))
-    X['D13_slop'] = (X['D13'] - 200) / (X['TransactionDT'] // (24 * 60 * 60))
-    test_X['D13_slop'] = (test_X['D13'] - 200) / (test_X['TransactionDT'] // (24 * 60 * 60))
-    X['D14_slop'] = (X['D14'] - 480) / (X['TransactionDT'] // (24 * 60 * 60))
-    test_X['D14_slop'] = (test_X['D14'] - 480) / (test_X['TransactionDT'] // (24 * 60 * 60))
-    X['D15_slop'] = (X['D15'] - 480) / (X['TransactionDT'] // (24 * 60 * 60))
-    test_X['D15_slop'] = (test_X['D15'] - 480) / (test_X['TransactionDT'] // (24 * 60 * 60))
+    # X['D6_slop'] = (X['D6'] - 400) / (X['TransactionDT'] // (24 * 60 * 60))
+    # test_X['D6_slop'] = (test_X['D6'] - 400) / (test_X['TransactionDT'] // (24 * 60 * 60))
+    # X['D7_slop'] = (X['D7'] - 480) / (X['TransactionDT'] // (24 * 60 * 60))
+    # test_X['D7_slop'] = (test_X['D7'] - 480) / (test_X['TransactionDT'] // (24 * 60 * 60))
+    # X['D8_slop'] = (X['D8'] - 480) / (X['TransactionDT'] // (24 * 60 * 60))
+    # test_X['D8_slop'] = (test_X['D8'] - 480) / (test_X['TransactionDT'] // (24 * 60 * 60))
+    # X['D11_slop'] = (X['D11'] - 480) / (X['TransactionDT'] // (24 * 60 * 60))
+    # test_X['D11_slop'] = (test_X['D11'] - 480) / (test_X['TransactionDT'] // (24 * 60 * 60))
+    # X['D12_slop'] = (X['D12'] - 480) / (X['TransactionDT'] // (24 * 60 * 60))
+    # test_X['D12_slop'] = (test_X['D12'] - 480) / (test_X['TransactionDT'] // (24 * 60 * 60))
+    # X['D13_slop'] = (X['D13'] - 200) / (X['TransactionDT'] // (24 * 60 * 60))
+    # test_X['D13_slop'] = (test_X['D13'] - 200) / (test_X['TransactionDT'] // (24 * 60 * 60))
+    # X['D14_slop'] = (X['D14'] - 480) / (X['TransactionDT'] // (24 * 60 * 60))
+    # test_X['D14_slop'] = (test_X['D14'] - 480) / (test_X['TransactionDT'] // (24 * 60 * 60))
+    # X['D15_slop'] = (X['D15'] - 480) / (X['TransactionDT'] // (24 * 60 * 60))
+    # test_X['D15_slop'] = (test_X['D15'] - 480) / (test_X['TransactionDT'] // (24 * 60 * 60))
+    #
+    # # 距离特征
+    # X['D11_delta'] = (X['TransactionDT'] // (24 * 60 * 60)) + 480 - X['D11']
+    # test_X['D11_delta'] = (test_X['TransactionDT'] // (24 * 60 * 60)) + 480 - test_X['D11']
+    # X['D12_delta'] = (X['TransactionDT'] // (24 * 60 * 60)) + 480 - X['D12']
+    # test_X['D12_delta'] = (test_X['TransactionDT'] // (24 * 60 * 60)) + 480 - test_X['D12']
+    # X['D13_delta'] = (X['TransactionDT'] // (24 * 60 * 60)) + 200 - X['D13']
+    # test_X['D13_delta'] = (test_X['TransactionDT'] // (24 * 60 * 60)) + 200 - test_X['D13']
+    # X['D14_delta'] = (X['TransactionDT'] // (24 * 60 * 60)) + 480 - X['D14']
+    # test_X['D14_delta'] = (test_X['TransactionDT'] // (24 * 60 * 60)) + 480 - test_X['D14']
+    # X['D15_delta'] = (X['TransactionDT'] // (24 * 60 * 60)) + 480 - X['D15']
+    # test_X['D15_delta'] = (test_X['TransactionDT'] // (24 * 60 * 60)) + 480 - test_X['D15']
 
-    # 距离特征
-    X['D11_delta'] = (X['TransactionDT'] // (24 * 60 * 60)) + 480 - X['D11']
-    test_X['D11_delta'] = (test_X['TransactionDT'] // (24 * 60 * 60)) + 480 - test_X['D11']
-    X['D12_delta'] = (X['TransactionDT'] // (24 * 60 * 60)) + 480 - X['D12']
-    test_X['D12_delta'] = (test_X['TransactionDT'] // (24 * 60 * 60)) + 480 - test_X['D12']
-    X['D13_delta'] = (X['TransactionDT'] // (24 * 60 * 60)) + 200 - X['D13']
-    test_X['D13_delta'] = (test_X['TransactionDT'] // (24 * 60 * 60)) + 200 - test_X['D13']
-    X['D14_delta'] = (X['TransactionDT'] // (24 * 60 * 60)) + 480 - X['D14']
-    test_X['D14_delta'] = (test_X['TransactionDT'] // (24 * 60 * 60)) + 480 - test_X['D14']
-    X['D15_delta'] = (X['TransactionDT'] // (24 * 60 * 60)) + 480 - X['D15']
-    test_X['D15_delta'] = (test_X['TransactionDT'] // (24 * 60 * 60)) + 480 - test_X['D15']
 
-
+    # 平移test中的D10特征
+    test_X["D10"] = test_X["D10"] - 212
 
 
     # 删除特征部分
-    drop_features = []
-    drop_features.append("TransactionDT")
+    drop_features = ["shift_100_cnt", "TransactionDT"]
     X = X.drop(drop_features, axis=1)
     test_X = test_X.drop(drop_features, axis=1)
 
