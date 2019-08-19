@@ -992,20 +992,23 @@ else:
     # test_X["D10"] = test_X["D10"] - 90  #线上提交平移212
 
     # D10的01特征
-    X["D10_01"] = 0
-    X.loc[X["D10_delta"] >=0, "D10_01"] = 1
-    X.loc[X["D10_delta"] <0, "D10_01"] =  0
-    test_X["D10_01"] = 0
-    test_X.loc[test_X["D10_delta"] >= 0, "D10_01"] = 1
-    test_X.loc[test_X["D10_delta"] < 0, "D10_01"] = 0
+    # X["D10_01"] = 0
+    # X.loc[X["D10_delta"] >=0, "D10_01"] = 1
+    # X.loc[X["D10_delta"] <0, "D10_01"] =  0
+    # test_X["D10_01"] = 0
+    # test_X.loc[test_X["D10_delta"] >= 0, "D10_01"] = 1
+    # test_X.loc[test_X["D10_delta"] < 0, "D10_01"] = 0
 
     # 删除特征部分
-    drop_features = ["shift_100_cnt", "TransactionDT"]
-    X = X.drop(drop_features, axis=1)
-    test_X = test_X.drop(drop_features, axis=1)
+    # drop_features = ["shift_100_cnt", "TransactionDT"]
+    # X = X.drop(drop_features, axis=1)
+    # test_X = test_X.drop(drop_features, axis=1)
 
 
-
+    # 修改D10的slop特征
+    TransactionDT_min = X['TransactionDT'].min()
+    X['D10_slop'] = (X['D10'] - 480) / (X['TransactionDT'] // (24 * 60 * 60) - TransactionDT_min)
+    test_X['D10_slop'] = (test_X['D10'] - 480) / (test_X['TransactionDT'] // (24 * 60 * 60) - TransactionDT_min)
 
 
 
