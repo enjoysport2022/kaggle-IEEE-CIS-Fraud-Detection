@@ -1022,6 +1022,14 @@ else:
     X['D10_rate'] = (X['D10']) / ((X['TransactionDT'] // (24 * 60 * 60)) + 480)
     test_X['D10_rate'] = (test_X['D10']) / ((test_X['TransactionDT'] // (24 * 60 * 60)) + 480)
 
+    # card5特征onehot编码
+    # card5_onehot = X["card5"].append(test_X["card5"]).reset_index()
+    # card5_onehot = pd.get_dummies(card5_onehot["card5"], prefix="card5")
+    # card5_onehot_train = card5_onehot.loc[:len(X) - 1]
+    # card5_onehot_test = card5_onehot.loc[len(X):]
+    # X      = pd.concat([X.drop("card5", axis=1), card5_onehot_train], axis=1)
+    # test_X = pd.concat([test_X.drop("card5", axis=1), card5_onehot_test.reset_index()], axis=1)
+
 
     print("X.shape: ", X.shape)
     print("y.shape: ", y.shape)
