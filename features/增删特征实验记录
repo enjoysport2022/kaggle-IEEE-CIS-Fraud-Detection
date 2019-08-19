@@ -156,7 +156,7 @@ local3 done:
 
 
 删除TransactionDT的实验,和楼上的楼上对比
-local3 run:
+local3 done:
 Total training time is 0:29:06.701988
 AUCs: [0.9193831798196649, 0.9398473174687186, 0.9524379111408169, 0.9519287754581489]
 Mean AUC: 0.9408992959718373
@@ -167,6 +167,8 @@ test2 auc: 0.9113783016866946
 
 
 平移D10 212的距离
+local3 run:
+nohup python -u add_feature.py -1 0 > add_feature.log 2>&1 &
 
 
 
