@@ -47,31 +47,31 @@ feature_list = ["uid", target, "D15", "day", "TransactionDT", "TransactionID"]
 # D15 = round(delta秒/3600/24)
 
 # 如果是D15==0,一天内只有一笔交易的话,不能用
-# uid_D15 = []
-# for DAY in tqdm_notebook(range(32, 182 + 1)):  # 2, 182+1
-#     print("DAY: ", DAY)
-#     for D15 in range(31, min(121, DAY)):  # 1, DAY
-#         uid_list = list(df.loc[(df["D15"] == D15) & (df["day"] == DAY), "uid"].values)
-#         TransactionID_list = list(df.loc[(df["D15"] == D15) & (df["day"] == DAY), "TransactionID"].values)
-#
-#         for i in range(len(uid_list)):
-#             TransactionID_ = TransactionID_list[i]
-#             mean_ = 0
-#             sum_ = 0
-#             cnt_ = 0
-#             temp = df.loc[(df["uid"] == uid_list[i]) & (df["day"] <= DAY - D15) & (
-#                     df["day"] >= DAY - D15 - 1), feature_list]
-#
-#             if temp.shape[0] != 0:
-#                 mean_ = temp["isFraud"].mean()
-#                 sum_ = temp["isFraud"].sum()
-#                 cnt_ = temp["isFraud"].shape[0]
-#
-#             uid_D15.append([TransactionID_, mean_, sum_, cnt_])
-#
-# uid_D15 = pd.DataFrame(uid_D15)
-# uid_D15.columns = ["TransactionID", "mean_", "sum_", "cnt_"]
-# uid_D15.to_csv("./uid_D15_train.csv",index=False)
+uid_D15 = []
+for DAY in tqdm_notebook(range(32, 182 + 1)):  # 2, 182+1
+    print("DAY: ", DAY)
+    for D15 in range(31, min(121, DAY)):  # 1, DAY
+        uid_list = list(df.loc[(df["D15"] == D15) & (df["day"] == DAY), "uid"].values)
+        TransactionID_list = list(df.loc[(df["D15"] == D15) & (df["day"] == DAY), "TransactionID"].values)
+
+        for i in range(len(uid_list)):
+            TransactionID_ = TransactionID_list[i]
+            mean_ = 0
+            sum_ = 0
+            cnt_ = 0
+            temp = df.loc[(df["uid"] == uid_list[i]) & (df["day"] <= DAY - D15) & (
+                    df["day"] >= DAY - D15 - 1), feature_list]
+
+            if temp.shape[0] != 0:
+                mean_ = temp["isFraud"].mean()
+                sum_ = temp["isFraud"].sum()
+                cnt_ = temp["isFraud"].shape[0]
+
+            uid_D15.append([TransactionID_, mean_, sum_, cnt_])
+
+uid_D15 = pd.DataFrame(uid_D15)
+uid_D15.columns = ["TransactionID", "mean_", "sum_", "cnt_"]
+uid_D15.to_csv("./uid_D15_train.csv",index=False)
 
 
 # ### 测试集特征构造
