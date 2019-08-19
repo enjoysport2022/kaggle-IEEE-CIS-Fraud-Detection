@@ -241,9 +241,9 @@ def get_embed_feature(column='card1',dim=50):
 # In[ ]:
 
 
-train_embed_email,test_embed_email = get_embed_feature(column='P_emaildomain_R_emaildomain')
-train_embed_M,test_embed_M = get_embed_feature(column='M1_M2_M3_M4_M5_M6_M7_M8_M9')
-train_embed_addr,test_embed_addr = get_embed_feature(column='addr1_addr2')
+# train_embed_email,test_embed_email = get_embed_feature(column='P_emaildomain_R_emaildomain')
+# train_embed_M,test_embed_M = get_embed_feature(column='M1_M2_M3_M4_M5_M6_M7_M8_M9')
+# train_embed_addr,test_embed_addr = get_embed_feature(column='addr1_addr2')
 train_embed_card,test_embed_card = get_embed_feature(column='card1_card2_card3_card4_card5_card6')
 
 

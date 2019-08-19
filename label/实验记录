@@ -28,8 +28,7 @@ test2 auc: 0.9070504672768415
 实验结果: 增加80条带label的数据后test1数据集上有略微提升,但是在test2上基本没有变化
 
 
-[exp2]
-kfold去掉第5折做bagging
+[exp2]kfold去掉第5折做bagging
 使用全部五折:
 Total training time is 1:00:37.222847
 AUCs: [0.9169393985027141, 0.9351006605945301, 0.9528792888962798, 0.949460276704179, 0.9395555538045229]
@@ -86,19 +85,67 @@ test1 auc:  0.9057645194042203
 test2 auc: 0.9063941508112412
 实验结果分析: 前五折迭代次数设置不合适
 
+*(当前最优)
+10折融合的方式
+Total training time is 1:28:15.233932
+AUCs: [0.9167518899539217, 0.9351527711177244, 0.9530550580913791, 0.9498332388909452, 0.9056155327924572, 0.9316345202305752, 0.9330592414149936, 0.9351780643521098, 0.9417440481603776, 0.9287021678507666]
+best_iters: [1059, 3540, 1527, 1160, 9390, 1572, 1319, 2970, 1593, 1195]
+Mean AUC: 0.9330726532855251
+------------------------------
+test1 auc:  0.9057298172533927
+test2 auc: 0.9077779969273551
+实验结果分析: 有效
+
 
 4.计算每步特征工程的耗时
 
 5.线上提交: 把读取文件改掉,产生真实结果的代码删掉
-local2, run: lgb2_kfold_submit.log
+去掉第五折:
+Total training time is 1:45:53.630704
+AUCs: [0.9206833072113525, 0.9408812043272733, 0.93680842490553, 0.9532799362592198]
+Mean AUC: 0.9379132181758438
+LB: 0.9435
+
+使用全部五折:
+local2 done,
+nohup python -u lgb2_kfold_submit.py -1 > lgb2_kfold_submit_allFolds.log 2>&1 &
+Training has finished.
+Total training time is 2:06:25.940581
+AUCs: [0.9206833072113525, 0.9408812043272733, 0.93680842490553, 0.9532799362592198, 0.9318790171330475]
+Mean AUC: 0.9367063779672845
 
 
-nohup python -u exp2.py 5000 > exp2.log 2>&1 &
-nohup python -u lgb2_kfold_submit.py 5000 > lgb2_kfold_submit.log 2>&1 &
+
+nohup python -u exp3.py 3000 > exp3.log 2>&1 &
+nohup python -u lgb2_kfold_submit.py 5000 > lgb2_kfold_submit_allFolds.log 2>&1 &
+
+
+
+
 
 cpu机器1
 ssh -i id_rsa caihengxing@35.233.158.158
 cpu机器2
-ssh -i id_rsa caihengxing@35.238.158.50
+ssh -i id_rsa caihengxing@146.148.43.110
+cpu机器3
+ssh -i id_rsa caihengxing@35.232.41.9
+
+文件传输
+scp -i /home/caihengxing/kaggle/kaggle-IEEE-CIS-Fraud-Detection/features/id_rsa caihengxing@35.233.158.158:/home/caihengxing/kaggle/kaggle-IEEE-CIS-Fraud-Detection/features/train.embed_card.csv /home/caihengxing/kaggle/kaggle-IEEE-CIS-Fraud-Detection/features
+
+
 
 cd kaggle/kaggle-IEEE-CIS-Fraud-Detection/label/
+
+
+有效的方法:
+五折去掉最后一折,
+10折融合,
+
+无效的方法:
+target encoding,
+五折去掉最后两折,
+
+关键的因素:
+模型的迭代次数
+
