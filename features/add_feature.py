@@ -1011,12 +1011,16 @@ else:
     # test_X['D10_slop'] = (test_X['D10'] - 480) / (test_X['TransactionDT'] // (24 * 60 * 60) - TransactionDT_min)
 
     # card3特征onehot编码
-    card3_onehot = X["card3"].append(test_X["card3"]).reset_index()
-    card3_onehot = pd.get_dummies(card3_onehot["card3"], prefix="card3")
-    card3_onehot_train = card3_onehot.loc[:len(X) - 1]
-    card3_onehot_test = card3_onehot.loc[len(X):]
-    X      = pd.concat([X.drop("card3", axis=1), card3_onehot_train], axis=1)
-    test_X = pd.concat([test_X.drop("card3", axis=1), card3_onehot_test.reset_index()], axis=1)
+    # card3_onehot = X["card3"].append(test_X["card3"]).reset_index()
+    # card3_onehot = pd.get_dummies(card3_onehot["card3"], prefix="card3")
+    # card3_onehot_train = card3_onehot.loc[:len(X) - 1]
+    # card3_onehot_test = card3_onehot.loc[len(X):]
+    # X      = pd.concat([X.drop("card3", axis=1), card3_onehot_train], axis=1)
+    # test_X = pd.concat([test_X.drop("card3", axis=1), card3_onehot_test.reset_index()], axis=1)
+
+    # 增加D10的构造性特征
+    X['D10_rate'] = (X['D10']) / ((X['TransactionDT'] // (24 * 60 * 60)) + 480)
+    test_X['D10_rate'] = (test_X['D10']) / ((test_X['TransactionDT'] // (24 * 60 * 60)) + 480)
 
 
     print("X.shape: ", X.shape)
