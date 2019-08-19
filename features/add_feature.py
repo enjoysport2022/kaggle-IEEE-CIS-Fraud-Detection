@@ -976,16 +976,16 @@ else:
     # test_X['D15_slop'] = (test_X['D15'] - 480) / (test_X['TransactionDT'] // (24 * 60 * 60))
     #
     # # 距离特征
-    # X['D11_delta'] = (X['TransactionDT'] // (24 * 60 * 60)) + 480 - X['D11']
-    # test_X['D11_delta'] = (test_X['TransactionDT'] // (24 * 60 * 60)) + 480 - test_X['D11']
-    # X['D12_delta'] = (X['TransactionDT'] // (24 * 60 * 60)) + 480 - X['D12']
-    # test_X['D12_delta'] = (test_X['TransactionDT'] // (24 * 60 * 60)) + 480 - test_X['D12']
-    # X['D13_delta'] = (X['TransactionDT'] // (24 * 60 * 60)) + 200 - X['D13']
-    # test_X['D13_delta'] = (test_X['TransactionDT'] // (24 * 60 * 60)) + 200 - test_X['D13']
-    # X['D14_delta'] = (X['TransactionDT'] // (24 * 60 * 60)) + 480 - X['D14']
-    # test_X['D14_delta'] = (test_X['TransactionDT'] // (24 * 60 * 60)) + 480 - test_X['D14']
-    # X['D15_delta'] = (X['TransactionDT'] // (24 * 60 * 60)) + 480 - X['D15']
-    # test_X['D15_delta'] = (test_X['TransactionDT'] // (24 * 60 * 60)) + 480 - test_X['D15']
+    X['D11_delta'] = (X['TransactionDT'] // (24 * 60 * 60)) + 480 - X['D11']
+    test_X['D11_delta'] = (test_X['TransactionDT'] // (24 * 60 * 60)) + 480 - test_X['D11']
+    X['D12_delta'] = (X['TransactionDT'] // (24 * 60 * 60)) + 480 - X['D12']
+    test_X['D12_delta'] = (test_X['TransactionDT'] // (24 * 60 * 60)) + 480 - test_X['D12']
+    X['D13_delta'] = (X['TransactionDT'] // (24 * 60 * 60)) + 200 - X['D13']
+    test_X['D13_delta'] = (test_X['TransactionDT'] // (24 * 60 * 60)) + 200 - test_X['D13']
+    X['D14_delta'] = (X['TransactionDT'] // (24 * 60 * 60)) + 480 - X['D14']
+    test_X['D14_delta'] = (test_X['TransactionDT'] // (24 * 60 * 60)) + 480 - test_X['D14']
+    X['D15_delta'] = (X['TransactionDT'] // (24 * 60 * 60)) + 480 - X['D15']
+    test_X['D15_delta'] = (test_X['TransactionDT'] // (24 * 60 * 60)) + 480 - test_X['D15']
 
 
     # 平移test中的D10特征
@@ -1006,9 +1006,9 @@ else:
 
 
     # 修改D10的slop特征
-    TransactionDT_min = X['TransactionDT'].min()
-    X['D10_slop'] = (X['D10'] - 480) / (X['TransactionDT'] // (24 * 60 * 60) - TransactionDT_min)
-    test_X['D10_slop'] = (test_X['D10'] - 480) / (test_X['TransactionDT'] // (24 * 60 * 60) - TransactionDT_min)
+    # TransactionDT_min = X['TransactionDT'].min()
+    # X['D10_slop'] = (X['D10'] - 480) / (X['TransactionDT'] // (24 * 60 * 60) - TransactionDT_min)
+    # test_X['D10_slop'] = (test_X['D10'] - 480) / (test_X['TransactionDT'] // (24 * 60 * 60) - TransactionDT_min)
 
 
 
