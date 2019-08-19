@@ -46,37 +46,37 @@ feature_list = ["uid", target, "D15", "day", "TransactionDT", "TransactionID"]
 # D15 = int(delta秒/3600/24) 不对 3,16 bad case
 # D15 = round(delta秒/3600/24)
 
-uid_D15 = []
-for DAY in tqdm_notebook(range(32, 182 + 1)):  # 2, 182+1
-    print("DAY: ", DAY)
-    for D15 in range(31, DAY):  # 1, DAY
-        uid_list = list(df.loc[(df["D15"] == D15) & (df["day"] == DAY), "uid"].values)
-        TransactionID_list = list(df.loc[(df["D15"] == D15) & (df["day"] == DAY), "TransactionID"].values)
-        cnt_ = 0
-        data_from_score = 0  # 数据的置信程度
-        for i in range(len(uid_list)):
-            TransactionID_ = TransactionID_list[i]
-
-            if df.loc[(df["uid"] == uid_list[i]) & (df["day"] == DAY - D15), feature_list].shape[0] != 0:
-
-                mean_ = df.loc[(df["uid"] == uid_list[i]) & (df["day"] == DAY - D15), feature_list]["isFraud"].mean()
-                sum_ = df.loc[(df["uid"] == uid_list[i]) & (df["day"] == DAY - D15), feature_list]["isFraud"].sum()
-                cnt_ = df.loc[(df["uid"] == uid_list[i]) & (df["day"] == DAY - D15), feature_list]["isFraud"].shape[0]
-                data_from_score = 1.0
-            else:
-                if df.loc[(df["uid"] == uid_list[i]) & (df["day"] == DAY - D15 - 1), feature_list].shape[0] != 0:
-                    mean_ = df.loc[(df["uid"] == uid_list[i]) & (df["day"] == DAY - D15 - 1), feature_list][
-                        "isFraud"].mean()
-                    sum_ = df.loc[(df["uid"] == uid_list[i]) & (df["day"] == DAY - D15 - 1), feature_list][
-                        "isFraud"].sum()
-                    cnt_ = df.loc[(df["uid"] == uid_list[i]) & (df["day"] == DAY - D15 - 1), feature_list]["isFraud"].shape[0]
-                    data_from_score = 0.5
-
-            uid_D15.append([TransactionID_, mean_, sum_, cnt_, data_from_score])
-
-uid_D15 = pd.DataFrame(uid_D15)
-uid_D15.columns = ["TransactionID", "mean", "sum"]
-uid_D15.to_csv("./uid_D15_train.csv",index=False)
+# uid_D15 = []
+# for DAY in tqdm_notebook(range(32, 182 + 1)):  # 2, 182+1
+#     print("DAY: ", DAY)
+#     for D15 in range(31, DAY):  # 1, DAY
+#         uid_list = list(df.loc[(df["D15"] == D15) & (df["day"] == DAY), "uid"].values)
+#         TransactionID_list = list(df.loc[(df["D15"] == D15) & (df["day"] == DAY), "TransactionID"].values)
+#         cnt_ = 0
+#         data_from_score = 0  # 数据的置信程度
+#         for i in range(len(uid_list)):
+#             TransactionID_ = TransactionID_list[i]
+#
+#             if df.loc[(df["uid"] == uid_list[i]) & (df["day"] == DAY - D15), feature_list].shape[0] != 0:
+#
+#                 mean_ = df.loc[(df["uid"] == uid_list[i]) & (df["day"] == DAY - D15), feature_list]["isFraud"].mean()
+#                 sum_ = df.loc[(df["uid"] == uid_list[i]) & (df["day"] == DAY - D15), feature_list]["isFraud"].sum()
+#                 cnt_ = df.loc[(df["uid"] == uid_list[i]) & (df["day"] == DAY - D15), feature_list]["isFraud"].shape[0]
+#                 data_from_score = 1.0
+#             else:
+#                 if df.loc[(df["uid"] == uid_list[i]) & (df["day"] == DAY - D15 - 1), feature_list].shape[0] != 0:
+#                     mean_ = df.loc[(df["uid"] == uid_list[i]) & (df["day"] == DAY - D15 - 1), feature_list][
+#                         "isFraud"].mean()
+#                     sum_ = df.loc[(df["uid"] == uid_list[i]) & (df["day"] == DAY - D15 - 1), feature_list][
+#                         "isFraud"].sum()
+#                     cnt_ = df.loc[(df["uid"] == uid_list[i]) & (df["day"] == DAY - D15 - 1), feature_list]["isFraud"].shape[0]
+#                     data_from_score = 0.5
+#
+#             uid_D15.append([TransactionID_, mean_, sum_, cnt_, data_from_score])
+#
+# uid_D15 = pd.DataFrame(uid_D15)
+# uid_D15.columns = ["TransactionID", "mean", "sum"]
+# uid_D15.to_csv("./uid_D15_train.csv",index=False)
 
 
 # ### 测试集特征构造
