@@ -989,8 +989,15 @@ else:
 
 
     # 平移test中的D10特征
-    test_X["D10"] = test_X["D10"] - 90  #线上提交平移212
+    # test_X["D10"] = test_X["D10"] - 90  #线上提交平移212
 
+    # D10的01特征
+    X["D10_01"] = 0
+    X.loc[X["D10_delta"] >=0, "D10_01"] = 1
+    X.loc[X["D10_delta"] <0, "D10_01"] =  0
+    test_X["D10_01"] = 0
+    test_X.loc[test_X["D10_delta"] >= 0, "D10_01"] = 1
+    test_X.loc[test_X["D10_delta"] < 0, "D10_01"] = 0
 
     # 删除特征部分
     drop_features = ["shift_100_cnt", "TransactionDT"]
