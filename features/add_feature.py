@@ -1019,8 +1019,8 @@ else:
     # test_X = pd.concat([test_X.drop("card3", axis=1), card3_onehot_test.reset_index()], axis=1)
 
     # 增加D10的构造性特征
-    X['D10_rate'] = (X['D10']) / ((X['TransactionDT'] // (24 * 60 * 60)) + 480)
-    test_X['D10_rate'] = (test_X['D10']) / ((test_X['TransactionDT'] // (24 * 60 * 60)) + 480)
+    # X['D10_rate'] = (X['D10']) / ((X['TransactionDT'] // (24 * 60 * 60)) + 480)
+    # test_X['D10_rate'] = (test_X['D10']) / ((test_X['TransactionDT'] // (24 * 60 * 60)) + 480)
 
     # card5特征onehot编码
     # card5_onehot = X["card5"].append(test_X["card5"]).reset_index()
@@ -1029,6 +1029,12 @@ else:
     # card5_onehot_test = card5_onehot.loc[len(X):]
     # X      = pd.concat([X.drop("card5", axis=1), card5_onehot_train], axis=1)
     # test_X = pd.concat([test_X.drop("card5", axis=1), card5_onehot_test.reset_index()], axis=1)
+
+    # 增加uid_D15特征
+    uid_D15_train = pd.read_csv("./uid_D15_train.csv")
+    X = X.merge(uid_D15_train, on="TransactionID", how="left")
+    test_X = test_X.merge(uid_D15_train, on="TransactionID", how="left")
+
 
 
     print("X.shape: ", X.shape)
