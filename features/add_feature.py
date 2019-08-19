@@ -976,16 +976,16 @@ else:
     # test_X['D15_slop'] = (test_X['D15'] - 480) / (test_X['TransactionDT'] // (24 * 60 * 60))
     #
     # # 距离特征
-    X['D11_delta'] = (X['TransactionDT'] // (24 * 60 * 60)) + 480 - X['D11']
-    test_X['D11_delta'] = (test_X['TransactionDT'] // (24 * 60 * 60)) + 480 - test_X['D11']
-    X['D12_delta'] = (X['TransactionDT'] // (24 * 60 * 60)) + 480 - X['D12']
-    test_X['D12_delta'] = (test_X['TransactionDT'] // (24 * 60 * 60)) + 480 - test_X['D12']
-    X['D13_delta'] = (X['TransactionDT'] // (24 * 60 * 60)) + 200 - X['D13']
-    test_X['D13_delta'] = (test_X['TransactionDT'] // (24 * 60 * 60)) + 200 - test_X['D13']
-    X['D14_delta'] = (X['TransactionDT'] // (24 * 60 * 60)) + 480 - X['D14']
-    test_X['D14_delta'] = (test_X['TransactionDT'] // (24 * 60 * 60)) + 480 - test_X['D14']
-    X['D15_delta'] = (X['TransactionDT'] // (24 * 60 * 60)) + 480 - X['D15']
-    test_X['D15_delta'] = (test_X['TransactionDT'] // (24 * 60 * 60)) + 480 - test_X['D15']
+    # X['D11_delta'] = (X['TransactionDT'] // (24 * 60 * 60)) + 480 - X['D11']
+    # test_X['D11_delta'] = (test_X['TransactionDT'] // (24 * 60 * 60)) + 480 - test_X['D11']
+    # X['D12_delta'] = (X['TransactionDT'] // (24 * 60 * 60)) + 480 - X['D12']
+    # test_X['D12_delta'] = (test_X['TransactionDT'] // (24 * 60 * 60)) + 480 - test_X['D12']
+    # X['D13_delta'] = (X['TransactionDT'] // (24 * 60 * 60)) + 200 - X['D13']
+    # test_X['D13_delta'] = (test_X['TransactionDT'] // (24 * 60 * 60)) + 200 - test_X['D13']
+    # X['D14_delta'] = (X['TransactionDT'] // (24 * 60 * 60)) + 480 - X['D14']
+    # test_X['D14_delta'] = (test_X['TransactionDT'] // (24 * 60 * 60)) + 480 - test_X['D14']
+    # X['D15_delta'] = (X['TransactionDT'] // (24 * 60 * 60)) + 480 - X['D15']
+    # test_X['D15_delta'] = (test_X['TransactionDT'] // (24 * 60 * 60)) + 480 - test_X['D15']
 
 
     # 平移test中的D10特征
@@ -1010,7 +1010,13 @@ else:
     # X['D10_slop'] = (X['D10'] - 480) / (X['TransactionDT'] // (24 * 60 * 60) - TransactionDT_min)
     # test_X['D10_slop'] = (test_X['D10'] - 480) / (test_X['TransactionDT'] // (24 * 60 * 60) - TransactionDT_min)
 
-
+    # card3特征onehot编码
+    card3_onehot = X["card3"].append(test_X["card3"]).reset_index()
+    card3_onehot = pd.get_dummies(card3_onehot["card3"], prefix="card3")
+    card3_onehot_train = card3_onehot.loc[:len(X) - 1]
+    card3_onehot_test = card3_onehot.loc[len(X):]
+    X = pd.concat([X.drop("card3"), card3_onehot_train], axis=1)
+    test_X = pd.concat([test_X.drop("card3"), card3_onehot_test], axis=1)
 
 
     print("X.shape: ", X.shape)
