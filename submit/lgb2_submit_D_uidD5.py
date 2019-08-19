@@ -758,16 +758,18 @@ test_embed_card["TransactionID"] = test_embed_card.index
 train = train.merge(train_embed_card, on="TransactionID", how="left")
 test  = test.merge(test_embed_card, on="TransactionID", how="left")
 
+# 增加uid_D15特征
+uid_D15_train = pd.read_csv("../features/uid_D15_train.csv")
+uid_D15_test = pd.read_csv("../features/uid_D15_test.csv")
+train = train.merge(uid_D15_train, on="TransactionID", how="left")
+test = test.merge(uid_D15_test, on="TransactionID", how="left")
+
 
 X = train.sort_values('TransactionDT').drop(['isFraud', 'TransactionID'], axis=1)
 y = train.sort_values('TransactionDT')['isFraud']
 test_X = test.sort_values('TransactionDT').drop(['TransactionID'], axis=1)
 
 
-# 增加uid_D15特征
-uid_D15_train = pd.read_csv("../features/uid_D15_train.csv")
-X = X.merge(uid_D15_train, on="TransactionID", how="left")
-test_X = test_X.merge(uid_D15_train, on="TransactionID", how="left")
 
 
 # X.to_csv("../temp/feature_X.csv", index = False)
