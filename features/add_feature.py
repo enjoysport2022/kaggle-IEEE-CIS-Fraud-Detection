@@ -939,9 +939,9 @@ if feature_engineer:
     print("test.shape: ", test.shape)
 
 
-    X = train.sort_values('TransactionDT').drop(['isFraud', 'TransactionID'], axis=1)
+    X = train.sort_values('TransactionDT').drop(['isFraud'], axis=1)
     y = train.sort_values('TransactionDT')['isFraud']
-    test_X = test.sort_values('TransactionDT').drop(['TransactionID'], axis=1)
+    test_X = test.sort_values('TransactionDT').drop([], axis=1)
 
     # 特征部分结束
     X.to_csv("../temp/feature_X.csv", index = False)
@@ -1035,11 +1035,12 @@ else:
     X = X.merge(uid_D15_train, on="TransactionID", how="left")
     test_X = test_X.merge(uid_D15_train, on="TransactionID", how="left")
 
+X = X.drop('TransactionID', axis=1)
+test_X = test_X.drop('TransactionID', axis=1)
 
-
-    print("X.shape: ", X.shape)
-    print("y.shape: ", y.shape)
-    print("test_X.shape: ", test_X.shape)
+print("X.shape: ", X.shape)
+print("y.shape: ", y.shape)
+print("test_X.shape: ", test_X.shape)
 
 
 
