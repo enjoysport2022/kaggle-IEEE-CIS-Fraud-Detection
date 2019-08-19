@@ -166,9 +166,24 @@ test2 auc: 0.9113783016866946
 实验结果分析: 删除TransactionDT test1和test2变化很小
 
 
-平移D10 212的距离
-local3 run:
+线下平移D10 90的距离
+local3 done:
 nohup python -u add_feature.py -1 0 > add_feature.log 2>&1 &
+Total training time is 0:27:23.509578
+AUCs: [0.9204108063008111, 0.939438040869952, 0.9527022085277441, 0.9523018075194254]
+Mean AUC: 0.9412132158044831
+------------------------------
+test1 auc:  0.9088
+test2 auc: 0.9117
+实验结果分析: test1降低5个点,test2提升3个点
+
+增加D10的01特征:
+local2 run:
+nohup python -u add_feature.py -1 0 > add_feature.log 2>&1 &
+
+
+删除大部分特征的实验:
+
 
 
 
