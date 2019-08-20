@@ -1031,7 +1031,7 @@ else:
     # test_X = pd.concat([test_X.drop("card5", axis=1), card5_onehot_test.reset_index()], axis=1)
 
     # 增加uid_D15特征
-    uid_D15_train = pd.read_csv("./uid_D15_train.csv")
+    uid_D15_train = pd.read_csv("./uid_D15_train_modify.csv")
     X = X.merge(uid_D15_train, on="TransactionID", how="left")
     test_X = test_X.merge(uid_D15_train, on="TransactionID", how="left")
 
