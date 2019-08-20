@@ -1073,7 +1073,7 @@ aucs = []
 training_start_time = time()
 for fold_n, (train_index, valid_index) in enumerate(folds.split(X)):
 
-    if fold_n == 4:
+    if fold_n == 2:
         break
 
     start_time = time()
@@ -1090,7 +1090,10 @@ for fold_n, (train_index, valid_index) in enumerate(folds.split(X)):
     aucs.append(roc_auc_score(y.iloc[valid_index], val))
 
     # 不使用最后一折
-    lgb_sub['isFraud'] = lgb_sub['isFraud'] + pred / (n_fold - 1)
+    # lgb_sub['isFraud'] = lgb_sub['isFraud'] + pred / (n_fold - 1)
+
+    # 不使用最后三折
+    lgb_sub['isFraud'] = lgb_sub['isFraud'] + pred / (n_fold - 3)
 
     # 使用全部的fold
     # lgb_sub['isFraud'] = lgb_sub['isFraud'] + pred / n_fold
