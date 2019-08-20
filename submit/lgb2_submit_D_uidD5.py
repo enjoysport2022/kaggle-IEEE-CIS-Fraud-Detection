@@ -53,6 +53,8 @@ if size == -1:
 else:
     NROWS = size
 print("NROWS: ", NROWS)
+subname = '../output/ieee_lgb_submit_D_uidD15.csv'
+print("subname: ", subname)
 
 
 # 读取数据
@@ -830,7 +832,6 @@ for fold_n, (train_index, valid_index) in enumerate(folds.split(X)):
     print('Fold {} finished in {}'.format(fold_n + 1, str(datetime.timedelta(seconds=time() - start_time))))
 
 
-subname = '../output/ieee_lgb_submit_D.csv'
 lgb_sub.to_csv(subname, index=False)
 print('-' * 30)
 print('Training has finished.')
