@@ -111,11 +111,11 @@ def get_test_features(DAY=0, col='D15'):
 # print(train_D15.shape, test_D15.shape)
 # print(train_D10.shape, test_D10.shape)
 #
-# train_D15.to_csv('../input/train_target_encoding_D15.csv', header=True, index=False)
-# test_D15.to_csv('../input/test_target_encoding_D15.csv', header=True, index=False)
+# train_D15.to_csv('./train_target_encoding_D15.csv', header=True, index=False)
+# test_D15.to_csv('./test_target_encoding_D15.csv', header=True, index=False)
 #
-# train_D10.to_csv('../input/train_target_encoding_D10.csv', header=True, index=False)
-# test_D10.to_csv('../input/test_target_encoding_D10.csv', header=True, index=False)
+# train_D10.to_csv('./train_target_encoding_D10.csv', header=True, index=False)
+# test_D10.to_csv('./test_target_encoding_D10.csv', header=True, index=False)
 
 
 train_D1 = Parallel(n_jobs=-1)(delayed(get_train_features)(DAY, 'D1') for DAY in (range(32, 182 + 1)))
@@ -135,9 +135,9 @@ test_D2 = pd.DataFrame(test_D2, columns=["TransactionID", "mean_D2", "sum_D2", "
 print(train_D1.shape, test_D1.shape)
 print(train_D2.shape, test_D2.shape)
 
-train_D1.to_csv('../input/train_target_encoding_D1.csv', header=True, index=False)
-test_D1.to_csv('../input/test_target_encoding_D1.csv', header=True, index=False)
+train_D1.to_csv('./train_target_encoding_D1.csv', header=True, index=False)
+test_D1.to_csv('./test_target_encoding_D1.csv', header=True, index=False)
 
-train_D2.to_csv('../input/train_target_encoding_D2.csv', header=True, index=False)
-test_D2.to_csv('../input/test_target_encoding_D2.csv', header=True, index=False)
+train_D2.to_csv('./train_target_encoding_D2.csv', header=True, index=False)
+test_D2.to_csv('./test_target_encoding_D2.csv', header=True, index=False)
 
