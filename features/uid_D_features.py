@@ -106,8 +106,8 @@ def get_test_features(DAY=0, col='D15'):
 
 from joblib import Parallel, delayed
 
-train_D15 = Parallel(n_jobs=48)(delayed(get_train_features)(DAY, 'D15') for DAY in (range(32, 182 + 1)))
-test_D15 = Parallel(n_jobs=48)(delayed(get_test_features)(DAY, 'D15') for DAY in (range(213, 395 + 1)))
+train_D15 = Parallel(n_jobs=-1)(delayed(get_train_features)(DAY, 'D15') for DAY in (range(32, 182 + 1)))
+test_D15 = Parallel(n_jobs=-1)(delayed(get_test_features)(DAY, 'D15') for DAY in (range(213, 395 + 1)))
 train_D15 = [item for line in train_D15 for item in line]
 test_D15 = [item for line in test_D15 for item in line]
 train_D15 = pd.DataFrame(train_D15, columns=["TransactionID", "mean_D15", "sum_D15", "cnt_D15"])
@@ -116,8 +116,8 @@ test_D15 = pd.DataFrame(test_D15, columns=["TransactionID", "mean_D15", "sum_D15
 # In[ ]:
 
 
-train_D10 = Parallel(n_jobs=48)(delayed(get_train_features)(DAY, 'D10') for DAY in (range(32, 182 + 1)))
-test_D10 = Parallel(n_jobs=48)(delayed(get_test_features)(DAY, 'D10') for DAY in (range(213, 395 + 1)))
+train_D10 = Parallel(n_jobs=-1)(delayed(get_train_features)(DAY, 'D10') for DAY in (range(32, 182 + 1)))
+test_D10 = Parallel(n_jobs=-1)(delayed(get_test_features)(DAY, 'D10') for DAY in (range(213, 395 + 1)))
 train_D10 = [item for line in train_D10 for item in line]
 test_D10 = [item for line in test_D10 for item in line]
 train_D10 = pd.DataFrame(train_D10, columns=["TransactionID", "mean_D10", "sum_D10", "cnt_D10"])
