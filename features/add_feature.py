@@ -1040,6 +1040,16 @@ else:
     X = X.merge(uid_D10_train, on="TransactionID", how="left")
     test_X = test_X.merge(uid_D10_train, on="TransactionID", how="left")
 
+    # 增加uid_D1特征
+    uid_D1_train = pd.read_csv("./train_target_encoding_D1.csv")
+    X = X.merge(uid_D1_train, on="TransactionID", how="left")
+    test_X = test_X.merge(uid_D1_train, on="TransactionID", how="left")
+
+    # 增加uid_D2特征
+    uid_D2_train = pd.read_csv("./train_target_encoding_D2.csv")
+    X = X.merge(uid_D2_train, on="TransactionID", how="left")
+    test_X = test_X.merge(uid_D2_train, on="TransactionID", how="left")
+
 
 X = X.drop('TransactionID', axis=1)
 test_X = test_X.drop('TransactionID', axis=1)
