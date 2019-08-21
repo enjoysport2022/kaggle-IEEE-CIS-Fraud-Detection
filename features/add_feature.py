@@ -1085,15 +1085,25 @@ else:
     # X = X.merge(uid_D8_train, on="TransactionID", how="left")
     # test_X = test_X.merge(uid_D8_train, on="TransactionID", how="left")
 
-    # # 增加uid_D11特征
-    uid_D11_train = pd.read_csv("./train_target_encoding_D11.csv")
-    X = X.merge(uid_D11_train, on="TransactionID", how="left")
-    test_X = test_X.merge(uid_D11_train, on="TransactionID", how="left")
+    # # # 增加uid_D11特征
+    # uid_D11_train = pd.read_csv("./train_target_encoding_D11.csv")
+    # X = X.merge(uid_D11_train, on="TransactionID", how="left")
+    # test_X = test_X.merge(uid_D11_train, on="TransactionID", how="left")
+    #
+    # # 增加uid_D12特征
+    # uid_D12_train = pd.read_csv("./train_target_encoding_D12.csv")
+    # X = X.merge(uid_D12_train, on="TransactionID", how="left")
+    # test_X = test_X.merge(uid_D12_train, on="TransactionID", how="left")
 
-    # 增加uid_D12特征
-    uid_D12_train = pd.read_csv("./train_target_encoding_D12.csv")
-    X = X.merge(uid_D12_train, on="TransactionID", how="left")
-    test_X = test_X.merge(uid_D12_train, on="TransactionID", how="left")
+    # # 增加uid_D13特征
+    uid_D13_train = pd.read_csv("./train_target_encoding_D13.csv")
+    X = X.merge(uid_D13_train, on="TransactionID", how="left")
+    test_X = test_X.merge(uid_D13_train, on="TransactionID", how="left")
+
+    # 增加uid_D14特征
+    uid_D14_train = pd.read_csv("./train_target_encoding_D14.csv")
+    X = X.merge(uid_D14_train, on="TransactionID", how="left")
+    test_X = test_X.merge(uid_D14_train, on="TransactionID", how="left")
 
 
 X = X.drop('TransactionID', axis=1)
