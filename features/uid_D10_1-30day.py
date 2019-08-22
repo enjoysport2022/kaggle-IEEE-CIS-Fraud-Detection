@@ -32,7 +32,7 @@ print("test.shape:", test.shape)
 
 target = "isFraud"
 
-pred = pd.read_csv("../ens6_Dx_plus_9544_rule_uid_D10_320_item.csv")
+pred = pd.read_csv("../output/ens6_Dx_plus_9544_rule_uid_D10_320_item.csv")
 test[target] = pred
 
 df = train.append(test)
