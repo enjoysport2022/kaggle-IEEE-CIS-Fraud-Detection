@@ -33,7 +33,7 @@ print("test.shape:", test.shape)
 target = "isFraud"
 
 pred = pd.read_csv("../output/ens6_Dx_plus_9544_rule_uid_D10_320_item.csv")
-test[target] = pred
+test[target] = pred[target]
 
 df = train.append(test)
 df.reset_index()
