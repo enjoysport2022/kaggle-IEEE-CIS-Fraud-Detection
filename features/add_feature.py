@@ -1050,15 +1050,43 @@ else:
     X = X.merge(uid_D2_train, on="TransactionID", how="left")
     test_X = test_X.merge(uid_D2_train, on="TransactionID", how="left")
 
-    # # 增加uid_D3特征
-    # uid_D3_train = pd.read_csv("./train_target_encoding_D3.csv")
-    # X = X.merge(uid_D3_train, on="TransactionID", how="left")
-    # test_X = test_X.merge(uid_D3_train, on="TransactionID", how="left")
+    # 增加uid_D3特征
+    uid_D3_train = pd.read_csv("./train_target_encoding_D3.csv")
+    X = X.merge(uid_D3_train, on="TransactionID", how="left")
+    test_X = test_X.merge(uid_D3_train, on="TransactionID", how="left")
 
     # 增加uid_D4特征
     uid_D4_train = pd.read_csv("./train_target_encoding_D4.csv")
     X = X.merge(uid_D4_train, on="TransactionID", how="left")
     test_X = test_X.merge(uid_D4_train, on="TransactionID", how="left")
+
+
+    # 用户当天交易信息
+    H_move = 12
+    X['uid'] = X["card1"].apply(lambda x: str(x)) + "_" + X["card2"].apply(lambda x: str(x)) + "_" + X["card3"].apply(
+        lambda x: str(x)) + "_" + X["card4"].apply(lambda x: str(x)) + "_" + X["card5"].apply(lambda x: str(x)) + "_" + \
+               X["card6"].apply(lambda x: str(x)) + "_" + X["addr1"].apply(lambda x: str(x)) + "_" + X["addr2"].apply(
+        lambda x: str(x))
+    test_X['uid'] = test_X["card1"].apply(lambda test_X: str(test_X)) + "_" + test_X["card2"].apply(
+        lambda test_X: str(test_X)) + "_" + test_X["card3"].apply(lambda test_X: str(test_X)) + "_" + test_X[
+                        "card4"].apply(lambda test_X: str(test_X)) + "_" + test_X["card5"].apply(
+        lambda test_X: str(test_X)) + "_" + test_X["card6"].apply(lambda test_X: str(test_X)) + "_" + test_X[
+                        "addr1"].apply(lambda test_X: str(test_X)) + "_" + test_X["addr2"].apply(
+        lambda test_X: str(test_X))
+    X["day"] = (X["TransactionDT"] + 3600 * H_move) // (24 * 60 * 60)
+    test_X["day"] = (test_X["TransactionDT"] + 3600 * H_move) // (24 * 60 * 60)
+
+    # 当天的交易次数
+    X['trans_curday_cnt'] = X.groupby(['uid', 'day'])['TransactionAmt'].transform('count')
+    test_X['trans_curday_cnt'] = test_X.groupby(['uid', 'day'])['TransactionAmt'].transform('count')
+    # 当天的交易总额
+    X['trans_curday_cnt'] = X.groupby(['uid', 'day'])['TransactionAmt'].transform('sum')
+    test_X['trans_curday_cnt'] = test_X.groupby(['uid', 'day'])['TransactionAmt'].transform('sum')
+    # 当天同样金额的交易次数
+    X['trans_curday_cnt'] = X.groupby(['uid', 'day', 'TransactionAmt'])['TransactionAmt'].transform('count')
+    test_X['trans_curday_cnt'] = test_X.groupby(['uid', 'day', 'TransactionAmt'])['TransactionAmt'].transform('count')
+
+
 
     # 增加uid_D5特征
     # uid_D5_train = pd.read_csv("./train_target_encoding_D5.csv")
