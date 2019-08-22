@@ -1086,6 +1086,9 @@ else:
     X['trans_curday_cnt'] = X.groupby(['uid', 'day', 'TransactionAmt'])['TransactionAmt'].transform('count')
     test_X['trans_curday_cnt'] = test_X.groupby(['uid', 'day', 'TransactionAmt'])['TransactionAmt'].transform('count')
 
+    # 删除uid
+    X = X.drop("uid", axis = 1)
+    test_X = test_X.drop("uid", axis = 1)
 
 
     # 增加uid_D5特征
