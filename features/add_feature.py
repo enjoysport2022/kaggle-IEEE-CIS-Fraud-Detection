@@ -1151,13 +1151,14 @@ else:
         lambda test_X: str(test_X))
 
     target = 'isFraud'
+    X[target] = y[target]
     target_encode_df = X.groupby('uid').agg({target: ['mean', 'count', 'sum']})
 
     X = X.merge(target_encode_df, on="uid", how='left')
     test_X = test_X.merge(target_encode_df, on="uid", how='left')
 
     # 删除uid
-    X = X.drop("uid", axis=1)
+    X = X.drop(["uid", target], axis=1)
     test_X = test_X.drop("uid", axis=1)
 
 
