@@ -37,7 +37,12 @@ test[target] = -1
 df = train.append(test)
 df.reset_index()
 
-df['uid'] = df["card1"].apply(lambda x: str(x)) + "_" + df["card2"].apply(lambda x: str(x)) + "_" + df["card3"].apply(lambda x: str(x)) + "_" + df["card4"].apply(lambda x: str(x)) + "_" + df["card5"].apply(lambda x: str(x)) + "_" + df["card6"].apply(lambda x: str(x)) + "_" + df["addr1"].apply(lambda x: str(x)) + "_" + df["addr2"].apply(lambda x: str(x))
+df['uid'] = df["card1"].apply(lambda x: str(x)) + "_" + df["card2"].apply(lambda x: str(x)) + "_" + df["card3"].apply(lambda x: str(x)) \
+            + "_" + df["card4"].apply(lambda x: str(x)) + "_" + df["card5"].apply(lambda x: str(x)) + "_" \
+            + df["card6"].apply(lambda x: str(x)) + "_" \
+            + df["addr1"].apply(lambda x: str(x)) + "_" + df["addr2"].apply(lambda x: str(x)) + \
+            "_" + df["P_emaildomain"].apply(lambda x: str(x))
+
 H_move = 12
 df["day"] = (df["TransactionDT"] + 3600 * H_move) // (24 * 60 * 60)
 
@@ -69,10 +74,12 @@ for DAY in tqdm_notebook(range(2, 182 + 1)):  # 2, 182+1
                 sum_ = temp[target_feature].sum()
                 cnt_ = temp[target_feature].shape[0]
 
-            uid_D10.append([TransactionID_, mean_, sum_, cnt_])
+            if cnt_ == 1:
+                uid_D10.append([TransactionID_, mean_])
 
 uid_D10 = pd.DataFrame(uid_D10)
-uid_D10.columns = ["TransactionID", target_feature + "_mean", target_feature + "_sum", target_feature + "cnt"]
+# uid_D10.columns = ["TransactionID", target_feature + "_mean", target_feature + "_sum", target_feature + "_cnt"]
+uid_D10.columns = ["TransactionID", target_feature + "_prev"]
 uid_D10.to_csv("./uid_D10_" + target_feature + "_train.csv",index=False)
 
 
@@ -99,8 +106,10 @@ for DAY in tqdm_notebook(range(214, 396 + 1)):  # test中day的最小值是213,�
                 sum_ = temp[target_feature].sum()
                 cnt_ = temp[target_feature].shape[0]
 
-            uid_D10_test.append([TransactionID_, mean_, sum_, cnt_])
+            if cnt_ == 1:
+                uid_D10_test.append([TransactionID_, mean_])
 
 uid_D10_test = pd.DataFrame(uid_D10_test)
-uid_D10_test.columns = ["TransactionID", target_feature + "_mean", target_feature + "_sum", target_feature + "cnt"]
+# uid_D10_test.columns = ["TransactionID", target_feature + "_mean", target_feature + "_sum", target_feature + "_cnt"]
+uid_D10_test.columns = ["TransactionID", target_feature + "_prev"]
 uid_D10_test.to_csv("./uid_D10_" + target_feature + "_test.csv",index=False)
