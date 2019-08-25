@@ -1062,33 +1062,33 @@ else:
 
 
     # 用户当天交易信息
-    H_move = 12
-    X['uid'] = X["card1"].apply(lambda x: str(x)) + "_" + X["card2"].apply(lambda x: str(x)) + "_" + X["card3"].apply(
-        lambda x: str(x)) + "_" + X["card4"].apply(lambda x: str(x)) + "_" + X["card5"].apply(lambda x: str(x)) + "_" + \
-               X["card6"].apply(lambda x: str(x)) + "_" + X["addr1"].apply(lambda x: str(x)) + "_" + X["addr2"].apply(
-        lambda x: str(x))
-    test_X['uid'] = test_X["card1"].apply(lambda test_X: str(test_X)) + "_" + test_X["card2"].apply(
-        lambda test_X: str(test_X)) + "_" + test_X["card3"].apply(lambda test_X: str(test_X)) + "_" + test_X[
-                        "card4"].apply(lambda test_X: str(test_X)) + "_" + test_X["card5"].apply(
-        lambda test_X: str(test_X)) + "_" + test_X["card6"].apply(lambda test_X: str(test_X)) + "_" + test_X[
-                        "addr1"].apply(lambda test_X: str(test_X)) + "_" + test_X["addr2"].apply(
-        lambda test_X: str(test_X))
-    X["day"] = (X["TransactionDT"] + 3600 * H_move) // (24 * 60 * 60)
-    test_X["day"] = (test_X["TransactionDT"] + 3600 * H_move) // (24 * 60 * 60)
-
-    # 当天的交易次数
-    X['trans_curday_cnt'] = X.groupby(['uid', 'day'])['TransactionAmt'].transform('count')
-    test_X['trans_curday_cnt'] = test_X.groupby(['uid', 'day'])['TransactionAmt'].transform('count')
-    # 当天的交易总额
-    X['trans_curday_cnt'] = X.groupby(['uid', 'day'])['TransactionAmt'].transform('sum')
-    test_X['trans_curday_cnt'] = test_X.groupby(['uid', 'day'])['TransactionAmt'].transform('sum')
-    # 当天同样金额的交易次数
-    X['trans_curday_cnt'] = X.groupby(['uid', 'day', 'TransactionAmt'])['TransactionAmt'].transform('count')
-    test_X['trans_curday_cnt'] = test_X.groupby(['uid', 'day', 'TransactionAmt'])['TransactionAmt'].transform('count')
-
-    # 删除uid
-    X = X.drop("uid", axis = 1)
-    test_X = test_X.drop("uid", axis = 1)
+    # H_move = 12
+    # X['uid'] = X["card1"].apply(lambda x: str(x)) + "_" + X["card2"].apply(lambda x: str(x)) + "_" + X["card3"].apply(
+    #     lambda x: str(x)) + "_" + X["card4"].apply(lambda x: str(x)) + "_" + X["card5"].apply(lambda x: str(x)) + "_" + \
+    #            X["card6"].apply(lambda x: str(x)) + "_" + X["addr1"].apply(lambda x: str(x)) + "_" + X["addr2"].apply(
+    #     lambda x: str(x))
+    # test_X['uid'] = test_X["card1"].apply(lambda test_X: str(test_X)) + "_" + test_X["card2"].apply(
+    #     lambda test_X: str(test_X)) + "_" + test_X["card3"].apply(lambda test_X: str(test_X)) + "_" + test_X[
+    #                     "card4"].apply(lambda test_X: str(test_X)) + "_" + test_X["card5"].apply(
+    #     lambda test_X: str(test_X)) + "_" + test_X["card6"].apply(lambda test_X: str(test_X)) + "_" + test_X[
+    #                     "addr1"].apply(lambda test_X: str(test_X)) + "_" + test_X["addr2"].apply(
+    #     lambda test_X: str(test_X))
+    # X["day"] = (X["TransactionDT"] + 3600 * H_move) // (24 * 60 * 60)
+    # test_X["day"] = (test_X["TransactionDT"] + 3600 * H_move) // (24 * 60 * 60)
+    #
+    # # 当天的交易次数
+    # X['trans_curday_cnt'] = X.groupby(['uid', 'day'])['TransactionAmt'].transform('count')
+    # test_X['trans_curday_cnt'] = test_X.groupby(['uid', 'day'])['TransactionAmt'].transform('count')
+    # # 当天的交易总额
+    # X['trans_curday_cnt'] = X.groupby(['uid', 'day'])['TransactionAmt'].transform('sum')
+    # test_X['trans_curday_cnt'] = test_X.groupby(['uid', 'day'])['TransactionAmt'].transform('sum')
+    # # 当天同样金额的交易次数
+    # X['trans_curday_cnt'] = X.groupby(['uid', 'day', 'TransactionAmt'])['TransactionAmt'].transform('count')
+    # test_X['trans_curday_cnt'] = test_X.groupby(['uid', 'day', 'TransactionAmt'])['TransactionAmt'].transform('count')
+    #
+    # # 删除uid
+    # X = X.drop("uid", axis = 1)
+    # test_X = test_X.drop("uid", axis = 1)
 
 
     # 增加uid_D5特征
@@ -1135,6 +1135,31 @@ else:
     # uid_D14_train = pd.read_csv("./train_target_encoding_D14.csv")
     # X = X.merge(uid_D14_train, on="TransactionID", how="left")
     # test_X = test_X.merge(uid_D14_train, on="TransactionID", how="left")
+
+
+
+    # uid的target encoding
+    X['uid'] = X["card1"].apply(lambda x: str(x)) + "_" + X["card2"].apply(lambda x: str(x)) + "_" + X["card3"].apply(
+        lambda x: str(x)) + "_" + X["card4"].apply(lambda x: str(x)) + "_" + X["card5"].apply(lambda x: str(x)) + "_" + \
+               X["card6"].apply(lambda x: str(x)) + "_" + X["addr1"].apply(lambda x: str(x)) + "_" + X["addr2"].apply(
+        lambda x: str(x))
+    test_X['uid'] = test_X["card1"].apply(lambda test_X: str(test_X)) + "_" + test_X["card2"].apply(
+        lambda test_X: str(test_X)) + "_" + test_X["card3"].apply(lambda test_X: str(test_X)) + "_" + test_X[
+                        "card4"].apply(lambda test_X: str(test_X)) + "_" + test_X["card5"].apply(
+        lambda test_X: str(test_X)) + "_" + test_X["card6"].apply(lambda test_X: str(test_X)) + "_" + test_X[
+                        "addr1"].apply(lambda test_X: str(test_X)) + "_" + test_X["addr2"].apply(
+        lambda test_X: str(test_X))
+
+    target = 'isFraud'
+    target_encode_df = X.groupby('uid').agg({target: ['mean', 'count', 'sum']})
+
+    X = X.merge(target_encode_df, on="uid", how='left')
+    test_X = test_X.merge(target_encode_df, on="uid", how='left')
+
+    # 删除uid
+    X = X.drop("uid", axis=1)
+    test_X = test_X.drop("uid", axis=1)
+
 
 
 X = X.drop('TransactionID', axis=1)
