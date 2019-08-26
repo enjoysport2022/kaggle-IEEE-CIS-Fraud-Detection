@@ -42,8 +42,8 @@ df.reset_index()
 
 df['uid'] = df["card1"].apply(lambda x: str(x)) + "_" + df["card2"].apply(lambda x: str(x)) + "_" + df["card3"].apply(
     lambda x: str(x)) + "_" + df["card4"].apply(lambda x: str(x)) + "_" + df["card5"].apply(lambda x: str(x)) + "_" + \
-            df["card6"].apply(lambda x: str(x))
-            # + "_" + df["addr1"].apply(lambda x: str(x)) + "_" + df["addr2"].apply(lambda x: str(x)) \
+            df["card6"].apply(lambda x: str(x)) \
+            + "_" + df["addr1"].apply(lambda x: str(x)) + "_" + df["addr2"].apply(lambda x: str(x))
             # + "_" + df["P_emaildomain"].apply(lambda x: str(x))
 H_move = 12
 df["day"] = (df["TransactionDT"] + 3600 * H_move) // (24 * 60 * 60)
@@ -68,6 +68,15 @@ def get_train_features(DAY=0, col='D15'):
                 mean_ = temp["isFraud"].mean()
                 sum_ = temp["isFraud"].sum()
                 cnt_ = temp["isFraud"].shape[0]
+
+            # 查不到的时候向后移动一天
+            else:
+                temp = df.loc[(df["uid"] == uid_list[i]) & (df["day"] == DAY - D_name + 1), feature_list]
+                if temp.shape[0] != 0:
+                    mean_ = temp["isFraud"].mean()
+                    sum_ = temp["isFraud"].sum()
+                    cnt_ = temp["isFraud"].shape[0]
+
             uid_feature_list.append([TransactionID_, mean_, sum_, cnt_])
     return uid_feature_list
 
@@ -90,6 +99,15 @@ def get_test_features(DAY=0, col='D15'):
                 mean_ = temp["isFraud"].mean()
                 sum_ = temp["isFraud"].sum()
                 cnt_ = temp["isFraud"].shape[0]
+
+            # 查不到的时候向后移动一天
+            else:
+                temp = df.loc[(df["uid"] == uid_list[i]) & (df["day"] == DAY - D_name + 1), feature_list]
+                if temp.shape[0] != 0:
+                    mean_ = temp["isFraud"].mean()
+                    sum_ = temp["isFraud"].sum()
+                    cnt_ = temp["isFraud"].shape[0]
+
             uid_feature_list.append([TransactionID_, mean_, sum_, cnt_])
     return uid_feature_list
 
@@ -112,11 +130,11 @@ test_D10 = pd.DataFrame(test_D10, columns=["TransactionID", "mean_D10", "sum_D10
 print(train_D10.shape, test_D10.shape)
 print("D10 done")
 
-train_D15.to_csv('./train_target_encoding_D15_card.csv', header=True, index=False)
-test_D15.to_csv('./test_target_encoding_D15_card.csv', header=True, index=False)
+train_D15.to_csv('./train_target_encoding_D15_shift.csv', header=True, index=False)
+test_D15.to_csv('./test_target_encoding_D15_shift.csv', header=True, index=False)
 
-train_D10.to_csv('./train_target_encoding_D10_card.csv', header=True, index=False)
-test_D10.to_csv('./test_target_encoding_D10_card.csv', header=True, index=False)
+train_D10.to_csv('./train_target_encoding_D10_shift.csv', header=True, index=False)
+test_D10.to_csv('./test_target_encoding_D10_shift.csv', header=True, index=False)
 
 
 # train_D1 = Parallel(n_jobs=-1)(delayed(get_train_features)(DAY, 'D1') for DAY in (range(32, 182 + 1)))
