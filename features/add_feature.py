@@ -1160,15 +1160,20 @@ else:
     # X = X.drop(["uid", target], axis=1)
     # test_X = test_X.drop("uid", axis=1)
 
-    # 增加uid_D15特征(修改uid的构造:增加pEmail)
-    uid_D15_new_train = pd.read_csv("./train_target_encoding_D15_pEmail.csv")
-    X = X.merge(uid_D15_new_train, on="TransactionID", how="left")
-    test_X = test_X.merge(uid_D15_new_train, on="TransactionID", how="left")
+    # # 增加uid_D15特征(修改uid的构造:增加pEmail)
+    # uid_D15_new_train = pd.read_csv("./train_target_encoding_D15_pEmail.csv")
+    # X = X.merge(uid_D15_new_train, on="TransactionID", how="left")
+    # test_X = test_X.merge(uid_D15_new_train, on="TransactionID", how="left")
+    #
+    # # 增加uid_D10特征(修改uid的构造:增加pEmail)
+    # uid_D10_new_train = pd.read_csv("./train_target_encoding_D10_pEmail.csv")
+    # X = X.merge(uid_D10_new_train, on="TransactionID", how="left")
+    # test_X = test_X.merge(uid_D10_new_train, on="TransactionID", how="left")
 
-    # 增加uid_D10特征(修改uid的构造:增加pEmail)
-    uid_D10_new_train = pd.read_csv("./train_target_encoding_D10_pEmail.csv")
-    X = X.merge(uid_D10_new_train, on="TransactionID", how="left")
-    test_X = test_X.merge(uid_D10_new_train, on="TransactionID", how="left")
+    # 增加uid_D10_TransactionAmt特征(修改uid的构造,仅当uid只匹配到一条样本时加入金额)
+    uid_D10_TransactionAmt_train = pd.read_csv("./uid_D10_TransactionAmt_train.csv")
+    X = X.merge(uid_D10_TransactionAmt_train, on="TransactionID", how="left")
+    test_X = test_X.merge(uid_D10_TransactionAmt_train, on="TransactionID", how="left")
 
 
 
