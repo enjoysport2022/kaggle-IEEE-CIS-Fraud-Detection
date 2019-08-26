@@ -42,8 +42,9 @@ df.reset_index()
 
 df['uid'] = df["card1"].apply(lambda x: str(x)) + "_" + df["card2"].apply(lambda x: str(x)) + "_" + df["card3"].apply(
     lambda x: str(x)) + "_" + df["card4"].apply(lambda x: str(x)) + "_" + df["card5"].apply(lambda x: str(x)) + "_" + \
-            df["card6"].apply(lambda x: str(x)) + "_" + df["addr1"].apply(lambda x: str(x)) + "_" + df["addr2"].apply(
-    lambda x: str(x)) + "_" + df["P_emaildomain"].apply(lambda x: str(x))
+            df["card6"].apply(lambda x: str(x))
+            # + "_" + df["addr1"].apply(lambda x: str(x)) + "_" + df["addr2"].apply(lambda x: str(x)) \
+            # + "_" + df["P_emaildomain"].apply(lambda x: str(x))
 H_move = 12
 df["day"] = (df["TransactionDT"] + 3600 * H_move) // (24 * 60 * 60)
 
@@ -93,79 +94,79 @@ def get_test_features(DAY=0, col='D15'):
     return uid_feature_list
 
 
-# train_D15 = Parallel(n_jobs=-1)(delayed(get_train_features)(DAY, 'D15') for DAY in (range(32, 182 + 1)))
-# test_D15 = Parallel(n_jobs=-1)(delayed(get_test_features)(DAY, 'D15') for DAY in (range(213, 395 + 1)))
-# train_D15 = [item for line in train_D15 for item in line]
-# test_D15 = [item for line in test_D15 for item in line]
-# train_D15 = pd.DataFrame(train_D15, columns=["TransactionID", "mean_D15", "sum_D15", "cnt_D15"])
-# test_D15 = pd.DataFrame(test_D15, columns=["TransactionID", "mean_D15", "sum_D15", "cnt_D15"])
-# print(train_D15.shape, test_D15.shape)
-# print("D15 done")
+train_D15 = Parallel(n_jobs=-1)(delayed(get_train_features)(DAY, 'D15') for DAY in (range(32, 182 + 1)))
+test_D15 = Parallel(n_jobs=-1)(delayed(get_test_features)(DAY, 'D15') for DAY in (range(213, 395 + 1)))
+train_D15 = [item for line in train_D15 for item in line]
+test_D15 = [item for line in test_D15 for item in line]
+train_D15 = pd.DataFrame(train_D15, columns=["TransactionID", "mean_D15", "sum_D15", "cnt_D15"])
+test_D15 = pd.DataFrame(test_D15, columns=["TransactionID", "mean_D15", "sum_D15", "cnt_D15"])
+print(train_D15.shape, test_D15.shape)
+print("D15 done")
+
+train_D10 = Parallel(n_jobs=-1)(delayed(get_train_features)(DAY, 'D10') for DAY in (range(32, 182 + 1)))
+test_D10 = Parallel(n_jobs=-1)(delayed(get_test_features)(DAY, 'D10') for DAY in (range(213, 395 + 1)))
+train_D10 = [item for line in train_D10 for item in line]
+test_D10 = [item for line in test_D10 for item in line]
+train_D10 = pd.DataFrame(train_D10, columns=["TransactionID", "mean_D10", "sum_D10", "cnt_D10"])
+test_D10 = pd.DataFrame(test_D10, columns=["TransactionID", "mean_D10", "sum_D10", "cnt_D10"])
+print(train_D10.shape, test_D10.shape)
+print("D10 done")
+
+train_D15.to_csv('./train_target_encoding_D15_card.csv', header=True, index=False)
+test_D15.to_csv('./test_target_encoding_D15_card.csv', header=True, index=False)
+
+train_D10.to_csv('./train_target_encoding_D10_card.csv', header=True, index=False)
+test_D10.to_csv('./test_target_encoding_D10_card.csv', header=True, index=False)
+
+
+# train_D1 = Parallel(n_jobs=-1)(delayed(get_train_features)(DAY, 'D1') for DAY in (range(32, 182 + 1)))
+# test_D1 = Parallel(n_jobs=-1)(delayed(get_test_features)(DAY, 'D1') for DAY in (range(213, 395 + 1)))
+# train_D1 = [item for line in train_D1 for item in line]
+# test_D1 = [item for line in test_D1 for item in line]
+# train_D1 = pd.DataFrame(train_D1, columns=["TransactionID", "mean_D1", "sum_D1", "cnt_D1"])
+# test_D1 = pd.DataFrame(test_D1, columns=["TransactionID", "mean_D1", "sum_D1", "cnt_D1"])
 #
-# train_D10 = Parallel(n_jobs=-1)(delayed(get_train_features)(DAY, 'D10') for DAY in (range(32, 182 + 1)))
-# test_D10 = Parallel(n_jobs=-1)(delayed(get_test_features)(DAY, 'D10') for DAY in (range(213, 395 + 1)))
-# train_D10 = [item for line in train_D10 for item in line]
-# test_D10 = [item for line in test_D10 for item in line]
-# train_D10 = pd.DataFrame(train_D10, columns=["TransactionID", "mean_D10", "sum_D10", "cnt_D10"])
-# test_D10 = pd.DataFrame(test_D10, columns=["TransactionID", "mean_D10", "sum_D10", "cnt_D10"])
-# print(train_D10.shape, test_D10.shape)
-# print("D10 done")
-
-# train_D15.to_csv('./train_target_encoding_D15_pEmail.csv', header=True, index=False)
-# test_D15.to_csv('./test_target_encoding_D15_pEmail.csv', header=True, index=False)
+# train_D2 = Parallel(n_jobs=-1)(delayed(get_train_features)(DAY, 'D2') for DAY in (range(32, 182 + 1)))
+# test_D2 = Parallel(n_jobs=-1)(delayed(get_test_features)(DAY, 'D2') for DAY in (range(213, 395 + 1)))
+# train_D2 = [item for line in train_D2 for item in line]
+# test_D2 = [item for line in test_D2 for item in line]
+# train_D2 = pd.DataFrame(train_D2, columns=["TransactionID", "mean_D2", "sum_D2", "cnt_D2"])
+# test_D2 = pd.DataFrame(test_D2, columns=["TransactionID", "mean_D2", "sum_D2", "cnt_D2"])
 #
-# train_D10.to_csv('./train_target_encoding_D10_pEmail.csv', header=True, index=False)
-# test_D10.to_csv('./test_target_encoding_D10_pEmail.csv', header=True, index=False)
-
-
-train_D1 = Parallel(n_jobs=-1)(delayed(get_train_features)(DAY, 'D1') for DAY in (range(32, 182 + 1)))
-test_D1 = Parallel(n_jobs=-1)(delayed(get_test_features)(DAY, 'D1') for DAY in (range(213, 395 + 1)))
-train_D1 = [item for line in train_D1 for item in line]
-test_D1 = [item for line in test_D1 for item in line]
-train_D1 = pd.DataFrame(train_D1, columns=["TransactionID", "mean_D1", "sum_D1", "cnt_D1"])
-test_D1 = pd.DataFrame(test_D1, columns=["TransactionID", "mean_D1", "sum_D1", "cnt_D1"])
-
-train_D2 = Parallel(n_jobs=-1)(delayed(get_train_features)(DAY, 'D2') for DAY in (range(32, 182 + 1)))
-test_D2 = Parallel(n_jobs=-1)(delayed(get_test_features)(DAY, 'D2') for DAY in (range(213, 395 + 1)))
-train_D2 = [item for line in train_D2 for item in line]
-test_D2 = [item for line in test_D2 for item in line]
-train_D2 = pd.DataFrame(train_D2, columns=["TransactionID", "mean_D2", "sum_D2", "cnt_D2"])
-test_D2 = pd.DataFrame(test_D2, columns=["TransactionID", "mean_D2", "sum_D2", "cnt_D2"])
-
-print(train_D1.shape, test_D1.shape)
-print(train_D2.shape, test_D2.shape)
-
-train_D1.to_csv('./train_target_encoding_D1_pEmail.csv', header=True, index=False)
-test_D1.to_csv('./test_target_encoding_D1_pEmail.csv', header=True, index=False)
-
-train_D2.to_csv('./train_target_encoding_D2_pEmail.csv', header=True, index=False)
-test_D2.to_csv('./test_target_encoding_D2_pEmail.csv', header=True, index=False)
-print("D1,D2 done")
-
-
-train_D3 = Parallel(n_jobs=-1)(delayed(get_train_features)(DAY, 'D3') for DAY in (range(32, 182 + 1)))
-test_D3 = Parallel(n_jobs=-1)(delayed(get_test_features)(DAY, 'D3') for DAY in (range(213, 395 + 1)))
-train_D3 = [item for line in train_D3 for item in line]
-test_D3 = [item for line in test_D3 for item in line]
-train_D3 = pd.DataFrame(train_D3, columns=["TransactionID", "mean_D3", "sum_D3", "cnt_D3"])
-test_D3 = pd.DataFrame(test_D3, columns=["TransactionID", "mean_D3", "sum_D3", "cnt_D3"])
-
-train_D4 = Parallel(n_jobs=-1)(delayed(get_train_features)(DAY, 'D4') for DAY in (range(32, 182 + 1)))
-test_D4 = Parallel(n_jobs=-1)(delayed(get_test_features)(DAY, 'D4') for DAY in (range(213, 395 + 1)))
-train_D4 = [item for line in train_D4 for item in line]
-test_D4 = [item for line in test_D4 for item in line]
-train_D4 = pd.DataFrame(train_D4, columns=["TransactionID", "mean_D4", "sum_D4", "cnt_D4"])
-test_D4 = pd.DataFrame(test_D4, columns=["TransactionID", "mean_D4", "sum_D4", "cnt_D4"])
-
-print(train_D3.shape, test_D3.shape)
-print(train_D4.shape, test_D4.shape)
-
-train_D3.to_csv('./train_target_encoding_D3_pEmail.csv', header=True, index=False)
-test_D3.to_csv('./test_target_encoding_D3_pEmail.csv', header=True, index=False)
-
-train_D4.to_csv('./train_target_encoding_D4_pEmail.csv', header=True, index=False)
-test_D4.to_csv('./test_target_encoding_D4_pEmail.csv', header=True, index=False)
-print("D3,D4 done")
+# print(train_D1.shape, test_D1.shape)
+# print(train_D2.shape, test_D2.shape)
+#
+# train_D1.to_csv('./train_target_encoding_D1_pEmail.csv', header=True, index=False)
+# test_D1.to_csv('./test_target_encoding_D1_pEmail.csv', header=True, index=False)
+#
+# train_D2.to_csv('./train_target_encoding_D2_pEmail.csv', header=True, index=False)
+# test_D2.to_csv('./test_target_encoding_D2_pEmail.csv', header=True, index=False)
+# print("D1,D2 done")
+#
+#
+# train_D3 = Parallel(n_jobs=-1)(delayed(get_train_features)(DAY, 'D3') for DAY in (range(32, 182 + 1)))
+# test_D3 = Parallel(n_jobs=-1)(delayed(get_test_features)(DAY, 'D3') for DAY in (range(213, 395 + 1)))
+# train_D3 = [item for line in train_D3 for item in line]
+# test_D3 = [item for line in test_D3 for item in line]
+# train_D3 = pd.DataFrame(train_D3, columns=["TransactionID", "mean_D3", "sum_D3", "cnt_D3"])
+# test_D3 = pd.DataFrame(test_D3, columns=["TransactionID", "mean_D3", "sum_D3", "cnt_D3"])
+#
+# train_D4 = Parallel(n_jobs=-1)(delayed(get_train_features)(DAY, 'D4') for DAY in (range(32, 182 + 1)))
+# test_D4 = Parallel(n_jobs=-1)(delayed(get_test_features)(DAY, 'D4') for DAY in (range(213, 395 + 1)))
+# train_D4 = [item for line in train_D4 for item in line]
+# test_D4 = [item for line in test_D4 for item in line]
+# train_D4 = pd.DataFrame(train_D4, columns=["TransactionID", "mean_D4", "sum_D4", "cnt_D4"])
+# test_D4 = pd.DataFrame(test_D4, columns=["TransactionID", "mean_D4", "sum_D4", "cnt_D4"])
+#
+# print(train_D3.shape, test_D3.shape)
+# print(train_D4.shape, test_D4.shape)
+#
+# train_D3.to_csv('./train_target_encoding_D3_pEmail.csv', header=True, index=False)
+# test_D3.to_csv('./test_target_encoding_D3_pEmail.csv', header=True, index=False)
+#
+# train_D4.to_csv('./train_target_encoding_D4_pEmail.csv', header=True, index=False)
+# test_D4.to_csv('./test_target_encoding_D4_pEmail.csv', header=True, index=False)
+# print("D3,D4 done")
 
 
 # train_D5 = Parallel(n_jobs=-1)(delayed(get_train_features)(DAY, 'D5') for DAY in (range(32, 182 + 1)))
