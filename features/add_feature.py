@@ -1137,29 +1137,38 @@ else:
     # test_X = test_X.merge(uid_D14_train, on="TransactionID", how="left")
 
 
-
     # uid的target encoding
-    X['uid'] = X["card1"].apply(lambda x: str(x)) + "_" + X["card2"].apply(lambda x: str(x)) + "_" + X["card3"].apply(
-        lambda x: str(x)) + "_" + X["card4"].apply(lambda x: str(x)) + "_" + X["card5"].apply(lambda x: str(x)) + "_" + \
-               X["card6"].apply(lambda x: str(x)) + "_" + X["addr1"].apply(lambda x: str(x)) + "_" + X["addr2"].apply(
-        lambda x: str(x))
-    test_X['uid'] = test_X["card1"].apply(lambda test_X: str(test_X)) + "_" + test_X["card2"].apply(
-        lambda test_X: str(test_X)) + "_" + test_X["card3"].apply(lambda test_X: str(test_X)) + "_" + test_X[
-                        "card4"].apply(lambda test_X: str(test_X)) + "_" + test_X["card5"].apply(
-        lambda test_X: str(test_X)) + "_" + test_X["card6"].apply(lambda test_X: str(test_X)) + "_" + test_X[
-                        "addr1"].apply(lambda test_X: str(test_X)) + "_" + test_X["addr2"].apply(
-        lambda test_X: str(test_X))
+    # X['uid'] = X["card1"].apply(lambda x: str(x)) + "_" + X["card2"].apply(lambda x: str(x)) + "_" + X["card3"].apply(
+    #     lambda x: str(x)) + "_" + X["card4"].apply(lambda x: str(x)) + "_" + X["card5"].apply(lambda x: str(x)) + "_" + \
+    #            X["card6"].apply(lambda x: str(x)) + "_" + X["addr1"].apply(lambda x: str(x)) + "_" + X["addr2"].apply(
+    #     lambda x: str(x))
+    # test_X['uid'] = test_X["card1"].apply(lambda test_X: str(test_X)) + "_" + test_X["card2"].apply(
+    #     lambda test_X: str(test_X)) + "_" + test_X["card3"].apply(lambda test_X: str(test_X)) + "_" + test_X[
+    #                     "card4"].apply(lambda test_X: str(test_X)) + "_" + test_X["card5"].apply(
+    #     lambda test_X: str(test_X)) + "_" + test_X["card6"].apply(lambda test_X: str(test_X)) + "_" + test_X[
+    #                     "addr1"].apply(lambda test_X: str(test_X)) + "_" + test_X["addr2"].apply(
+    #     lambda test_X: str(test_X))
+    #
+    # target = 'isFraud'
+    # X[target] = y[target]
+    # target_encode_df = X.groupby('uid').agg({target: ['mean', 'count', 'sum']})
+    #
+    # X = X.merge(target_encode_df, on="uid", how='left')
+    # test_X = test_X.merge(target_encode_df, on="uid", how='left')
+    #
+    # # 删除uid
+    # X = X.drop(["uid", target], axis=1)
+    # test_X = test_X.drop("uid", axis=1)
 
-    target = 'isFraud'
-    X[target] = y[target]
-    target_encode_df = X.groupby('uid').agg({target: ['mean', 'count', 'sum']})
+    # 增加uid_D15特征(修改uid的构造:增加pEmail)
+    uid_D15_new_train = pd.read_csv("./train_target_encoding_D15_pEmail.csv")
+    X = X.merge(uid_D15_new_train, on="TransactionID", how="left")
+    test_X = test_X.merge(uid_D15_new_train, on="TransactionID", how="left")
 
-    X = X.merge(target_encode_df, on="uid", how='left')
-    test_X = test_X.merge(target_encode_df, on="uid", how='left')
-
-    # 删除uid
-    X = X.drop(["uid", target], axis=1)
-    test_X = test_X.drop("uid", axis=1)
+    # 增加uid_D10特征(修改uid的构造:增加pEmail)
+    uid_D10_new_train = pd.read_csv("./train_target_encoding_D10_pEmail.csv")
+    X = X.merge(uid_D10_new_train, on="TransactionID", how="left")
+    test_X = test_X.merge(uid_D10_new_train, on="TransactionID", how="left")
 
 
 
