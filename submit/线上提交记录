@@ -16,3 +16,47 @@ AUCs: [0.9143824068425187, 0.9353440106621487, 0.9308520458781104, 0.94788980604
 Mean AUC: 0.9321170673573005
 线上提交: 0.9402
 实验结果分析: 参数优化没有达到想要的效果
+
+
+3.uid-D15特征
+local3, done:
+nohup python -u lgb2_submit_D_uidD5.py -1 > lgb2_submit_D_uidD5.log 2>&1 &
+Total training time is 1:09:59.625390
+AUCs: [0.9278676193187516, 0.9442087492773841, 0.9410796472885653, 0.9553290953683372]
+Mean AUC: 0.9421212778132595
+线上提交: 0.9469
+实验结果分析: 提升12个点
+
+
+4.uid-D15移动12小时,增加uid-D10,D1,D2
+local3, done:
+nohup python -u lgb2_submit_uid_Dx.py -1 > lgb2_submit_uid_Dx.log 2>&1 &
+Total training time is 1:15:44.465396
+AUCs: [0.9267188715844503, 0.9418157923163052, 0.9406383251063942, 0.955456067656225]
+Mean AUC: 0.9411572641658437
+output: ieee_lgb_submit_uid_Dx.csv
+线上提交: 0.9513
+
+
+5.增加uid_D3,D4特征
+local3, done:
+nohup python -u lgb2_submit_uid_Dx_plus.py -1 > lgb2_submit_uid_Dx_plus.log 2>&1 &
+Total training time is 1:09:48.087889
+AUCs: [0.9249376368478769, 0.9421206244755592, 0.9409416530640962, 0.9564133919681649]
+Mean AUC: 0.9411033265889244
+线上提交:
+ieee_lgb_submit_uid_Dx_plus(增加了uid_D3,D4)和Kernel的82融合,和9544的55融合,+rule_D10_320_item: 0.9556
+
+
+6.增加特征: D10=1到30天,train用label的数据; test用预测值的数据,计算mean_,sum_,count_
+local2, done:
+nohup python -u lgb2_submit_uid_Dx_plus_pred.py -1 > lgb2_submit_uid_Dx_plus_pred.log 2>&1 &
+Training has finished.
+Total training time is 1:31:26.411423
+AUCs: [0.9298037006591781, 0.9496703952067929, 0.9492498196065025, 0.9613942830964798]
+Mean AUC: 0.9475295496422382
+线上提交:0.9486
+效果很差
+
+
+0.9469融合kernel(0.9476)最优能到0.9509

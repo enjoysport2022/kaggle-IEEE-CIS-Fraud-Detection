@@ -126,12 +126,12 @@ nohup python -u lgb2_kfold_submit.py 5000 > lgb2_kfold_submit_allFolds.log 2>&1 
 cpu机器1
 ssh -i id_rsa caihengxing@35.233.158.158
 cpu机器2
-ssh -i id_rsa caihengxing@146.148.43.110
+ssh -i id_rsa caihengxing@34.67.157.83
 cpu机器3
 ssh -i id_rsa caihengxing@35.232.41.9
 
-文件传输
-scp -i /home/caihengxing/kaggle/kaggle-IEEE-CIS-Fraud-Detection/features/id_rsa caihengxing@35.233.158.158:/home/caihengxing/kaggle/kaggle-IEEE-CIS-Fraud-Detection/features/train.embed_card.csv /home/caihengxing/kaggle/kaggle-IEEE-CIS-Fraud-Detection/features
+文件下载,从其他机器拷贝到本地机器
+scp -i /home/caihengxing/kaggle/kaggle-IEEE-CIS-Fraud-Detection/features/id_rsa caihengxing@34.67.157.83:/home/caihengxing/kaggle/kaggle-IEEE-CIS-Fraud-Detection/temp/feature_test_X.csv /home/caihengxing/kaggle/kaggle-IEEE-CIS-Fraud-Detection/temp
 
 
 

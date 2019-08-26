@@ -41,6 +41,370 @@ test1 auc:  0.9089329121318903
 test2 auc: 0.9109703430335961
 实验结果分析:只有第一折提升,test1 提升9个点,test2下降4个点
 
+4.uid_D15特征
+local1, cpu2 run:
+base: test1 auc:  0.9080785550718606, test2 auc: 0.9113424167139045
+nohup python -u add_feature.py -1 0 > add_feature.log 2>&1 &
+Total training time is 0:29:09.250839
+AUCs: [0.9197335909898408, 0.9405412566590792, 0.9528778657934037, 0.9525106344812374]
+Mean AUC: 0.9414158369808903
+------------------------------
+test1 auc:  0.9111782477696009
+test2 auc: 0.9141366110578519
+实验结果分析: test1 提升31个点,test2提升28个点
 
 
+5.删除大量特征
+local3 done:
+base: test1 auc:  0.9111782477696009, test2 auc: 0.9141366110578519
+nohup python -u del_feature2.py -1 1 > del_feature2.log 2>&1 &
+Total training time is 0:25:57.590022
+AUCs: [0.9224166670795139, 0.9377118707497039, 0.9515993037988852, 0.9511486684741246]
+Mean AUC: 0.9407191275255569
+------------------------------
+test1 auc:  0.9102312705935549
+test2 auc: 0.9127332871840039
+实验结果分析: 删除了有用的特征,效果降低
+
+
+6.不使用最后三折
+local2, cpu2 done:
+base: test1 auc:  0.9111782477696009, test2 auc: 0.9141366110578519
+nohup python -u add_feature.py -1 0 > add_feature.log 2>&1 &
+Total training time is 0:21:25.417549
+AUCs: [0.9197335909898408, 0.9405412566590792]
+Mean AUC: 0.93013742382446
+------------------------------
+test1 auc:  0.9116711876719313
+test2 auc: 0.913722730173453
+实验结果分析: 结果没有提升
+
+7. local3, done:
+uid_D15特征构造_优化day列.py
+移动12个小时
+nohup python -u uid_D15特征构造_优化day列.py > uid_D15特征构造_优化day列.log 2>&1 &
+生成uid_D15_test_modify.csv和uid_D15_train_modify.csv
+
+8. local2 done:
+通过D10发现fraud样本
+nohup python -u D10_find_fraud.py > D10_find_fraud.log 2>&1 &
+生成fraud_TransactionIDs.csv文件
+
+
+9.uid_D15_modify特征 (平移12个小时)
+local2, cpu2 done:
+base: test1 auc: 0.9111782477696009, test2 auc: 0.9141366110578519
+nohup python -u add_feature.py -1 0 > add_feature.log 2>&1 &
+Total training time is 0:29:29.511434
+AUCs: [0.9196043555834051, 0.9403867040499045, 0.9533501840439786, 0.9529223211216726]
+Mean AUC: 0.9415658911997402
+------------------------------
+test1 auc:  0.9118566039718946
+test2 auc: 0.915351226754878
+实验结果分析: test1提升7个点, test2提升12个点, 平移12个小时有效
+
+
+10.uid_D10特征
+local3, cpu3 done:
+nohup python -u uid_D10特征构造.py > uid_D10特征构造.log 2>&1 &
+数据先不用了,采用11并行计算的方法
+
+
+11.构造uid_D10,D15特征
+local3, cpu3 done:
+nohup python -u uid_D_features.py > uid_D_features.log 2>&1 &
+生成test_target_encoding_D10.csv, test_target_encoding_D15.csv,
+train_target_encoding_D10.csv, train_target_encoding_D15.csv四个文件
+
+
+12. 通过已经获取的测试fraud数据,进行传播,获得其他fraud数据.
+
+
+13.增加D10和D15特征,DAY取消120的限制
+local2, cpu2 done:
+base: test1 auc: 0.9111782477696009, test2 auc: 0.9141366110578519
+nohup python -u add_feature.py -1 0 > add_feature.log 2>&1 &
+Total training time is 0:33:34.194082
+AUCs: [0.919316544147857, 0.9404758690167362, 0.9527192777672955, 0.9522664789669618]
+Mean AUC: 0.9411945424747127
+------------------------------
+test1 auc:  0.9116865475028848
+test2 auc: 0.9177795477768474
+实验结果分析: test1提升5个点,test2提升36个点,uid_D10特征有效
+
+
+14.增加uid_D1,D2特征
+local2, cpu2 done:
+base: test1 auc: 0.9111782477696009, test2 auc: 0.9141366110578519
+nohup python -u add_feature.py -1 0 > add_feature.log 2>&1 &
+Total training time is 0:30:16.070644
+AUCs: [0.9197210988033296, 0.9399530860660322, 0.9520021618371779, 0.9526416491882567]
+Mean AUC: 0.9410794989736991
+------------------------------
+test1 auc:  0.9128128372906109
+test2 auc: 0.9208794250045345
+实验结果分析: test1提升16个点,test2提升67个点,uid_D1,D2特征有效
+
+
+15.增加uid_D3,D4特征
+local2, cpu2 done:
+base: test1 auc: 0.9128128372906109, test2 auc: 0.9208794250045345
+nohup python -u add_feature.py -1 0 > add_feature.log 2>&1 &
+Total training time is 0:33:00.055205
+AUCs: [0.9189331514698756, 0.9395349435914072, 0.9523776371375484, 0.9534091717729564]
+Mean AUC: 0.941063725992947
+------------------------------
+test1 auc:  0.9136731052026178
+test2 auc: 0.9223522515060686
+实验结果分析: test1提升8个点,test2提升15个点,
+uid_D3,D4特征有效
+
+
+16.构造更多的uid_Dxx特征
+local2, cpu2 done:
+nohup python -u uid_D_features.py > uid_D_features.log 2>&1 &
+
+实验获得数据:
+D1,D2,D3,D4,D10,D15,  D5,D6,D7,D8,D11,D12,D13,D14(未实验)
+
+17.构造uid_D10_Amount特征
+local3, cpu3 done:
+nohup python -u uid_D10_Amount.py > uid_D10_Amount.log 2>&1 &
+输出文件:uid_D10_TransactionAmt_test.csv, uid_D10_TransactionAmt_train.csv
+
+
+18.增加uid_D5,D6特征
+local2, cpu2 done:
+base: test1 auc:  0.9136731052026178, test2 auc: 0.9223522515060686
+nohup python -u add_feature.py -1 0 > add_feature.log 2>&1 &
+Total training time is 0:34:53.652975
+AUCs: [0.9178960864478097, 0.9393987157207526, 0.951968359146394, 0.9533484578108607]
+Mean AUC: 0.9406529047814542
+------------------------------
+test1 auc:  0.9134728740438693
+test2 auc: 0.9219674842904771
+
+实验结果分析: D5,D6特征增加后结果下降
+
+
+19.增加uid_D10_Amount特征
+local3, cpu3 done:
+base: test1 auc:  0.9136731052026178, test2 auc: 0.9223522515060686
+nohup python -u add_feature.py -1 0 > add_feature.log 2>&1 &
+Total training time is 0:28:13.552965
+AUCs: [0.920233822981489, 0.9396614522637309, 0.952513711356361, 0.9532863812958122]
+Mean AUC: 0.9414238419743483
+------------------------------
+test1 auc:  0.9137263867122839
+test2 auc: 0.9218922217989103
+实验结果分析: test1提升0.5点,test2降低4个点, uid_D10_Amount特征无效
+
+
+
+20.增加uid_D7,D8特征
+local2, cpu2 done:
+base: test1 auc:  0.9136731052026178, test2 auc: 0.9223522515060686
+nohup python -u add_feature.py -1 0 > add_feature.log 2>&1 &
+Total training time is 0:32:27.041584
+AUCs: [0.919465873823535, 0.9397038146624085, 0.9521655388443124, 0.9532430451244558]
+Mean AUC: 0.9411445681136779
+------------------------------
+test1 auc:  0.9139286384601479
+test2 auc: 0.9219990230851388
+实验结果分析: test1提升2.5点,test2降低3.6个点, uid_D7,D8特征无效
+
+
+21.增加uid_D11,D12特征
+local2, cpu2 run:
+base: test1 auc:  0.9136731052026178, test2 auc: 0.9223522515060686
+nohup python -u add_feature.py -1 0 > add_feature.log 2>&1 &
+Total training time is 0:35:28.721567
+AUCs: [0.9184916434319116, 0.9392928169556043, 0.9522655158188277, 0.9536998986484202]
+Mean AUC: 0.9409374687136909
+------------------------------
+test1 auc:  0.9134795646252563
+test2 auc: 0.9219974814812167
+实验结果分析: test1降低2个点,test2降低3.6个点, uid_D11,D12特征无效
+
+
+22.增加uid_D13,D14特征
+local3, cpu3 done:
+base: test1 auc:  0.9136731052026178, test2 auc: 0.9223522515060686
+nohup python -u add_feature.py -1 0 > add_feature.log 2>&1 &
+Total training time is 0:29:08.145754
+AUCs: [0.9183730637537989, 0.9395971927426225, 0.9521834475546614, 0.9538229686236057]
+Mean AUC: 0.9409941681686722
+------------------------------
+test1 auc:  0.9132142637896364
+test2 auc: 0.9218828409642665
+实验结果分析: test1降低4.6个点, test2降低4.7个点, D13,D14无效
+
+
+23.把uid_D3去掉:
+local2 cup2 done:
+base: test1 auc:  0.9136731052026178, test2 auc: 0.9223522515060686
+nohup python -u add_feature.py -1 0 > add_feature.log 2>&1 &
+Total training time is 0:33:04.762089
+AUCs: [0.9197976000993566, 0.9400581748979862, 0.9520007307393418, 0.952898347177151]
+Mean AUC: 0.9411887132284589
+------------------------------
+test1 auc:  0.9127553888399056
+test2 auc: 0.9213061985206149
+实验结果分析: uid_D3特征去掉后结果下降,说明uid_D3有效
+
+
+24. 增加 用户当天交易信息 特征
+local2 cpu2 done:
+base: test1 auc:  0.9136731052026178, test2 auc: 0.9223522515060686
+nohup python -u add_feature.py -1 0 > add_feature.log 2>&1 &
+Total training time is 0:32:07.760490
+AUCs: [0.9186444538364806, 0.9393143235745303, 0.952649505751574, 0.9534948309352682]
+Mean AUC: 0.9410257785244633
+------------------------------
+test1 auc:  0.9145753192031942
+test2 auc: 0.9221200463388004
+实验结果分析: test1提升9个点, test2降低2.3个点,无法证明能提升效果
+
+
+25. 构造uid_D10特征,1到30天前的数据,train用label的数据; test用预测值的数据,计算mean_,sum_,count_
+local2, cpu2 done:
+nohup python -u uid_D10_1-30day.py > uid_D10_1-30day.log 2>&1 &
+实验结果分析: 线下五折结果提升明显,上线提交效果很差
+
+
+26. uid的target encoding, fraud的mean, count, sum
+local2 cpu2 done:
+base: test1 auc:  0.9136731052026178, test2 auc: 0.9223522515060686
+nohup python -u add_feature.py -1 0 > add_feature.log 2>&1 &
+Total training time is 0:27:38.976173
+AUCs: [0.9744989416021672, 0.9756051448402808, 0.9810714285714285, 0.9833468778084312]
+Mean AUC: 0.978630598205577
+------------------------------
+test1 auc:  0.8420500709360927
+test2 auc: 0.8275442825789878
+实验结果分析: target encoding发生了严重的过拟合
+
+
+27.构造uid_D10,D15特征,修改uid的构造:增加pEmail
+local2, cpu2 done:
+nohup python -u uid_D_features.py > uid_D_features.log 2>&1 &
+输出文件: train_target_encoding_D15_pEmail, test_target_encoding_D15_pEmail
+train_target_encoding_D10_pEmail, test_target_encoding_D10_pEmail
+
+
+28.上一笔交易的信息,通过uid和D10查到有且仅有一条信息时可以获取到
+local3, cpu3 done:
+nohup python -u uid_D10_Amount.py > uid_D10_Amount.log 2>&1 &
+输出文件:uid_D10_TransactionAmt_test.csv, uid_D10_TransactionAmt_train.csv
+
+
+29. 增加构造uid_D10,D15特征,修改uid的构造:增加pEmail
+local2 cpu2 done:
+base: test1 auc:  0.9136731052026178, test2 auc: 0.9223522515060686
+nohup python -u add_feature.py -1 0 > add_feature.log 2>&1 &
+Total training time is 0:33:27.351415
+AUCs: [0.918022535135716, 0.9396955128471675, 0.9520390505825126, 0.9538164702941376]
+Mean AUC: 0.9408933922148834
+------------------------------
+test1 auc:  0.9138420717272916
+test2 auc: 0.9224118851836399
+实验结果分析: test1提高2个点,test2提高1个点,uid的构造增加pEmail特征有效
+
+
+30. 增加特征: 上一笔交易的金额,通过uid和D10查到有且仅有一条信息时可以获取到
+local3, cpu3 done:
+base: test1 auc:  0.9136731052026178, test2 auc: 0.9223522515060686
+nohup python -u add_feature.py -1 0 > add_feature.log 2>&1 &
+Total training time is 0:58:09.955139
+AUCs: [0.9184100278133729, 0.9395455884276745, 0.9527819822383969, 0.9532271696356904]
+Mean AUC: 0.9409911920287837
+------------------------------
+test1 auc:  0.9143082409198876
+test2 auc: 0.9219629521877217
+实验结果分析: test1提高7个点,test2降低4个点,不能证明该特征有效
+
+
+31.构造uid_D1,D2,D3,D4特征,修改uid的构造:增加pEmail
+local2, cpu2 done:
+nohup python -u uid_D_features.py > uid_D_features.log 2>&1 &
+输出文件: train_target_encoding_D1,D2,D3,D4_pEmail, test_target_encoding_D1,D2,D3,D4_pEmail
+
+
+32. 增加构造uid_D1,D2,D3,D4特征,修改uid的构造:增加pEmail
+local2 cpu2 done:
+base: test1 auc:  0.9138420717272916, test2 auc: 0.9224118851836399
+nohup python -u add_feature.py -1 0 > add_feature.log 2>&1 &
+Total training time is 0:31:36.351492
+AUCs: [0.9196850850040973, 0.9394218566691599, 0.9525038375807892, 0.9532493617801968]
+Mean AUC: 0.9412150352585609
+------------------------------
+test1 auc:  0.913384186111651
+test2 auc: 0.922965428898794
+实验结果分析: test1降低4.6个点, test2提高5.5个点
+
+
+33. 0样本后处理的验证
+
+
+
+34.构造uid_D15,D10特征,修改uid的构造:只用card
+local2, cpu2 done:
+nohup python -u uid_D_features.py > uid_D_features.log 2>&1 &
+输出文件:train_target_encoding_D15,D10_card.csv,test_target_encoding_D15,D10_card
+
+
+35.shift 12个小时依然会出现部分数据不匹配的情况,增加(df["day"] == DAY - D1 + 1)的判定条件
+local2, cpu2 done:
+nohup python -u uid_D_features.py > uid_D_features.log 2>&1 &
+输出文件:train_target_encoding_D15,D10_shift.csv,test_target_encoding_D15,D10_shift.csv
+
+
+36. 增加uid_D15,D10的特征,其uid的构造只用card
+local2 cpu2 run:
+base: test1 auc:  0.9138420717272916, test2 auc: 0.9224118851836399
+nohup python -u add_feature.py -1 0 > add_feature.log 2>&1 &
+
+实验结果分析: test1, test2
+
+
+37. 增加uid_D15,D10的特征,增加(df["day"] == DAY - D1 + 1)的判定条件
+local3 cpu3 run:
+base: test1 auc:  0.9138420717272916, test2 auc: 0.9224118851836399
+nohup python -u add_feature.py -1 0 > add_feature.log 2>&1 &
+
+实验结果分析: test1, test2
+
+
+
+
+user account, email address or billing address
+
+
+
+有效的D系列特征: D1,D2,D3,D4,D10,D15
+
+
+撤销commit
+git reset --soft HEAD^
 tail -f add_feature.log
+
+todo项:
+1. 传播获得数据的后处理;
+2. 把Dx其他的实验在线下做完,D5,D6,D7,D8,D11,D12,D13,D14 done
+3. 提交ieee_lgb_submit_uid_Dx.csv done
+
+
+cpu机器1
+ssh -i id_rsa caihengxing@35.233.158.158
+cpu机器2
+ssh -i id_rsa caihengxing@34.67.157.83
+cpu机器3
+ssh -i id_rsa caihengxing@35.232.41.9
+
+文件下载,从其他机器拷贝到本地机器
+从2拷贝到3:
+scp -i /home/caihengxing/kaggle/kaggle-IEEE-CIS-Fraud-Detection/features/id_rsa caihengxing@34.67.157.83:/home/caihengxing/kaggle/kaggle-IEEE-CIS-Fraud-Detection/features/test_target_encoding_D10_shift.csv /home/caihengxing/kaggle/kaggle-IEEE-CIS-Fraud-Detection/features
+
+从3拷贝到local
+scp -i /Users/poteman/didi_key/id_rsa caihengxing@35.232.41.9:/home/caihengxing/kaggle/kaggle-IEEE-CIS-Fraud-Detection/output/ieee_lgb_submit_uid_Dx_plus.csv /Users/poteman/Kaggle/kaggle-IEEE-CIS-Fraud-Detection/output
+
