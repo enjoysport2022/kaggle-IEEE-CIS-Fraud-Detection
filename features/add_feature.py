@@ -1030,15 +1030,15 @@ else:
     # X      = pd.concat([X.drop("card5", axis=1), card5_onehot_train], axis=1)
     # test_X = pd.concat([test_X.drop("card5", axis=1), card5_onehot_test.reset_index()], axis=1)
 
-    # 增加uid_D15特征
-    uid_D15_train = pd.read_csv("./train_target_encoding_D15.csv")
-    X = X.merge(uid_D15_train, on="TransactionID", how="left")
-    test_X = test_X.merge(uid_D15_train, on="TransactionID", how="left")
-
-    # 增加uid_D10特征
-    uid_D10_train = pd.read_csv("./train_target_encoding_D10.csv")
-    X = X.merge(uid_D10_train, on="TransactionID", how="left")
-    test_X = test_X.merge(uid_D10_train, on="TransactionID", how="left")
+    # # 增加uid_D15特征
+    # uid_D15_train = pd.read_csv("./train_target_encoding_D15.csv")
+    # X = X.merge(uid_D15_train, on="TransactionID", how="left")
+    # test_X = test_X.merge(uid_D15_train, on="TransactionID", how="left")
+    #
+    # # 增加uid_D10特征
+    # uid_D10_train = pd.read_csv("./train_target_encoding_D10.csv")
+    # X = X.merge(uid_D10_train, on="TransactionID", how="left")
+    # test_X = test_X.merge(uid_D10_train, on="TransactionID", how="left")
 
     # 增加uid_D1特征
     uid_D1_train = pd.read_csv("./train_target_encoding_D1.csv")
