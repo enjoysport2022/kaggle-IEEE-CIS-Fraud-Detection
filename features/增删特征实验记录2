@@ -360,19 +360,49 @@ nohup python -u uid_D_features.py > uid_D_features.log 2>&1 &
 
 
 36. 增加uid_D15,D10的特征,其uid的构造只用card
-local2 cpu2 run:
+local2 cpu2 done:
 base: test1 auc:  0.9138420717272916, test2 auc: 0.9224118851836399
 nohup python -u add_feature.py -1 0 > add_feature.log 2>&1 &
-
-实验结果分析: test1, test2
+Total training time is 0:31:22.849713
+AUCs: [0.9192863173273331, 0.9393706717839019, 0.9529608934527675, 0.9532486560476418]
+Mean AUC: 0.941216634652911
+------------------------------
+test1 auc:  0.9141129815841496
+test2 auc: 0.9224031639508057
+实验结果分析: test1提高2.7个点, test2降低0.1个点, 增加后有一定的效果(可以增加)
 
 
 37. 增加uid_D15,D10的特征,增加(df["day"] == DAY - D1 + 1)的判定条件
-local3 cpu3 run:
+local3 cpu3 done:
 base: test1 auc:  0.9138420717272916, test2 auc: 0.9224118851836399
 nohup python -u add_feature.py -1 0 > add_feature.log 2>&1 &
+Total training time is 0:54:37.009836
+AUCs: [0.919155053275225, 0.9392282247833628, 0.9522384129045051, 0.9533908367014245]
+Mean AUC: 0.9410031319161294
+------------------------------
+test1 auc:  0.91415258848449
+test2 auc: 0.9223992114060149
+实验结果分析: test1提高3个点, test2降低0.1个点
 
-实验结果分析: test1, test2
+
+38. 替换uid_D15,D10的特征,使用(df["day"] == DAY - D1 + 1)的判定条件
+local2 cpu2 done:
+base: test1 auc:  0.9138420717272916, test2 auc: 0.9224118851836399
+nohup python -u add_feature.py -1 0 > add_feature.log 2>&1 &
+Total training time is 0:29:29.985973
+AUCs: [0.9184449205189439, 0.9391812631211889, 0.9524401976993703, 0.953608230278213]
+Mean AUC: 0.940918652904429
+------------------------------
+test1 auc:  0.9143003346313563
+test2 auc: 0.9224648939665394
+实验结果分析: test1提高4.6个点, test2提高0.5个点,uid_Dx替换为shift提交能提升效果
+
+
+39.D1,D2,D3,D4: 处理shift12个小时依然会出现部分数据不匹配的情况,增加(df["day"] == DAY - D1 + 1)的判定条件
+local2, cpu2 run:
+nohup python -u uid_D_features.py > uid_D_features.log 2>&1 &
+输出文件:train_target_encoding_D1,D2,D3,D4_shift.csv,test_target_encoding_D1,D2,D3,D4_shift.csv
+
 
 
 
