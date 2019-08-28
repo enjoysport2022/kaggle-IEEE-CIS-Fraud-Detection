@@ -1030,33 +1030,33 @@ else:
     # X      = pd.concat([X.drop("card5", axis=1), card5_onehot_train], axis=1)
     # test_X = pd.concat([test_X.drop("card5", axis=1), card5_onehot_test.reset_index()], axis=1)
 
-    # # 增加uid_D15特征
-    # uid_D15_train = pd.read_csv("./train_target_encoding_D15.csv")
-    # X = X.merge(uid_D15_train, on="TransactionID", how="left")
-    # test_X = test_X.merge(uid_D15_train, on="TransactionID", how="left")
-    #
-    # # 增加uid_D10特征
-    # uid_D10_train = pd.read_csv("./train_target_encoding_D10.csv")
-    # X = X.merge(uid_D10_train, on="TransactionID", how="left")
-    # test_X = test_X.merge(uid_D10_train, on="TransactionID", how="left")
+    # 增加uid_D15特征(替换为shift)
+    uid_D15_train = pd.read_csv("./train_target_encoding_D15_shift.csv")
+    X = X.merge(uid_D15_train, on="TransactionID", how="left")
+    test_X = test_X.merge(uid_D15_train, on="TransactionID", how="left")
 
-    # 增加uid_D1特征
-    uid_D1_train = pd.read_csv("./train_target_encoding_D1.csv")
+    # 增加uid_D10特征(替换为shift)
+    uid_D10_train = pd.read_csv("./train_target_encoding_D10_shift.csv")
+    X = X.merge(uid_D10_train, on="TransactionID", how="left")
+    test_X = test_X.merge(uid_D10_train, on="TransactionID", how="left")
+
+    # 增加uid_D1特征(替换为shift)
+    uid_D1_train = pd.read_csv("./train_target_encoding_D1_shift.csv")
     X = X.merge(uid_D1_train, on="TransactionID", how="left")
     test_X = test_X.merge(uid_D1_train, on="TransactionID", how="left")
 
-    # 增加uid_D2特征
-    uid_D2_train = pd.read_csv("./train_target_encoding_D2.csv")
+    # 增加uid_D2特征(替换为shift)
+    uid_D2_train = pd.read_csv("./train_target_encoding_D2_shift.csv")
     X = X.merge(uid_D2_train, on="TransactionID", how="left")
     test_X = test_X.merge(uid_D2_train, on="TransactionID", how="left")
 
-    # 增加uid_D3特征
-    uid_D3_train = pd.read_csv("./train_target_encoding_D3.csv")
+    # 增加uid_D3特征(替换为shift)
+    uid_D3_train = pd.read_csv("./train_target_encoding_D3_shift.csv")
     X = X.merge(uid_D3_train, on="TransactionID", how="left")
     test_X = test_X.merge(uid_D3_train, on="TransactionID", how="left")
 
-    # 增加uid_D4特征
-    uid_D4_train = pd.read_csv("./train_target_encoding_D4.csv")
+    # 增加uid_D4特征(替换为shift)
+    uid_D4_train = pd.read_csv("./train_target_encoding_D4_shift.csv")
     X = X.merge(uid_D4_train, on="TransactionID", how="left")
     test_X = test_X.merge(uid_D4_train, on="TransactionID", how="left")
 
@@ -1207,15 +1207,15 @@ else:
     # test_X = test_X.merge(uid_D10_card_train, on="TransactionID", how="left")
 
 
-    # 增加uid_D15特征(增加(df["day"] == DAY - D1 + 1)的判定条件)
-    uid_D15_shift_train = pd.read_csv("./train_target_encoding_D15_shift.csv")
-    X = X.merge(uid_D15_shift_train, on="TransactionID", how="left")
-    test_X = test_X.merge(uid_D15_shift_train, on="TransactionID", how="left")
-
-    # 增加uid_D10特征(增加(df["day"] == DAY - D1 + 1)的判定条件)
-    uid_D10_shift_train = pd.read_csv("./train_target_encoding_D10_shift.csv")
-    X = X.merge(uid_D10_shift_train, on="TransactionID", how="left")
-    test_X = test_X.merge(uid_D10_shift_train, on="TransactionID", how="left")
+    # # 增加uid_D15特征(增加(df["day"] == DAY - D1 + 1)的判定条件)
+    # uid_D15_shift_train = pd.read_csv("./train_target_encoding_D15_shift.csv")
+    # X = X.merge(uid_D15_shift_train, on="TransactionID", how="left")
+    # test_X = test_X.merge(uid_D15_shift_train, on="TransactionID", how="left")
+    #
+    # # 增加uid_D10特征(增加(df["day"] == DAY - D1 + 1)的判定条件)
+    # uid_D10_shift_train = pd.read_csv("./train_target_encoding_D10_shift.csv")
+    # X = X.merge(uid_D10_shift_train, on="TransactionID", how="left")
+    # test_X = test_X.merge(uid_D10_shift_train, on="TransactionID", how="left")
 
 
 
