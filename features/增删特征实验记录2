@@ -399,12 +399,22 @@ test2 auc: 0.9224648939665394
 
 
 39.D1,D2,D3,D4: 处理shift12个小时依然会出现部分数据不匹配的情况,增加(df["day"] == DAY - D1 + 1)的判定条件
-local2, cpu2 run:
+local2, cpu2 done:
 nohup python -u uid_D_features.py > uid_D_features.log 2>&1 &
 输出文件:train_target_encoding_D1,D2,D3,D4_shift.csv,test_target_encoding_D1,D2,D3,D4_shift.csv
 
 
-
+40. 替换uid_D1,D2,D3,D4的特征,使用(df["day"] == DAY - D1 + 1)的判定条件
+local2 cpu2 done:
+base: test1 auc:  0.9143003346313563, test2 auc: 0.9224648939665394
+nohup python -u add_feature.py -1 0 > add_feature.log 2>&1 &
+Total training time is 0:28:04.256872
+AUCs: [0.9185524494166809, 0.9389772178086087, 0.9521186563990063, 0.9536810814427666]
+Mean AUC: 0.9408323512667657
+------------------------------
+test1 auc:  0.9143233408410377
+test2 auc: 0.9236411478910467
+实验结果分析: test1提高0.2个点, test2提高11.8个点,shift有效
 
 
 user account, email address or billing address
