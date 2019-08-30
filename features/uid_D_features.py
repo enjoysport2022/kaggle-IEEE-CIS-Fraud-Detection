@@ -62,7 +62,7 @@ def get_train_features(DAY=0, col='D15'):
             mean_ = 0
             sum_ = 0
             cnt_ = 0
-            temp = df.loc[(df["uid"] == uid_list[i]) & (df["day"] == DAY - D_name), feature_list]
+            temp = df.loc[(df["uid"] == uid_list[i]) & (df["day"] == int(DAY - D_name)), feature_list]
 
             if temp.shape[0] != 0:
                 mean_ = temp["isFraud"].mean()
@@ -71,7 +71,7 @@ def get_train_features(DAY=0, col='D15'):
 
             # 查不到的时候向后移动一天
             else:
-                temp = df.loc[(df["uid"] == uid_list[i]) & (df["day"] == DAY - D_name + 1), feature_list]
+                temp = df.loc[(df["uid"] == uid_list[i]) & (df["day"] == int(DAY - D_name + 1)), feature_list]
                 if temp.shape[0] != 0:
                     mean_ = temp["isFraud"].mean()
                     sum_ = temp["isFraud"].sum()
@@ -93,7 +93,7 @@ def get_test_features(DAY=0, col='D15'):
             mean_ = 0
             sum_ = 0
             cnt_ = 0
-            temp = df.loc[(df["uid"] == uid_list[i]) & (df["day"] == DAY - D_name), feature_list]
+            temp = df.loc[(df["uid"] == uid_list[i]) & (df["day"] == int(DAY - D_name)), feature_list]
 
             if temp.shape[0] != 0:
                 mean_ = temp["isFraud"].mean()
@@ -102,7 +102,7 @@ def get_test_features(DAY=0, col='D15'):
 
             # 查不到的时候向后移动一天
             else:
-                temp = df.loc[(df["uid"] == uid_list[i]) & (df["day"] == DAY - D_name + 1), feature_list]
+                temp = df.loc[(df["uid"] == uid_list[i]) & (df["day"] == int(DAY - D_name + 1)), feature_list]
                 if temp.shape[0] != 0:
                     mean_ = temp["isFraud"].mean()
                     sum_ = temp["isFraud"].sum()
@@ -137,54 +137,54 @@ def get_test_features(DAY=0, col='D15'):
 # test_D10.to_csv('./test_target_encoding_D10_shift.csv', header=True, index=False)
 
 
-train_D1 = Parallel(n_jobs=-1)(delayed(get_train_features)(DAY, 'D1') for DAY in (range(32, 182 + 1)))
-test_D1 = Parallel(n_jobs=-1)(delayed(get_test_features)(DAY, 'D1') for DAY in (range(213, 395 + 1)))
-train_D1 = [item for line in train_D1 for item in line]
-test_D1 = [item for line in test_D1 for item in line]
-train_D1 = pd.DataFrame(train_D1, columns=["TransactionID", "mean_D1", "sum_D1", "cnt_D1"])
-test_D1 = pd.DataFrame(test_D1, columns=["TransactionID", "mean_D1", "sum_D1", "cnt_D1"])
-
-train_D2 = Parallel(n_jobs=-1)(delayed(get_train_features)(DAY, 'D2') for DAY in (range(32, 182 + 1)))
-test_D2 = Parallel(n_jobs=-1)(delayed(get_test_features)(DAY, 'D2') for DAY in (range(213, 395 + 1)))
-train_D2 = [item for line in train_D2 for item in line]
-test_D2 = [item for line in test_D2 for item in line]
-train_D2 = pd.DataFrame(train_D2, columns=["TransactionID", "mean_D2", "sum_D2", "cnt_D2"])
-test_D2 = pd.DataFrame(test_D2, columns=["TransactionID", "mean_D2", "sum_D2", "cnt_D2"])
-
-print(train_D1.shape, test_D1.shape)
-print(train_D2.shape, test_D2.shape)
-
-train_D1.to_csv('./train_target_encoding_D1_shift.csv', header=True, index=False)
-test_D1.to_csv('./test_target_encoding_D1_shift.csv', header=True, index=False)
-
-train_D2.to_csv('./train_target_encoding_D2_shift.csv', header=True, index=False)
-test_D2.to_csv('./test_target_encoding_D2_shift.csv', header=True, index=False)
-print("D1,D2 done")
-
-
-train_D3 = Parallel(n_jobs=-1)(delayed(get_train_features)(DAY, 'D3') for DAY in (range(32, 182 + 1)))
-test_D3 = Parallel(n_jobs=-1)(delayed(get_test_features)(DAY, 'D3') for DAY in (range(213, 395 + 1)))
-train_D3 = [item for line in train_D3 for item in line]
-test_D3 = [item for line in test_D3 for item in line]
-train_D3 = pd.DataFrame(train_D3, columns=["TransactionID", "mean_D3", "sum_D3", "cnt_D3"])
-test_D3 = pd.DataFrame(test_D3, columns=["TransactionID", "mean_D3", "sum_D3", "cnt_D3"])
-
-train_D4 = Parallel(n_jobs=-1)(delayed(get_train_features)(DAY, 'D4') for DAY in (range(32, 182 + 1)))
-test_D4 = Parallel(n_jobs=-1)(delayed(get_test_features)(DAY, 'D4') for DAY in (range(213, 395 + 1)))
-train_D4 = [item for line in train_D4 for item in line]
-test_D4 = [item for line in test_D4 for item in line]
-train_D4 = pd.DataFrame(train_D4, columns=["TransactionID", "mean_D4", "sum_D4", "cnt_D4"])
-test_D4 = pd.DataFrame(test_D4, columns=["TransactionID", "mean_D4", "sum_D4", "cnt_D4"])
-
-print(train_D3.shape, test_D3.shape)
-print(train_D4.shape, test_D4.shape)
-
-train_D3.to_csv('./train_target_encoding_D3_shift.csv', header=True, index=False)
-test_D3.to_csv('./test_target_encoding_D3_shift.csv', header=True, index=False)
-
-train_D4.to_csv('./train_target_encoding_D4_shift.csv', header=True, index=False)
-test_D4.to_csv('./test_target_encoding_D4_shift.csv', header=True, index=False)
-print("D3,D4 done")
+# train_D1 = Parallel(n_jobs=-1)(delayed(get_train_features)(DAY, 'D1') for DAY in (range(32, 182 + 1)))
+# test_D1 = Parallel(n_jobs=-1)(delayed(get_test_features)(DAY, 'D1') for DAY in (range(213, 395 + 1)))
+# train_D1 = [item for line in train_D1 for item in line]
+# test_D1 = [item for line in test_D1 for item in line]
+# train_D1 = pd.DataFrame(train_D1, columns=["TransactionID", "mean_D1", "sum_D1", "cnt_D1"])
+# test_D1 = pd.DataFrame(test_D1, columns=["TransactionID", "mean_D1", "sum_D1", "cnt_D1"])
+#
+# train_D2 = Parallel(n_jobs=-1)(delayed(get_train_features)(DAY, 'D2') for DAY in (range(32, 182 + 1)))
+# test_D2 = Parallel(n_jobs=-1)(delayed(get_test_features)(DAY, 'D2') for DAY in (range(213, 395 + 1)))
+# train_D2 = [item for line in train_D2 for item in line]
+# test_D2 = [item for line in test_D2 for item in line]
+# train_D2 = pd.DataFrame(train_D2, columns=["TransactionID", "mean_D2", "sum_D2", "cnt_D2"])
+# test_D2 = pd.DataFrame(test_D2, columns=["TransactionID", "mean_D2", "sum_D2", "cnt_D2"])
+#
+# print(train_D1.shape, test_D1.shape)
+# print(train_D2.shape, test_D2.shape)
+#
+# train_D1.to_csv('./train_target_encoding_D1_shift.csv', header=True, index=False)
+# test_D1.to_csv('./test_target_encoding_D1_shift.csv', header=True, index=False)
+#
+# train_D2.to_csv('./train_target_encoding_D2_shift.csv', header=True, index=False)
+# test_D2.to_csv('./test_target_encoding_D2_shift.csv', header=True, index=False)
+# print("D1,D2 done")
+#
+#
+# train_D3 = Parallel(n_jobs=-1)(delayed(get_train_features)(DAY, 'D3') for DAY in (range(32, 182 + 1)))
+# test_D3 = Parallel(n_jobs=-1)(delayed(get_test_features)(DAY, 'D3') for DAY in (range(213, 395 + 1)))
+# train_D3 = [item for line in train_D3 for item in line]
+# test_D3 = [item for line in test_D3 for item in line]
+# train_D3 = pd.DataFrame(train_D3, columns=["TransactionID", "mean_D3", "sum_D3", "cnt_D3"])
+# test_D3 = pd.DataFrame(test_D3, columns=["TransactionID", "mean_D3", "sum_D3", "cnt_D3"])
+#
+# train_D4 = Parallel(n_jobs=-1)(delayed(get_train_features)(DAY, 'D4') for DAY in (range(32, 182 + 1)))
+# test_D4 = Parallel(n_jobs=-1)(delayed(get_test_features)(DAY, 'D4') for DAY in (range(213, 395 + 1)))
+# train_D4 = [item for line in train_D4 for item in line]
+# test_D4 = [item for line in test_D4 for item in line]
+# train_D4 = pd.DataFrame(train_D4, columns=["TransactionID", "mean_D4", "sum_D4", "cnt_D4"])
+# test_D4 = pd.DataFrame(test_D4, columns=["TransactionID", "mean_D4", "sum_D4", "cnt_D4"])
+#
+# print(train_D3.shape, test_D3.shape)
+# print(train_D4.shape, test_D4.shape)
+#
+# train_D3.to_csv('./train_target_encoding_D3_shift.csv', header=True, index=False)
+# test_D3.to_csv('./test_target_encoding_D3_shift.csv', header=True, index=False)
+#
+# train_D4.to_csv('./train_target_encoding_D4_shift.csv', header=True, index=False)
+# test_D4.to_csv('./test_target_encoding_D4_shift.csv', header=True, index=False)
+# print("D3,D4 done")
 
 
 # train_D5 = Parallel(n_jobs=-1)(delayed(get_train_features)(DAY, 'D5') for DAY in (range(32, 182 + 1)))
@@ -218,23 +218,24 @@ print("D3,D4 done")
 # test_D7 = [item for line in test_D7 for item in line]
 # train_D7 = pd.DataFrame(train_D7, columns=["TransactionID", "mean_D7", "sum_D7", "cnt_D7"])
 # test_D7 = pd.DataFrame(test_D7, columns=["TransactionID", "mean_D7", "sum_D7", "cnt_D7"])
-#
-# train_D8 = Parallel(n_jobs=-1)(delayed(get_train_features)(DAY, 'D8') for DAY in (range(32, 182 + 1)))
-# test_D8 = Parallel(n_jobs=-1)(delayed(get_test_features)(DAY, 'D8') for DAY in (range(213, 395 + 1)))
-# train_D8 = [item for line in train_D8 for item in line]
-# test_D8 = [item for line in test_D8 for item in line]
-# train_D8 = pd.DataFrame(train_D8, columns=["TransactionID", "mean_D8", "sum_D8", "cnt_D8"])
-# test_D8 = pd.DataFrame(test_D8, columns=["TransactionID", "mean_D8", "sum_D8", "cnt_D8"])
-#
 # print(train_D7.shape, test_D7.shape)
-# print(train_D8.shape, test_D8.shape)
-#
 # train_D7.to_csv('./train_target_encoding_D7.csv', header=True, index=False)
 # test_D7.to_csv('./test_target_encoding_D7.csv', header=True, index=False)
-#
-# train_D8.to_csv('./train_target_encoding_D8.csv', header=True, index=False)
-# test_D8.to_csv('./test_target_encoding_D8.csv', header=True, index=False)
-# print("D7,D8 done")
+# print("D7 done")
+
+
+train_D8 = Parallel(n_jobs=-1)(delayed(get_train_features)(DAY, 'D8') for DAY in (range(32, 182 + 1)))
+test_D8 = Parallel(n_jobs=-1)(delayed(get_test_features)(DAY, 'D8') for DAY in (range(213, 395 + 1)))
+train_D8 = [item for line in train_D8 for item in line]
+test_D8 = [item for line in test_D8 for item in line]
+train_D8 = pd.DataFrame(train_D8, columns=["TransactionID", "mean_D8", "sum_D8", "cnt_D8"])
+test_D8 = pd.DataFrame(test_D8, columns=["TransactionID", "mean_D8", "sum_D8", "cnt_D8"])
+print(train_D8.shape, test_D8.shape)
+
+train_D8.to_csv('./train_target_encoding_D8.csv', header=True, index=False)
+test_D8.to_csv('./test_target_encoding_D8.csv', header=True, index=False)
+print("D8 done")
+
 
 # train_D11 = Parallel(n_jobs=-1)(delayed(get_train_features)(DAY, 'D11') for DAY in (range(32, 182 + 1)))
 # test_D11 = Parallel(n_jobs=-1)(delayed(get_test_features)(DAY, 'D11') for DAY in (range(213, 395 + 1)))

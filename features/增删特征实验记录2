@@ -432,6 +432,11 @@ todo项:
 1. 传播获得数据的后处理;
 2. 把Dx其他的实验在线下做完,D5,D6,D7,D8,D11,D12,D13,D14 done
 3. 提交ieee_lgb_submit_uid_Dx.csv done
+4. fraud detection用shift done
+5. v308
+6. df.loc[df["D15_delta"]>=0, "D15_delta"] = None
+7. D8特征挖掘
+8. card+c1/C2/...
 
 
 cpu机器1
