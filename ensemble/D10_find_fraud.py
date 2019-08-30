@@ -58,6 +58,15 @@ for DAY in tqdm_notebook(range(213, 395 + 1)):
                 mean_ = temp["isFraud"].mean()
                 sum_ = temp["isFraud"].sum()
                 cnt_ = temp["isFraud"].shape[0]
+
+            # 查不到的时候向后移动一天
+            else:
+                temp = df.loc[(df["uid"] == uid_list[i]) & (df["day"] == DAY - D10 + 1), feature_list]
+                if temp.shape[0] != 0:
+                    mean_ = temp["isFraud"].mean()
+                    sum_ = temp["isFraud"].sum()
+                    cnt_ = temp["isFraud"].shape[0]
+
             fraud_TransactionIDs.append([TransactionID_, mean_, sum_, cnt_])
 
 
