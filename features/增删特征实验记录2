@@ -437,7 +437,7 @@ todo项:
 cpu机器1
 ssh -i id_rsa caihengxing@35.233.158.158
 cpu机器2
-ssh -i id_rsa caihengxing@34.67.157.83
+ssh -i id_rsa2 caihengxing@35.238.148.19
 cpu机器3
 ssh -i id_rsa caihengxing@35.232.41.9
 
