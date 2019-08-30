@@ -417,6 +417,12 @@ test2 auc: 0.9236411478910467
 实验结果分析: test1提高0.2个点, test2提高11.8个点,shift有效
 
 
+41.uid_D8特征
+local2, cpu2 done:
+nohup python -u uid_D_features.py > uid_D_features.log 2>&1 &
+输出文件:train/test_target_encoding_D8
+
+
 user account, email address or billing address
 
 
