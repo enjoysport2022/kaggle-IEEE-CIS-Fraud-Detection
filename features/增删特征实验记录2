@@ -431,6 +431,10 @@ nohup python -u gen_feature.py -1 0 > gen_feature.log 2>&1 &
 nohup python -u uid_D10_predict.py > uid_D10_predict.log 2>&1 &
 输出文件:
 
+42-3.增加uid_D10_predict的实验, uid为card+add+pEmail,仅当cnt为1的时候加入,特征为mean_一个特征
+
+
+
 
 
 user account, email address or billing address
