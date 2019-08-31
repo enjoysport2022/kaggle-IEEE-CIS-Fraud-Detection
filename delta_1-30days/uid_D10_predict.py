@@ -64,7 +64,7 @@ lookup_day = 30
 
 # 如果是D10==0,一天内只有一笔交易的话,不能用
 uid_D10 = []
-for DAY in tqdm_notebook(range(2, 182 + 1)):  # 2, 182+1
+for DAY in tqdm_notebook(range(2, 91 + 1)):  # 2, 182+1
     print("DAY: ", DAY)
     for D10 in range(1, min(DAY, lookup_day)):  # 1, DAY
         uid_list = list(df.loc[(df["D10"] == D10) & (df["day"] == DAY), "uid"].values)
@@ -82,21 +82,20 @@ for DAY in tqdm_notebook(range(2, 182 + 1)):  # 2, 182+1
                 sum_ = temp[target_feature].sum()
                 cnt_ = temp[target_feature].shape[0]
 
-            if cnt_ == 1:
-                uid_D10.append([TransactionID_, mean_])
+            uid_D10.append([TransactionID_, mean_, sum_, cnt_])
 
 uid_D10 = pd.DataFrame(uid_D10)
-# uid_D10.columns = ["TransactionID", target_feature + "_mean", target_feature + "_sum", target_feature + "_cnt"]
-uid_D10.columns = ["TransactionID", target_feature + "_prev"]
+uid_D10.columns = ["TransactionID", target_feature + "_mean", target_feature + "_sum", target_feature + "_cnt"]
+# uid_D10.columns = ["TransactionID", target_feature + "_prev"]
 uid_D10.to_csv("../features/uid_D10_" + target_feature + "_train.csv",index=False)
 
 
 # ### 测试集特征构造
 uid_D10_test = []
 
-for DAY in tqdm_notebook(range(214, 396 + 1)):  # test中day的最小值是213,最大值是396
+for DAY in tqdm_notebook(range(93, 182 + 1)):  # test中day的最小值是92,最大值是182
     print("DAY: ", DAY)
-    for D10 in range(1, min(DAY-213+1,lookup_day)):
+    for D10 in range(1, min(DAY-92+1,lookup_day)):
         uid_list = list(df.loc[(df["D10"] == D10) & (df["day"] == DAY), "uid"].values)
         TransactionID_list = list(df.loc[(df["D10"] == D10) & (df["day"] == DAY), "TransactionID"].values)
 
@@ -114,10 +113,9 @@ for DAY in tqdm_notebook(range(214, 396 + 1)):  # test中day的最小值是213,�
                 sum_ = temp[target_feature].sum()
                 cnt_ = temp[target_feature].shape[0]
 
-            if cnt_ == 1:
-                uid_D10_test.append([TransactionID_, mean_])
+            uid_D10_test.append([TransactionID_, mean_, sum_, cnt_])
 
 uid_D10_test = pd.DataFrame(uid_D10_test)
-# uid_D10_test.columns = ["TransactionID", target_feature + "_mean", target_feature + "_sum", target_feature + "_cnt"]
-uid_D10_test.columns = ["TransactionID", target_feature + "_prev"]
+uid_D10_test.columns = ["TransactionID", target_feature + "_mean", target_feature + "_sum", target_feature + "_cnt"]
+# uid_D10_test.columns = ["TransactionID", target_feature + "_prev"]
 uid_D10_test.to_csv("../features/uid_D10_" + target_feature + "_test.csv",index=False)
