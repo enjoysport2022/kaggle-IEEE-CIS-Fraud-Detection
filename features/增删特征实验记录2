@@ -425,7 +425,7 @@ nohup python -u uid_D_features.py > uid_D_features.log 2>&1 &
 
 42-1.获得train和test的预测结果
 nohup python -u gen_feature.py -1 0 > gen_feature.log 2>&1 &
-输出文件:../features/train_target_encoding_delta_1_to_30days.csv
+输出文件:../features/kfold_predict.csv
 
 42-2.构造delta为1-30的uid_D10_predict特征
 nohup python -u uid_D10_predict.py > uid_D10_predict.log 2>&1 &

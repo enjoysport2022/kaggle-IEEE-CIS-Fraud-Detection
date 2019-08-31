@@ -1225,7 +1225,7 @@ for fold_n, (train_index, valid_index) in enumerate(folds.split(X)):
     pred = clf.predict(test_X)
     val = clf.predict(X.iloc[valid_index])
 
-    train_pred.append(val)
+    train_pred.extend(list(val))
 
     print('ROC accuracy: {}'.format(roc_auc_score(y.iloc[valid_index], val)))
     aucs.append(roc_auc_score(y.iloc[valid_index], val))
@@ -1237,7 +1237,7 @@ for fold_n, (train_index, valid_index) in enumerate(folds.split(X)):
 
 
 train_df["isFraud"] = train_pred
-train_df.append(lgb_sub).to_csv("../features/train_target_encoding_delta_1_to_30days.csv", index=False)
+train_df.append(lgb_sub).to_csv("../features/kfold_predict.csv", index=False)
 
 print('-' * 30)
 print('Training has finished.')

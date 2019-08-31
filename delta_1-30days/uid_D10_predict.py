@@ -11,7 +11,7 @@ warnings.filterwarnings('ignore')
 NROWS = None
 # NROWS = 50000
 
-pred_df = pd.read_csv("../features/train_target_encoding_delta_1_to_30days.csv")
+pred_df = pd.read_csv("../features/kfold_predict.csv")
 pred_df.columns = ["TransactionID", "pre_isFraud"]
 
 
