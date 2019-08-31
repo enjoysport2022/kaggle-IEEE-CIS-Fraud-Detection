@@ -1111,10 +1111,10 @@ else:
     # X = X.merge(uid_D7_train, on="TransactionID", how="left")
     # test_X = test_X.merge(uid_D7_train, on="TransactionID", how="left")
     #
-    # # 增加uid_D8特征
-    # uid_D8_train = pd.read_csv("./train_target_encoding_D8.csv")
-    # X = X.merge(uid_D8_train, on="TransactionID", how="left")
-    # test_X = test_X.merge(uid_D8_train, on="TransactionID", how="left")
+    # 增加uid_D8特征
+    uid_D8_train = pd.read_csv("./train_target_encoding_D8.csv")
+    X = X.merge(uid_D8_train, on="TransactionID", how="left")
+    test_X = test_X.merge(uid_D8_train, on="TransactionID", how="left")
 
     # # # 增加uid_D11特征
     # uid_D11_train = pd.read_csv("./train_target_encoding_D11.csv")
