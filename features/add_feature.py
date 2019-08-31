@@ -1219,8 +1219,9 @@ else:
 
     # 增加uid_D10_predict特征(train和test均用预测结果,delta 1-30天)
     uid_D10_predict_train = pd.read_csv("./uid_D10_pre_isFraud_train.csv")
+    uid_D10_predict_test = pd.read_csv("./uid_D10_pre_isFraud_test.csv")
     X = X.merge(uid_D10_predict_train, on="TransactionID", how="left")
-    test_X = test_X.merge(uid_D10_predict_train, on="TransactionID", how="left")
+    test_X = test_X.merge(uid_D10_predict_test, on="TransactionID", how="left")
 
 
 

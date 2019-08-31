@@ -429,10 +429,13 @@ nohup python -u gen_feature.py -1 0 > gen_feature.log 2>&1 &
 
 42-2.构造delta为1-30的uid_D10_predict特征
 nohup python -u uid_D10_predict.py > uid_D10_predict.log 2>&1 &
-输出文件:
+输出文件:uid_D10_pre_isFraud_train,test.csv
 
 42-3.增加uid_D10_predict的实验, uid为card+add+pEmail,仅当cnt为1的时候加入,特征为mean_一个特征
+base: test1 auc:  0.9143233408410377, test2 auc: 0.9236411478910467
+nohup python -u add_feature.py -1 0 > add_feature.log 2>&1 &
 
+实验结果分析: test1, test2,
 
 
 
