@@ -1117,7 +1117,6 @@ else:
         shift_value = stat_temp.groupby(key)[value].shift(i)
         cname = '_'.join(key) + '_diff_time{}'.format(i)
         df[cname] = stat_temp[value] - shift_value
-        df[cname] = df[cname].dt.seconds
     X = df[:len(X)]
     test_X = df[len(X):]
 
