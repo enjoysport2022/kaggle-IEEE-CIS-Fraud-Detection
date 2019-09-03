@@ -1120,7 +1120,6 @@ else:
     X = df[:len(X)]
     test_X = df[len(X):]
 
-
     # 删除uid
     X = X.drop("uid", axis = 1)
     test_X = test_X.drop("uid", axis = 1)
