@@ -501,3 +501,5 @@ scp -i /home/caihengxing/kaggle/kaggle-IEEE-CIS-Fraud-Detection/features/id_rsa 
 从3拷贝到local
 scp -i /Users/poteman/didi_key/id_rsa caihengxing@35.232.41.9:/home/caihengxing/kaggle/kaggle-IEEE-CIS-Fraud-Detection/output/ieee_lgb_submit_uid_Dx_plus.csv /Users/poteman/Kaggle/kaggle-IEEE-CIS-Fraud-Detection/output
 
+git免密:
+git config --global credential.helper store

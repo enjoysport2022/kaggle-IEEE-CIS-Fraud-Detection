@@ -10,8 +10,8 @@ warnings.filterwarnings('ignore')
 NROWS = None
 # NROWS = 50000
 
-train_identity = pd.read_csv('../input/train_identity.csv', nrows=NROWS)
-train_transaction = pd.read_csv('../input/train_transaction.csv', nrows=NROWS)
+train_identity = pd.read_csv('../input/train_identity.csv', nrows=NROWS ,engine='python')
+train_transaction = pd.read_csv('../input/train_transaction.csv', nrows=NROWS ,engine='python')
 train = train_transaction.merge(train_identity, how='left', on='TransactionID')
 # train.to_csv('../temp/train_temp' + str(NROWS) + '.csv', index=False, header=True)
 
