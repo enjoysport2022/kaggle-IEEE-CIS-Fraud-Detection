@@ -60,7 +60,7 @@ Mean AUC: 0.9475295496422382
 
 
 7.增加特征:D10,D15_pEmail; 替换特征D1,D2,D3,D4,D10,D15_shift
-local2, run:
+local2, done:
 nohup python -u lgb2_submit_uid_Dx_shift.py -1 > lgb2_submit_uid_Dx_shift.log 2>&1 &
 Total training time is 1:18:01.178913
 AUCs: [0.9254824284971629, 0.9421010325027455, 0.9412495064968467, 0.9550738533436387]
@@ -69,6 +69,10 @@ Mean AUC: 0.9409767052100984
 output/ieee_lgb_submit_uid_Dx_shift.csv
 线上提交:
 
+
+8.利用下一次交易的信息, 前后时间差特征
+ieee_lgb_submit_delta_time_future.csv
+nohup python -u lgb2_submit_future.py -1 > lgb2_submit_future.log 2>&1 &
 
 
 0.9469融合kernel(0.9476)最优能到0.9509

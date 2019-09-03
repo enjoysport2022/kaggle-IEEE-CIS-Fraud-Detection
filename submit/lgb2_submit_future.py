@@ -905,7 +905,8 @@ params = {'num_leaves': 491,
           "verbosity": -1,
           'reg_alpha': 0.3899927210061127,
           'reg_lambda': 0.6485237330340494,
-          'random_state': 47
+          'random_state': 47,
+          'n_jobs': 16
          }
 
 
