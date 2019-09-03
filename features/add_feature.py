@@ -1062,33 +1062,58 @@ else:
 
 
     # 用户当天交易信息
-    # H_move = 12
-    # X['uid'] = X["card1"].apply(lambda x: str(x)) + "_" + X["card2"].apply(lambda x: str(x)) + "_" + X["card3"].apply(
-    #     lambda x: str(x)) + "_" + X["card4"].apply(lambda x: str(x)) + "_" + X["card5"].apply(lambda x: str(x)) + "_" + \
-    #            X["card6"].apply(lambda x: str(x)) + "_" + X["addr1"].apply(lambda x: str(x)) + "_" + X["addr2"].apply(
-    #     lambda x: str(x))
-    # test_X['uid'] = test_X["card1"].apply(lambda test_X: str(test_X)) + "_" + test_X["card2"].apply(
-    #     lambda test_X: str(test_X)) + "_" + test_X["card3"].apply(lambda test_X: str(test_X)) + "_" + test_X[
-    #                     "card4"].apply(lambda test_X: str(test_X)) + "_" + test_X["card5"].apply(
-    #     lambda test_X: str(test_X)) + "_" + test_X["card6"].apply(lambda test_X: str(test_X)) + "_" + test_X[
-    #                     "addr1"].apply(lambda test_X: str(test_X)) + "_" + test_X["addr2"].apply(
-    #     lambda test_X: str(test_X))
-    # X["day"] = (X["TransactionDT"] + 3600 * H_move) // (24 * 60 * 60)
-    # test_X["day"] = (test_X["TransactionDT"] + 3600 * H_move) // (24 * 60 * 60)
-    #
-    # # 当天的交易次数
-    # X['trans_curday_cnt'] = X.groupby(['uid', 'day'])['TransactionAmt'].transform('count')
-    # test_X['trans_curday_cnt'] = test_X.groupby(['uid', 'day'])['TransactionAmt'].transform('count')
-    # # 当天的交易总额
-    # X['trans_curday_cnt'] = X.groupby(['uid', 'day'])['TransactionAmt'].transform('sum')
-    # test_X['trans_curday_cnt'] = test_X.groupby(['uid', 'day'])['TransactionAmt'].transform('sum')
-    # # 当天同样金额的交易次数
-    # X['trans_curday_cnt'] = X.groupby(['uid', 'day', 'TransactionAmt'])['TransactionAmt'].transform('count')
-    # test_X['trans_curday_cnt'] = test_X.groupby(['uid', 'day', 'TransactionAmt'])['TransactionAmt'].transform('count')
-    #
-    # # 删除uid
-    # X = X.drop("uid", axis = 1)
-    # test_X = test_X.drop("uid", axis = 1)
+    H_move = 12
+    X['uid'] = X["card1"].apply(lambda x: str(x)) + "_" + X["card2"].apply(lambda x: str(x)) + "_" + \
+               X["card3"].apply(lambda x: str(x)) + "_" + X["card4"].apply(lambda x: str(x)) + "_" + \
+               X["card5"].apply(lambda x: str(x)) + "_" + X["card6"].apply(lambda x: str(x)) + "_" + \
+               X["addr1"].apply(lambda x: str(x)) + "_" + X["addr2"].apply(lambda x: str(x)) + "_" + \
+               X["P_emaildomain"].apply(lambda x: str(x))
+    test_X['uid'] = test_X["card1"].apply(lambda x: str(x)) + "_" + test_X["card2"].apply(lambda x: str(x)) + "_" + \
+                    test_X["card3"].apply(lambda x: str(x)) + "_" + test_X["card4"].apply(lambda x: str(x)) + "_" + \
+                    test_X["card5"].apply(lambda x: str(x)) + "_" + test_X["card6"].apply(lambda x: str(x)) + "_" + \
+                    test_X["addr1"].apply(lambda x: str(x)) + "_" + test_X["addr2"].apply(lambda x: str(x)) + "_" + \
+                    test_X["P_emaildomain"].apply(lambda x: str(x))
+    X["day"] = (X["TransactionDT"] + 3600 * H_move) // (24 * 60 * 60)
+    test_X["day"] = (test_X["TransactionDT"] + 3600 * H_move) // (24 * 60 * 60)
+
+    # TransactionAmt相关
+    # 当天的交易次数
+    X['trans_curday_Amt_cnt'] = X.groupby(['uid', 'day'])['TransactionAmt'].transform('count')
+    test_X['trans_curday_Amt_cnt'] = test_X.groupby(['uid', 'day'])['TransactionAmt'].transform('count')
+    # 当天的交易总额
+    X['trans_curday_Amt_sum'] = X.groupby(['uid', 'day'])['TransactionAmt'].transform('sum')
+    test_X['trans_curday_Amt_sum'] = test_X.groupby(['uid', 'day'])['TransactionAmt'].transform('sum')
+    # 当天的交易最大金额
+    X['trans_curday_Amt_max'] = X.groupby(['uid', 'day'])['TransactionAmt'].transform('max')
+    test_X['trans_curday_Amt_max'] = test_X.groupby(['uid', 'day'])['TransactionAmt'].transform('max')
+    # 当天的交易最小金额
+    X['trans_curday_Amt_min'] = X.groupby(['uid', 'day'])['TransactionAmt'].transform('min')
+    test_X['trans_curday_Amt_min'] = test_X.groupby(['uid', 'day'])['TransactionAmt'].transform('min')
+    # 当天的交易平均金额
+    X['trans_curday_Amt_mean'] = X.groupby(['uid', 'day'])['TransactionAmt'].transform('mean')
+    test_X['trans_curday_Amt_mean'] = test_X.groupby(['uid', 'day'])['TransactionAmt'].transform('mean')
+    # 当天同样金额的交易次数
+    X['trans_curday_samAmt_cnt'] = X.groupby(['uid', 'day', 'TransactionAmt'])['TransactionAmt'].transform('count')
+    test_X['trans_curday_samAmt_cnt'] = test_X.groupby(['uid', 'day', 'TransactionAmt'])['TransactionAmt'].transform('count')
+
+    # Hour相关
+    # 当天的交易最大Hour
+    X['trans_curday_hour_max'] = X.groupby(['uid', 'day'])['Hour'].transform('max')
+    test_X['trans_curday_hour_max'] = test_X.groupby(['uid', 'day'])['Hour'].transform('max')
+    # 当天的交易最小Hour
+    X['trans_curday_hour_min'] = X.groupby(['uid', 'day'])['Hour'].transform('min')
+    test_X['trans_curday_hour_min'] = test_X.groupby(['uid', 'day'])['Hour'].transform('min')
+    # 当天的交易平均Hour
+    X['trans_curday_hour_mean'] = X.groupby(['uid', 'day'])['Hour'].transform('mean')
+    test_X['trans_curday_hour_mean'] = test_X.groupby(['uid', 'day'])['Hour'].transform('mean')
+
+
+    # todo:距离上一笔以及下一笔交易的时间差特征(seconds)
+
+
+    # 删除uid
+    X = X.drop("uid", axis = 1)
+    test_X = test_X.drop("uid", axis = 1)
 
 
     # 增加uid_D5特征
@@ -1112,9 +1137,9 @@ else:
     # test_X = test_X.merge(uid_D7_train, on="TransactionID", how="left")
     #
     # 增加uid_D8特征
-    uid_D8_train = pd.read_csv("./train_target_encoding_D8.csv")
-    X = X.merge(uid_D8_train, on="TransactionID", how="left")
-    test_X = test_X.merge(uid_D8_train, on="TransactionID", how="left")
+    # uid_D8_train = pd.read_csv("./train_target_encoding_D8.csv")
+    # X = X.merge(uid_D8_train, on="TransactionID", how="left")
+    # test_X = test_X.merge(uid_D8_train, on="TransactionID", how="left")
 
     # # # 增加uid_D11特征
     # uid_D11_train = pd.read_csv("./train_target_encoding_D11.csv")
@@ -1218,10 +1243,10 @@ else:
     # test_X = test_X.merge(uid_D10_shift_train, on="TransactionID", how="left")
 
     # 增加uid_D10_predict特征(train和test均用预测结果,delta 1-30天)
-    uid_D10_predict_train = pd.read_csv("./uid_D10_pre_isFraud_train.csv")
-    uid_D10_predict_test = pd.read_csv("./uid_D10_pre_isFraud_test.csv")
-    X = X.merge(uid_D10_predict_train, on="TransactionID", how="left")
-    test_X = test_X.merge(uid_D10_predict_test, on="TransactionID", how="left")
+    # uid_D10_predict_train = pd.read_csv("./uid_D10_pre_isFraud_train.csv")
+    # uid_D10_predict_test = pd.read_csv("./uid_D10_pre_isFraud_test.csv")
+    # X = X.merge(uid_D10_predict_train, on="TransactionID", how="left")
+    # test_X = test_X.merge(uid_D10_predict_test, on="TransactionID", how="left")
 
 
 

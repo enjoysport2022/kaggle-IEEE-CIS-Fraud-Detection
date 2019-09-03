@@ -434,8 +434,26 @@ nohup python -u uid_D10_predict.py > uid_D10_predict.log 2>&1 &
 42-3.增加uid_D10_predict的实验, uid为card+add+pEmail,仅当cnt为1的时候加入,特征为mean_一个特征
 base: test1 auc:  0.9143233408410377, test2 auc: 0.9236411478910467
 nohup python -u add_feature.py -1 0 > add_feature.log 2>&1 &
+AUCs: [0.9188426204874592, 0.9391787610061424, 0.9516497360064218, 0.9533429027872831]
+Mean AUC: 0.9407535050718265
+------------------------------
+test1 auc:  0.9143893746994374
+test2 auc: 0.9230331404188018
+实验结果分析: test1不变, test2降低6个点, predict作为特征无效,或是构造地不好
 
+
+
+43. 利用下一次交易的信息: 当天交易的总金额,平均金额,交易次数
+base: test1 auc:  0.9143233408410377, test2 auc: 0.9236411478910467
+nohup python -u add_feature.py -1 0 > add_feature.log 2>&1 &
 实验结果分析: test1, test2,
+
+
+
+
+- todo:
+1. test往前跳，之前找到320条，把uid做的更细找到更多样本,
+2. n连跳
 
 
 
@@ -456,16 +474,23 @@ todo项:
 2. 把Dx其他的实验在线下做完,D5,D6,D7,D8,D11,D12,D13,D14 done
 3. 提交ieee_lgb_submit_uid_Dx.csv done
 4. fraud detection用shift done
-5. v308
+5. v308 done
 6. df.loc[df["D15_delta"]>=0, "D15_delta"] = None
 7. D8特征挖掘
 8. card+c1/C2/...
+9. v系列串起来作为uid
+10. df["D3=0"] = 0, df.loc[(df["D3"]==0), 'D3=0'] = 1
+11. 按uid, day聚合起来进行训练
+12. uid的target encoding
+13. 利用下一次交易的信息: 当天交易的总金额,平均金额,交易次数
+13. 利用下一次交易的信息: 距离下一次交易的时间
+
 
 
 cpu机器1
 ssh -i id_rsa caihengxing@35.233.158.158
 cpu机器2
-ssh -i id_rsa2 caihengxing@35.238.148.19
+ssh -i id_rsa2 caihengxing@35.193.73.98
 cpu机器3
 ssh -i id_rsa caihengxing@35.232.41.9
 
