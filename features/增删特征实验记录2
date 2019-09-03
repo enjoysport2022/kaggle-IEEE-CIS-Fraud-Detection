@@ -449,7 +449,7 @@ nohup python -u add_feature.py -1 0 > add_feature.log 2>&1 &
 实验结果分析: test1, test2,
 
 
-
+nohup python -u local_data_prepare.py > local_data_prepare.log 2>&1 &
 
 - todo:
 1. test往前跳，之前找到320条，把uid做的更细找到更多样本,
