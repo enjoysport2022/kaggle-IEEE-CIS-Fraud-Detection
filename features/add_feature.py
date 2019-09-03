@@ -1109,6 +1109,17 @@ else:
 
 
     # todo:距离上一笔以及下一笔交易的时间差特征(seconds)
+    key = ['uid']
+    value = 'TransactionDT'
+    df = X.append(test_X)
+    stat_temp = df[key + [value]].copy()
+    for i in [-1, 1]:
+        shift_value = stat_temp.groupby(key)[value].shift(i)
+        cname = '_'.join(key) + '_diff_time{}'.format(i)
+        df[cname] = stat_temp[value] - shift_value
+        df[cname] = df[cname].dt.seconds
+    X = df[:len(X)]
+    test_X = df[len(X):]
 
 
     # 删除uid
@@ -1249,7 +1260,6 @@ else:
     # test_X = test_X.merge(uid_D10_predict_test, on="TransactionID", how="left")
 
 
-
 X = X.drop('TransactionID', axis=1)
 test_X = test_X.drop('TransactionID', axis=1)
 
@@ -1257,7 +1267,8 @@ print("X.shape: ", X.shape)
 print("y.shape: ", y.shape)
 print("test_X.shape: ", test_X.shape)
 
-
+print("features:", X.columns)
+print("*" * 30)
 
 # ### lightgbm参数
 print("lgb model")
