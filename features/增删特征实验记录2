@@ -499,6 +499,17 @@ test2 auc: 0.9249295503345776
 实验结果分析: test1, test2下降,特征无效
 
 
+47. shift的D1-4系列特征
+base: test1 auc:  0.921594149903197, test2 auc: 0.9250462572999005
+nohup python -u add_feature.py -1 0 > add_feature.log 2>&1 &
+Total training time is 0:23:15.342185
+AUCs: [0.9208065523632313, 0.940084179538759, 0.9543574290767101, 0.9556619329760343]
+Mean AUC: 0.9427275234886836
+------------------------------
+test1 auc:  0.9224187347144741
+test2 auc: 0.926179411666849
+实验结果分析: test1提高0.82个千分点, test2提高1.13个千分点,
+
 
 
 nohup python -u local_data_prepare.py > local_data_prepare.log 2>&1 &

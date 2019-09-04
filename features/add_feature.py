@@ -1112,7 +1112,7 @@ else:
 
     # 距离上一笔以及下一笔交易的时间差特征(seconds), 交易金额差值
     key = ['uid']
-    values = ['TransactionDT', 'TransactionAmt']
+    values = ['TransactionDT', 'TransactionAmt', 'D1', 'D2', 'D3', 'D4', 'D10', 'D15']
     for value in values:
         stat_temp = df[key + [value]].copy()
         for i in [-1, 1]:
