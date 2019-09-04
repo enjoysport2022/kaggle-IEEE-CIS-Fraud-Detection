@@ -1115,7 +1115,7 @@ else:
     values = ['TransactionDT', 'TransactionAmt']
     for value in values:
         stat_temp = df[key + [value]].copy()
-        for i in [-1, 1]:
+        for i in [-2, -1, 1, 2]:
             shift_value = stat_temp.groupby(key)[value].shift(i)
             cname = '_'.join(key) + '_' + value + '_diff_time{}'.format(i)
             df[cname] = stat_temp[value] - shift_value
@@ -1125,7 +1125,7 @@ else:
     values = ['D10', 'D15']
     for value in values:
         stat_temp = df[key + [value]].copy()
-        for i in [-1, 1]:
+        for i in [-2, -1, 1, 2]:
             shift_value = stat_temp.groupby(key)[value].shift(i)
             cname = '_'.join(key) + '_' + value + '_shift{}'.format(i)
             df[cname] = shift_value
