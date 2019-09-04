@@ -1123,6 +1123,7 @@ else:
     # 上一笔和下一笔的交易信息
     key = ['uid']
     values = ['D10', 'D15', 'D1', 'D2', 'D3', 'D4',   'D5', 'D6', 'D7', 'D8', 'D9', 'D11', 'D12', 'D13', 'D14']
+    Cs = ['C13', 'C14']; values.extend(Cs)
     for value in values:
         stat_temp = df[key + [value]].copy()
         for i in [-1, 1]:
