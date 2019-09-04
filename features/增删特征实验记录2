@@ -476,6 +476,19 @@ test2 auc: 0.9250462572999005
 实验结果分析: test1提升0.97个千分点, test2提升0.22个千分点,该特征有一定的效果
 
 
+46. shift范围为[-2,-1,1,2]
+base: test1 auc:  0.921594149903197, test2 auc: 0.9250462572999005
+nohup python -u add_feature.py -1 0 > add_feature.log 2>&1 &
+Total training time is 0:23:51.834945
+AUCs: [0.9192380889457344, 0.9397689419690821, 0.9528906497344074, 0.9555837853235913]
+Mean AUC: 0.9418703664932039
+------------------------------
+test1 auc:  0.9210668432175271
+test2 auc: 0.9252818972600017
+实验结果分析: test1降低5个千分点, test2提升2.3个千分点,不能证明该特征有效
+
+47.
+
 
 nohup python -u local_data_prepare.py > local_data_prepare.log 2>&1 &
 

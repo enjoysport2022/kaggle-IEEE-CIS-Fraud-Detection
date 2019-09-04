@@ -1115,20 +1115,21 @@ else:
     values = ['TransactionDT', 'TransactionAmt']
     for value in values:
         stat_temp = df[key + [value]].copy()
-        for i in [-2, -1, 1, 2]:
+        for i in [-1, 1]:
             shift_value = stat_temp.groupby(key)[value].shift(i)
             cname = '_'.join(key) + '_' + value + '_diff_time{}'.format(i)
             df[cname] = stat_temp[value] - shift_value
 
     # 上一笔和下一笔的交易信息
     key = ['uid']
-    values = ['D10', 'D15']
+    values = ['D10', 'D15'] + ["M" + str(i) for i in range(1, 10)]
     for value in values:
         stat_temp = df[key + [value]].copy()
-        for i in [-2, -1, 1, 2]:
+        for i in [-1, 1]:
             shift_value = stat_temp.groupby(key)[value].shift(i)
             cname = '_'.join(key) + '_' + value + '_shift{}'.format(i)
             df[cname] = shift_value
+
 
 
     # 删除uid
