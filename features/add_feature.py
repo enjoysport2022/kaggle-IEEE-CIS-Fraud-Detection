@@ -1108,21 +1108,34 @@ else:
     test_X['trans_curday_hour_mean'] = test_X.groupby(['uid', 'day'])['Hour'].transform('mean')
 
 
-    # todo:距离上一笔以及下一笔交易的时间差特征(seconds)
-    key = ['uid']
-    value = 'TransactionDT'
     df = X.append(test_X)
-    stat_temp = df[key + [value]].copy()
-    for i in [-1, 1]:
-        shift_value = stat_temp.groupby(key)[value].shift(i)
-        cname = '_'.join(key) + '_diff_time{}'.format(i)
-        df[cname] = stat_temp[value] - shift_value
-    X = df[:len(X)]
-    test_X = df[len(X):]
+
+    # 距离上一笔以及下一笔交易的时间差特征(seconds), 交易金额差值
+    key = ['uid']
+    values = ['TransactionDT', 'TransactionAmt']
+    for value in values:
+        stat_temp = df[key + [value]].copy()
+        for i in [-1, 1]:
+            shift_value = stat_temp.groupby(key)[value].shift(i)
+            cname = '_'.join(key) + '_' + value + '_diff_time{}'.format(i)
+            df[cname] = stat_temp[value] - shift_value
+
+    # 上一笔和下一笔的交易信息
+    key = ['uid']
+    values = ['D10', 'D15']
+    for value in values:
+        stat_temp = df[key + [value]].copy()
+        for i in [-1, 1]:
+            shift_value = stat_temp.groupby(key)[value].shift(i)
+            cname = '_'.join(key) + '_' + value + '_shift{}'.format(i)
+            df[cname] = shift_value
+
 
     # 删除uid
-    X = X.drop("uid", axis = 1)
-    test_X = test_X.drop("uid", axis = 1)
+    df = df.drop("uid", axis=1)
+    # 拆分X和test_X
+    X = df[:len(X)]
+    test_X = df[len(X):]
 
 
     # 增加uid_D5特征

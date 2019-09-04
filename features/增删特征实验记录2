@@ -464,6 +464,13 @@ test2 auc: 0.9248250941303581
 实验结果分析: test1提升5个千分点, test2提升1个千分点, 该特征有明显的效果
 
 
+45. 前后交易金额之差特征,上一次交易的D10,D15特征
+base: test1 auc:  0.9206174423993344, test2 auc: 0.9248250941303581
+nohup python -u add_feature.py -1 0 > add_feature.log 2>&1 &
+
+实验结果分析: test1提升 个千分点, test2提升 个千分点,
+
+
 
 nohup python -u local_data_prepare.py > local_data_prepare.log 2>&1 &
 
@@ -499,7 +506,8 @@ todo项:
 11. 按uid, day聚合起来进行训练
 12. uid的target encoding
 13. 利用下一次交易的信息: 当天交易的总金额,平均金额,交易次数
-13. 利用下一次交易的信息: 距离下一次交易的时间
+14. 利用下一次交易的信息: 距离下一次交易的时间
+15. 和uid无关列的target encoding
 
 
 
