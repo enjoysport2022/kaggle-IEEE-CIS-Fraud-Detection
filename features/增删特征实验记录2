@@ -487,7 +487,18 @@ test1 auc:  0.9210668432175271
 test2 auc: 0.9252818972600017
 实验结果分析: test1降低5个千分点, test2提升2.3个千分点,不能证明该特征有效
 
-47.
+47. shift的M系列特征
+base: test1 auc:  0.921594149903197, test2 auc: 0.9250462572999005
+nohup python -u add_feature.py -1 0 > add_feature.log 2>&1 &
+Total training time is 0:23:48.564437
+AUCs: [0.9199333485261098, 0.9400571480184008, 0.9531744148488793, 0.9555016618115062]
+Mean AUC: 0.9421666433012241
+------------------------------
+test1 auc:  0.9206371536234453
+test2 auc: 0.9249295503345776
+实验结果分析: test1, test2下降,特征无效
+
+
 
 
 nohup python -u local_data_prepare.py > local_data_prepare.log 2>&1 &
