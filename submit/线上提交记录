@@ -73,6 +73,20 @@ output/ieee_lgb_submit_uid_Dx_shift.csv
 8.利用下一次交易的信息, 前后时间差特征
 ieee_lgb_submit_delta_time_future.csv
 nohup python -u lgb2_submit_future.py -1 > lgb2_submit_future.log 2>&1 &
+Total training time is 0:54:31.896955
+AUCs: [0.9270689163185957, 0.9438390889557804, 0.9453053250047648, 0.9560890220941545]
+Mean AUC: 0.9430755880933238
+线上提交: 0.9538
+
+
+9. 距离上一笔以及下一笔交易的交易金额差值, 上一笔和下一笔的交易信息
+输出文件: ieee_lgb_submit_uid-shift.csv
+nohup python -u lgb2_submit_uid-shift.py -1 > lgb2_submit_uid-shift.log 2>&1 &
+Total training time is 0:56:19.444651
+AUCs: [0.9272633470761805, 0.9451967599219968, 0.9460792348527742, 0.9564030123767819]
+Mean AUC: 0.9437355885569334
+------------------------------
+线上提交: 0.9555
 
 
 0.9469融合kernel(0.9476)最优能到0.9509

@@ -1122,8 +1122,7 @@ else:
 
     # 上一笔和下一笔的交易信息
     key = ['uid']
-    values = ['D10', 'D15', 'D1', 'D2', 'D3', 'D4',   'D5', 'D6', 'D7', 'D8', 'D9', 'D11', 'D12', 'D13', 'D14']
-    Cs = ['C13', 'C14']; values.extend(Cs)
+    values = ['D10', 'D15', 'D1', 'D2', 'D3', 'D4', 'D5', 'D6', 'D7', 'D8', 'D9', 'D11', 'D12', 'D13', 'D14']
     for value in values:
         stat_temp = df[key + [value]].copy()
         for i in [-1, 1]:
@@ -1131,6 +1130,19 @@ else:
             cname = '_'.join(key) + '_' + value + '_shift{}'.format(i)
             df[cname] = shift_value
 
+    # label shift
+    key = ['uid']
+    value = 'isFraud'
+    stat_temp = df[key + [value]].copy()
+    temp_df = pd.DataFrame()
+    for i in range(1, 50):
+        shift_value = stat_temp.groupby(key)[value].shift(i)
+        cname = '_'.join(key) + '_' + value + '_shift{}'.format(i)
+        temp_df[cname] = shift_value
+
+    df["shift_target_num_of_null"] = temp_df.isnull().sum(axis=1)
+    df["shift_target_sum"] = temp_df.sum(axis = 1)
+    df["shift_target_mean"] = temp_df.mean(axis = 1)
 
 
     # 删除uid

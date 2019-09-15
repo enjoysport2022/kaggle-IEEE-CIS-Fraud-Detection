@@ -536,6 +536,20 @@ test2 auc: 0.9265941066680741
 
 
 
+50. 前后交易C13,C14的信息
+base: test1 auc:  0.9230378230974395, test2 auc: 0.9265941066680741
+nohup python -u add_feature.py -1 0 > add_feature.log 2>&1 &
+Total training time is 0:25:24.264025
+AUCs: [0.919201584000708, 0.9405381760203224, 0.9539505975433087, 0.9554812444795643]
+Mean AUC: 0.9422929005109759
+------------------------------
+test1 auc:  0.9228035856754014
+test2 auc: 0.9260583412987725
+实验结果分析: test1,test2均下降,C13，C14的shift特征有毒
+
+
+
+
 nohup python -u local_data_prepare.py > local_data_prepare.log 2>&1 &
 
 - todo:
@@ -572,6 +586,7 @@ todo项:
 13. 利用下一次交易的信息: 当天交易的总金额,平均金额,交易次数
 14. 利用下一次交易的信息: 距离下一次交易的时间
 15. 和uid无关列的target encoding
+16. 上一次交易(带D10/D15寻找到的)的D10,D15,D1,D2,D3,D4
 
 
 
