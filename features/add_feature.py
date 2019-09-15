@@ -1108,6 +1108,8 @@ else:
     test_X['trans_curday_hour_mean'] = test_X.groupby(['uid', 'day'])['Hour'].transform('mean')
 
 
+    target = "isFraud"
+    X[target] = y
     df = X.append(test_X)
 
     # 距离上一笔以及下一笔交易的时间差特征(seconds), 交易金额差值
@@ -1132,7 +1134,7 @@ else:
 
     # label shift
     key = ['uid']
-    value = 'isFraud'
+    value = target
     stat_temp = df[key + [value]].copy()
     temp_df = pd.DataFrame()
     for i in range(1, 50):
@@ -1146,7 +1148,7 @@ else:
 
 
     # 删除uid
-    df = df.drop("uid", axis=1)
+    df = df.drop(["uid", target], axis=1)
     # 拆分X和test_X
     X = df[:len(X)]
     test_X = df[len(X):]
