@@ -1134,17 +1134,17 @@ else:
 
     # label shift
     key = ['uid']
-    value = target
+    value = 'D10'
     stat_temp = df[key + [value]].copy()
     temp_df = pd.DataFrame()
-    for i in range(1, 50):
+    for i in range(-10, 10):
         shift_value = stat_temp.groupby(key)[value].shift(i)
         cname = '_'.join(key) + '_' + value + '_shift{}'.format(i)
         temp_df[cname] = shift_value
 
-    df["shift_target_num_of_null"] = temp_df.isnull().sum(axis=1)
-    df["shift_target_sum"] = temp_df.sum(axis = 1)
-    df["shift_target_mean"] = temp_df.mean(axis = 1)
+    # df["shift_D10_num_of_null"] = temp_df.isnull().sum(axis=1)
+    df["shift_D10_sum"] = temp_df.sum(axis = 1)
+    df["shift_D10_mean"] = temp_df.mean(axis = 1)
 
 
     # 删除uid
