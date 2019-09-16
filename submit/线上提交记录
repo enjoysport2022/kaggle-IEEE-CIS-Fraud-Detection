@@ -89,4 +89,10 @@ Mean AUC: 0.9437355885569334
 线上提交: 0.9555
 
 
+10. uid_target特征
+输出文件: ieee_lgb_submit_uid-shift.csv
+nohup python -u lgb2_submit_uid-target.py -1 > lgb2_submit_uid-target.log 2>&1 &
+
+
+
 0.9469融合kernel(0.9476)最优能到0.9509

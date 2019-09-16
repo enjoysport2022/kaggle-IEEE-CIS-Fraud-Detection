@@ -53,7 +53,7 @@ if size == -1:
 else:
     NROWS = size
 print("NROWS: ", NROWS)
-subname = '../output/ieee_lgb_submit_uid-shift.csv'
+subname = '../output/ieee_lgb_submit_uid-target.csv'
 print("subname: ", subname)
 
 
