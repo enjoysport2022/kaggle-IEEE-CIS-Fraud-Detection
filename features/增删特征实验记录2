@@ -547,6 +547,29 @@ test1 auc:  0.9228035856754014
 test2 auc: 0.9260583412987725
 实验结果分析: test1,test2均下降,C13，C14的shift特征有毒
 
+51. shift label
+base: test1 auc:  0.9230378230974395, test2 auc: 0.9265941066680741
+nohup python -u add_feature.py -1 0 > add_feature.log 2>&1 &
+Total training time is 0:40:32.513553
+AUCs: [0.9416696889928162, 0.9533272959563145, 0.966920989008529, 0.9695094188883546]
+Mean AUC: 0.9578568482115035
+------------------------------
+test1 auc:  0.892761097800655
+test2 auc: 0.8954774460192607
+实验结果分析: 四折直接起飞, 但是test1和test2降低了很多, test往前跳的时候很多拿不到label,shift之后必须跳到30天之前
+
+
+52. uid_target特征
+nohup python -u uid_target_train.py > uid_target_train.log 2>&1 &
+nohup python -u uid_target_test.py > uid_target_test.log 2>&1 &
+输出文件: test_uid_target.csv, train_uid_target.csv
+
+
+53. 全局uid的target mean
+
+
+52. 多个shift,D系列的mean, sum, max, min, num_of_not_NaN, mode, median, std, 分位数
+
 
 
 
@@ -606,3 +629,6 @@ scp -i /Users/poteman/didi_key/id_rsa caihengxing@35.232.41.9:/home/caihengxing/
 
 git免密:
 git config --global credential.helper store
+
+查看进程启动时间和运行时间
+ps -p PID -o lstart,etime

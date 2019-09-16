@@ -1132,19 +1132,30 @@ else:
             cname = '_'.join(key) + '_' + value + '_shift{}'.format(i)
             df[cname] = shift_value
 
-    # label shift
-    key = ['uid']
-    value = 'D10'
-    stat_temp = df[key + [value]].copy()
-    temp_df = pd.DataFrame()
-    for i in range(-10, 10):
-        shift_value = stat_temp.groupby(key)[value].shift(i)
-        cname = '_'.join(key) + '_' + value + '_shift{}'.format(i)
-        temp_df[cname] = shift_value
+    # # shift stat
+    # key = ['uid']
+    # value = 'D10'
+    # stat_temp = df[key + [value]].copy()
+    # temp_df = pd.DataFrame()
+    # for i in range(-5, 5):
+    #     shift_value = stat_temp.groupby(key)[value].shift(i)
+    #     cname = '_'.join(key) + '_' + value + '_shift{}'.format(i)
+    #     temp_df[cname] = shift_value
+    #
+    # # df["shift_D10_num_of_null"] = temp_df.isnull().sum(axis=1)
+    # df["shift_D10_max"] = temp_df.max(axis = 1)
+    # df["shift_D10_min"] = temp_df.min(axis = 1)
+    # df["shift_D10_mean"] = temp_df.mean(axis = 1)
+    # df["shift_D10_std"] = temp_df.std(axis = 1)
 
-    # df["shift_D10_num_of_null"] = temp_df.isnull().sum(axis=1)
-    df["shift_D10_sum"] = temp_df.sum(axis = 1)
-    df["shift_D10_mean"] = temp_df.mean(axis = 1)
+    feature = 'uid'
+    temp = X.groupby([feature])[target].mean().reset_index()
+    temp.index = temp[feature]
+    temp = temp.drop(feature, axis=1)
+    faeture_map = temp.to_dict()[target]
+
+    X[feature + "_target_mean"] = X[feature].map(faeture_map)
+    test_X[feature + "_target_mean"] = test_X[feature].map(faeture_map)
 
 
     # 删除uid
