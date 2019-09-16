@@ -56,10 +56,10 @@ jump_day = 103
 
 for DAY in range(range_day + jump_day + 1, 395 + 1):
     print(DAY)
-    if DAY >= 183 and DAY <= 212:
+    if DAY <= 212:
         continue
     if DAY >= 182 + jump_day + 1:
-        continue
+        break
     range_ = range(DAY - jump_day - range_day, DAY - jump_day)  # 1, 6
     uid_list = list(df.loc[(df["day"] == DAY), "uid"])
     TransactionID_list = list(df.loc[df["day"] == DAY, "TransactionID"])
@@ -77,5 +77,5 @@ for DAY in range(range_day + jump_day + 1, 395 + 1):
         uid_target.append([TransactionID_, mean_, sum_, cnt_])
 
 uid_target = pd.DataFrame(uid_target)
-uid_target.columns = ["TransactionID", "mean_", "sum_", "cnt_"]
-uid_target.to_csv("./uid_target.csv",index=False)
+uid_target.columns = ["TransactionID", "target_mean", "target_sum_", "target_cnt"]
+uid_target.to_csv("./test_uid_target.csv",index=False)
