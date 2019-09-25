@@ -55,6 +55,7 @@ uid_list = list(df.loc[(df[target] == target_value), feature_list][uid])
 v307s = list(df.loc[(df[target] == target_value), feature_list]["V307"])
 TransactionIDs  = list(df.loc[(df[target] == target_value), feature_list]["TransactionID"])
 TransactionDTs  = list(df.loc[(df[target] == target_value), feature_list]["TransactionDT"])
+TransactionAmts  = list(df.loc[(df[target] == target_value), feature_list]["TransactionAmt"])
 
 cnt = 0
 v307_res = []
@@ -67,6 +68,7 @@ for i in tqdm_notebook(range(len(TransactionIDs))):
     cur_uid = uid_list[i]
     cur_v307 = v307s[i]
     cur_TransactionDT = TransactionDTs[i]
+    cur_TransactionAmt = TransactionAmts[i]
     temp = df.loc[(df[uid] == cur_uid) & \
                   (df["next_V307"] == cur_v307) & \
                   (df["TransactionDT"] <= cur_TransactionDT), feature_list]
@@ -79,11 +81,12 @@ for i in tqdm_notebook(range(len(TransactionIDs))):
         TransactionDT_last = temp.loc[len(temp) - 1, "TransactionDT"]   # 最近一次的DT
         # val_len = len(temp)   # 查到的shape[1]
 
-        v307_res.append([cur_TransactionID, Amt_last, cur_TransactionDT - TransactionDT_last])
+        v307_res.append([cur_TransactionID, Amt_last, cur_TransactionDT - TransactionDT_last,
+                         cur_TransactionAmt - Amt_last])
 
 
 v307_res = pd.DataFrame(v307_res)
-v307_res.columns = ["TransactionID", "Amt_last", "v307_delta_time"]
+v307_res.columns = ["TransactionID", "Amt_last", "v307_delta_time", "v307_delta_Amt"]
 v307_res.to_csv("./v307_res_test.csv",index=False)
 
 print("Done!")
