@@ -55,7 +55,7 @@ uid_list = list(df.loc[(df[target] != target_value), feature_list][uid])
 v307s = list(df.loc[(df[target] != target_value), feature_list]["V307"])
 TransactionIDs  = list(df.loc[(df[target] != target_value), feature_list]["TransactionID"])
 TransactionDTs  = list(df.loc[(df[target] != target_value), feature_list]["TransactionDT"])
-TransactionAmts  = list(df.loc[(df[target] == target_value), feature_list]["TransactionAmt"])
+TransactionAmts  = list(df.loc[(df[target] != target_value), feature_list]["TransactionAmt"])
 
 cnt = 0
 v307_res = []
