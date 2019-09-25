@@ -1297,6 +1297,11 @@ else:
     # X = X.merge(uid_D10_predict_train, on="TransactionID", how="left")
     # test_X = test_X.merge(uid_D10_predict_test, on="TransactionID", how="left")
 
+    # 增加v307构造性特征: 上一次交易的金额, 时间差, 金额差
+    uid_D10_new_train = pd.read_csv("./v307_res_train.csv")
+    X = X.merge(uid_D10_new_train, on="TransactionID", how="left")
+    test_X = test_X.merge(uid_D10_new_train, on="TransactionID", how="left")
+
 
 X = X.drop('TransactionID', axis=1)
 test_X = test_X.drop('TransactionID', axis=1)

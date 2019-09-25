@@ -42,7 +42,7 @@ test2 auc: 0.9109703430335961
 实验结果分析:只有第一折提升,test1 提升9个点,test2下降4个点
 
 4.uid_D15特征
-local1, cpu2 run:
+local1, cpu2 done:
 base: test1 auc:  0.9080785550718606, test2 auc: 0.9113424167139045
 nohup python -u add_feature.py -1 0 > add_feature.log 2>&1 &
 Total training time is 0:29:09.250839
@@ -566,9 +566,25 @@ nohup python -u uid_target_test.py > uid_target_test.log 2>&1 &
 
 
 53. 全局uid的target mean
+base: test1 auc:  0.9230378230974395, test2 auc: 0.9265941066680741
+nohup python -u add_feature.py -1 0 > add_feature.log 2>&1 &
+Total training time is 1:18:54.005051
+AUCs: [0.9199257677975432, 0.9409290700281979, 0.953763675379041, 0.9554070866616658]
+Mean AUC: 0.942506399966612
+------------------------------
+test1 auc:  0.9221741512054289
+test2 auc: 0.9259708574292852
+实验结果分析: target encoding无效
 
 
-52. 多个shift,D系列的mean, sum, max, min, num_of_not_NaN, mode, median, std, 分位数
+52. v307构造性特征: 上一次交易的金额, 时间差, 金额差
+nohup python -u uid_v307_test.py > uid_v307_test.log 2>&1 &
+nohup python -u uid_v307_train.py > uid_v307_train.log 2>&1 &
+输出文件: v307_res_test.csv, v307_res_train.csv
+
+
+
+53. 多个shift,D系列的mean, sum, max, min, num_of_not_NaN, mode, median, std, 分位数
 
 
 
