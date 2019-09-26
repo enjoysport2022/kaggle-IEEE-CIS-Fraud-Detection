@@ -59,7 +59,7 @@ TransactionAmts  = list(df.loc[(df[target] != target_value), feature_list]["Tran
 
 cnt = 0
 v307_res = []
-for i in tqdm_notebook(range(len(TransactionIDs))):
+for i in tqdm_notebook(range(290540)):
 
     if i % 10000 == 0:
         print("{} / {}".format(i, len(TransactionIDs)))
@@ -87,6 +87,6 @@ for i in tqdm_notebook(range(len(TransactionIDs))):
 
 v307_res = pd.DataFrame(v307_res)
 v307_res.columns = ["TransactionID", "Amt_last", "v307_delta_time", "v307_delta_Amt"]
-v307_res.to_csv("./v307_res_train.csv",index=False)
+v307_res.to_csv("./v307_res_train_290540end.csv",index=False)
 
 print("Done!")
