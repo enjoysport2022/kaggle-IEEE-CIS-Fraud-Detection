@@ -73,12 +73,12 @@ for i in tqdm_notebook(range(len(TransactionIDs))):
                   (df["next_V307"] == cur_v307) & \
                   (df["TransactionDT"] <= cur_TransactionDT), feature_list]
 
-    if len(temp) != 0:
+    if len(temp) == 1:
         cnt += 1
 
         temp.index = range(len(temp))
-        Amt_last = temp.loc[len(temp) - 1, "TransactionAmt"]   # 最近一次的Amt
-        TransactionDT_last = temp.loc[len(temp) - 1, "TransactionDT"]   # 最近一次的DT
+        Amt_last = temp.loc[0, "TransactionAmt"]   # 最近一次的Amt
+        TransactionDT_last = temp.loc[0, "TransactionDT"]   # 最近一次的DT
         # val_len = len(temp)   # 查到的shape[1]
 
         v307_res.append([cur_TransactionID, Amt_last, cur_TransactionDT - TransactionDT_last,
